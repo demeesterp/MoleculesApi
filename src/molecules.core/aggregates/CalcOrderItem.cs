@@ -6,15 +6,34 @@ namespace molecules.core.aggregates
     {
         public int Id { get; set; }
 
-        public int CalcOrderId { get; set; }
+        public string MoleculeName { get; set; }
 
-        public string MoleculeName { get; set; } = string.Empty;
+        public CalcDetails Details { get; set; }
 
-        public int Charge { get; set; } = 0;
+        public CalcOrderItem()
+        {
+            Id = 0;
+            MoleculeName = string.Empty;
+            Details = new CalcDetails();
+        }
 
-        public CalcType CalcType { get; set; } = CalcType.GeoOpt;        
+        public CalcOrderItem(string moleculeName):this()
+        {
+            if ( string.IsNullOrWhiteSpace(moleculeName))
+            {
+                throw new ArgumentException("Molecule name cannot be null or empty", nameof(moleculeName));
+            }
+            MoleculeName = moleculeName;
+        }
 
-        public string XYZ { get; set; } = string.Empty;
-        
+        public void UpdateDetails(CalcDetails details)
+        {
+            if ( details == null)
+            {
+                throw new ArgumentNullException(nameof(details));
+            }
+            Details = details;
+        }
+
     }
 }
