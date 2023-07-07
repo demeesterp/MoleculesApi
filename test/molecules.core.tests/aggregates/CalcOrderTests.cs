@@ -16,8 +16,9 @@ namespace molecules.core.tests.aggregates
 
                 // Assert
                 Assert.Equal(0, calcOrder.Id);
-                Assert.Equal(string.Empty, calcOrder.Name);
-                Assert.Equal(string.Empty, calcOrder.Description);
+                Assert.Equal("Default", calcOrder.CustomerName);
+                Assert.Equal(string.Empty, calcOrder.Details.Name);
+                Assert.Equal(string.Empty, calcOrder.Details.Description);
                 Assert.NotNull(calcOrder.Items);
             }
 
@@ -32,8 +33,9 @@ namespace molecules.core.tests.aggregates
 
                 // Assert
                 Assert.Equal(0, calcOrder.Id);
-                Assert.Equal(name, calcOrder.Name);
-                Assert.Equal(string.Empty, calcOrder.Description);
+                Assert.Equal("Default", calcOrder.CustomerName);
+                Assert.Equal(name, calcOrder.Details.Name);
+                Assert.Equal(string.Empty, calcOrder.Details.Description);
             }
 
             [Fact]
@@ -48,8 +50,9 @@ namespace molecules.core.tests.aggregates
 
                 // Assert
                 Assert.Equal(0, calcOrder.Id);
-                Assert.Equal(name, calcOrder.Name);
-                Assert.Equal(description, calcOrder.Description);
+                Assert.Equal(name, calcOrder.Details.Name);
+                Assert.Equal("Default", calcOrder.CustomerName);
+                Assert.Equal(description, calcOrder.Details.Description);
             }
 
             [Theory]
@@ -78,7 +81,7 @@ namespace molecules.core.tests.aggregates
                 CalcOrderItem? toAdd = null;
 
                 // Act
-                Assert.Throws<ArgumentNullException>(() => calcOrder.AddItem(toAdd));
+                _ = Assert.Throws<ArgumentNullException>(() => calcOrder.AddItem(toAdd));
             }
             [Fact]
             public void Should_Add_Item_ToList_WhenItem_Is_Valid()

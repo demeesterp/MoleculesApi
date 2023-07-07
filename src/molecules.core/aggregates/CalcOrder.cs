@@ -1,16 +1,19 @@
-﻿namespace molecules.core.aggregates
+﻿using molecules.core.valueobjects.CalcOrder;
+
+namespace molecules.core.aggregates
 {
     public class CalcOrder
     {
-        public int Id { get; set; } = 0;
-        public string Name { get; }
-        public string Description { get; private set; }
+        public int Id { get; set; }
+        public CalcOrderDetails Details { get; private set; }
+        public string CustomerName { get; }
         public List<CalcOrderItem> Items { get; private set; }
 
         public CalcOrder()
         {
-            Name = string.Empty;
-            Description = string.Empty;
+            Id = 0;
+            CustomerName = "Default";
+            Details = new CalcOrderDetails();
             Items = new List<CalcOrderItem>();
         }
 
@@ -20,8 +23,8 @@
             {
                 throw new ArgumentException("name should have a value", nameof(name));
             }
-            Name = name; 
-            Description = description;
+            Details.Name = name; 
+            Details.Description = description;
         }
 
         public void AddItem(CalcOrderItem item)
