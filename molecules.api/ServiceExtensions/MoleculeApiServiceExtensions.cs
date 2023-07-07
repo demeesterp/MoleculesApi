@@ -1,19 +1,31 @@
 ﻿using Serilog.Events;
 using Serilog;
+using molecules.core.services;
 
 namespace molecules.api.ServiceExtensions
 {
+    /// <summary>
+    /// IServiceCollection extensions for Molecules API
+    /// </summary>
     public static class MoleculeApiServiceExtensions
     {
-
+        /// <summary>
+        /// Add all services and middleware for Molecules API
+        /// </summary>
+        /// <param name="services">The application Services Collection</param>
+        /// <returns>The modified services collection</returns>
         public static IServiceCollection AddMoleculesServices(this IServiceCollection services)
         {
             services.AddLogging();
+            services.AddCoreServices();
 
             return services;
         }
 
-
+        internal static void AddCoreServices(this IServiceCollection services)
+        {
+           services.AddScoped<ICalcOrderService, CalcOrderService>();
+        }
 
         internal static IServiceCollection AddLogging(this IServiceCollection services)
         {
