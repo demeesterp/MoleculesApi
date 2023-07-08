@@ -1,8 +1,9 @@
 using molecules.api.Filter;
 using molecules.api.ServiceExtensions;
+using molecules.infrastructure.data;
 using System.Reflection;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMoleculesServices();
@@ -17,11 +18,11 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"),true);
 });
 
-builder.Services.AddMvcCore(option =>
-{
+builder.Services.AddMvcCore(option => {
     option.Filters.Add(new MoleculesExceptionFilter());
 });
 
+builder.Services.AddDbContext<MoleculesDbContext>();
 
 var app = builder.Build();
 

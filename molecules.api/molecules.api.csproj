@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\infrastructure\molecules.infrastructure.data\molecules.infrastructure.data.csproj" />
     <ProjectReference Include="..\src\molecules.core\molecules.core.csproj" />
   </ItemGroup>
 
