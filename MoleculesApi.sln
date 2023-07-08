@@ -24,7 +24,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "molecules.infrastructure.data.tests", "test\infrastructure\molecules.infrastructure.data.tests\molecules.infrastructure.data.tests.csproj", "{8EFA9930-E764-413D-9253-4E49224B2AD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "molecules.api", "molecules.api\molecules.api.csproj", "{072D920E-7C8A-4B9B-89DE-BAB7C28D5C0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "molecules.api", "molecules.api\molecules.api.csproj", "{072D920E-7C8A-4B9B-89DE-BAB7C28D5C0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{B4F2FD3B-A375-4714-B9BF-458A91C9E99B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "molecules.shared", "src\shared\molecules.shared\molecules.shared.csproj", "{BCA661E8-CA9F-4E3D-87EA-A90DA815CAF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +56,10 @@ Global
 		{072D920E-7C8A-4B9B-89DE-BAB7C28D5C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{072D920E-7C8A-4B9B-89DE-BAB7C28D5C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{072D920E-7C8A-4B9B-89DE-BAB7C28D5C0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA661E8-CA9F-4E3D-87EA-A90DA815CAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA661E8-CA9F-4E3D-87EA-A90DA815CAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA661E8-CA9F-4E3D-87EA-A90DA815CAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA661E8-CA9F-4E3D-87EA-A90DA815CAF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +72,8 @@ Global
 		{105A53BF-41DF-4EBA-98D8-9ED479F4FAC6} = {18B26998-F3C2-42E1-A723-23DDAE51DC0D}
 		{8EFA9930-E764-413D-9253-4E49224B2AD7} = {105A53BF-41DF-4EBA-98D8-9ED479F4FAC6}
 		{072D920E-7C8A-4B9B-89DE-BAB7C28D5C0B} = {3ABCE6C8-ADCA-44C0-959A-50603454B6C8}
+		{B4F2FD3B-A375-4714-B9BF-458A91C9E99B} = {3ABCE6C8-ADCA-44C0-959A-50603454B6C8}
+		{BCA661E8-CA9F-4E3D-87EA-A90DA815CAF6} = {B4F2FD3B-A375-4714-B9BF-458A91C9E99B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA41D430-BF99-4117-85E2-66522219BEFB}

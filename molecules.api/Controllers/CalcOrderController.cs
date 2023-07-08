@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using molecules.api.Filter;
 using molecules.core.aggregates;
 using molecules.core.services;
 using molecules.core.valueobjects.CalcOrder;
@@ -40,8 +41,8 @@ namespace molecules.api.Controllers
         [Route("calcorders")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<CalcOrder>>> ListAsync()
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IList<CalcOrder>>> ListAsync()
         {
             _logger.LogInformation("Get the list of all Calculation Orders called");
             var result = await _calcOrderService.ListAsync();
@@ -67,7 +68,7 @@ namespace molecules.api.Controllers
         [Route("calcorder/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<CalcOrder>> GetAsync([FromRoute]int id)
         {
             _logger.LogInformation("Get a calculation order by id:{id}", id);
@@ -94,8 +95,8 @@ namespace molecules.api.Controllers
         [Route("calcorders/{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<CalcOrder>>> GetByNameAsync([FromRoute] string name)
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IList<CalcOrder>>> GetByNameAsync([FromRoute] string name)
         {
             _logger.LogInformation("Get a calculation order by name:{name}", name);
             var result = await _calcOrderService.GetByNameAsync(name);
@@ -114,29 +115,21 @@ namespace molecules.api.Controllers
         /// <param name="createCalcOrder">The name and the description of the new CalcOrder</param>
         /// <returns>The newly created CalcOrder</returns>
         /// <response code="201">The CalcOrders was created</response>
-        /// <response code="400">Failed to create the calcorder</response>
+        /// <response code="422">Failed to create the calcorder because the input was invalid</response>
         /// <response code="500">An unexpected error happend</response>
         [HttpPost()]
         [Route("calcorder/create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ServiceValidationError), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<CalcOrder>> CreateAsync([FromBody]CreateCalcOrder createCalcOrder)
         {
             _logger.LogInformation("Create a calculation order with name:{name} and description:{description}",
                                             createCalcOrder.Name,
                                                 createCalcOrder.Description);
 
-            var result = await _calcOrderService.CreateAsync(createCalcOrder);
-            if ( result != null)
-            {
-                return StatusCode(StatusCodes.Status201Created, result);
-            }
-            else
-            {
-                return BadRequest();
-            }
-            
+            return StatusCode(StatusCodes.Status201Created, await _calcOrderService.CreateAsync(createCalcOrder));
+
         }
 
         /// <summary>
@@ -147,12 +140,14 @@ namespace molecules.api.Controllers
         /// <returns>The updated CalcOrder</returns>
         /// <response code="200">The CalcOrders was updated</response>
         /// <response code="404">No CalcOrder found for the specified id</response>
+        /// <response code="422">Failed to update calcorder because the input was invalid</response>
         /// <response code="500">An unexpected error happend</response>
         [HttpPut]
         [Route("calcorder/update/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ServiceError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ServiceValidationError), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<CalcOrder>> UpdateAsync([FromRoute]int id, [FromBody]UpdateCalcOrder updateCalcOrder)
         {
             _logger.LogInformation("Update a calculation order with name:{name} and description:{description}",

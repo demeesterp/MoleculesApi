@@ -1,3 +1,4 @@
+using molecules.api.Filter;
 using molecules.api.ServiceExtensions;
 using System.Reflection;
 
@@ -8,13 +9,19 @@ builder.Services.AddMoleculesServices();
 
 builder.Services.AddControllers();
 
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"),true);
 });
+
+builder.Services.AddMvcCore(option =>
+{
+    option.Filters.Add(new MoleculesExceptionFilter());
+});
+
 
 var app = builder.Build();
 

@@ -1,6 +1,9 @@
 ﻿using Serilog.Events;
 using Serilog;
 using molecules.core.services;
+using FluentValidation;
+using molecules.core.services.validators;
+using molecules.core.services.validators.servicehelpers;
 
 namespace molecules.api.ServiceExtensions
 {
@@ -24,10 +27,13 @@ namespace molecules.api.ServiceExtensions
 
         internal static void AddCoreServices(this IServiceCollection services)
         {
-           services.AddScoped<ICalcOrderService, CalcOrderService>();
+            services.AddValidatorsFromAssemblyContaining<CreateCalcOrderValidator>();
+
+            services.AddScoped<ICalcOrderServiceValidations, CalcOrderServiceValidations>();
+            services.AddScoped<ICalcOrderService, CalcOrderService>();
         }
 
-        internal static IServiceCollection AddLogging(this IServiceCollection services)
+        internal static void AddLogging(this IServiceCollection services)
         {
             var logger = new LoggerConfiguration()
                             .MinimumLevel.Debug()
@@ -43,10 +49,6 @@ namespace molecules.api.ServiceExtensions
                         loggingBuilder.ClearProviders();
                         loggingBuilder.AddSerilog(logger, dispose: true);
                 });
-
-            return services;
         }
-
-
     }
 }
