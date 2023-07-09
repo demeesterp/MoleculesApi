@@ -4,6 +4,8 @@ using molecules.core.services;
 using FluentValidation;
 using molecules.core.services.validators;
 using molecules.core.services.validators.servicehelpers;
+using molecule.infrastructure.data.interfaces.Repositories;
+using molecules.infrastructure.data.Repositories;
 
 namespace molecules.api.ServiceExtensions
 {
@@ -30,6 +32,7 @@ namespace molecules.api.ServiceExtensions
             services.AddValidatorsFromAssemblyContaining<CreateCalcOrderValidator>();
 
             services.AddScoped<ICalcOrderServiceValidations, CalcOrderServiceValidations>();
+            services.AddScoped<ICalcOrderRepository, CalcOrderRepository>();
             services.AddScoped<ICalcOrderService, CalcOrderService>();
         }
 

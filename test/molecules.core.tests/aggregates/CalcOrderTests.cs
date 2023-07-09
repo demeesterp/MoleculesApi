@@ -27,9 +27,10 @@ namespace molecules.core.tests.aggregates
             {
                 // Arrange
                 string name = "Test Name";
+                int id = 0;
 
                 // Act
-                CalcOrder calcOrder = new CalcOrder(name);
+                CalcOrder calcOrder = new CalcOrder(id, name);
 
                 // Assert
                 Assert.Equal(0, calcOrder.Id);
@@ -39,14 +40,33 @@ namespace molecules.core.tests.aggregates
             }
 
             [Fact]
+            public void Should_Initialise_Id_When_Constructor_With_Id_Parameter_Is_Called()
+            {
+                // Arrange
+                string name = "Test Name";
+                int id = 1;
+
+                // Act
+                CalcOrder calcOrder = new CalcOrder(id, name);
+
+                // Assert
+                Assert.Equal(id, calcOrder.Id);
+                Assert.Equal("Default", calcOrder.CustomerName);
+                Assert.Equal(name, calcOrder.Details.Name);
+                Assert.Equal(string.Empty, calcOrder.Details.Description);
+
+            }
+
+            [Fact]
             public void Should_Initialise_Name_And_Description_When_Constructor_With_Name_ANd_DescriptionParameter_Is_Called()
             {
                 // Arrange
                 string name = "Test Name";
                 string description = "Test Description";
+                int id = 0;
 
                 // Act
-                CalcOrder calcOrder = new CalcOrder(name, description);
+                CalcOrder calcOrder = new CalcOrder(id, name, description);
 
                 // Assert
                 Assert.Equal(0, calcOrder.Id);
@@ -64,7 +84,7 @@ namespace molecules.core.tests.aggregates
             public void Should_Throw_When_Contractor_With_Invalid_Name_Is_Called(string name)
             {
                 // Arrange
-                Assert.Throws<ArgumentException>(() => new CalcOrder(name));
+                Assert.Throws<ArgumentException>(() => new CalcOrder(0,name));
             }
         }
 

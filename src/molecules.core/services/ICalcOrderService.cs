@@ -42,7 +42,14 @@ namespace molecules.core.services
         /// <param name="id">The id of the CalcOrder to be updated</param>
         /// <param name="updateCalcOrder">The name and description to be updated</param>
         /// <returns>The updated calcorder</returns>
-        public Task<CalcOrder> UpdateAsync(int id, UpdateCalcOrder updateCalcOrder);
+        public Task<CalcOrder?> UpdateAsync(int id, UpdateCalcOrder updateCalcOrder);
+
+        /// <summary>
+        /// Delete the specified CalcOrder
+        /// </summary>
+        /// <param name="id">The id of the CalcOrder to delete</param>
+        /// <returns></returns>
+        public Task DeleteAsync(int id);
 
 
     }

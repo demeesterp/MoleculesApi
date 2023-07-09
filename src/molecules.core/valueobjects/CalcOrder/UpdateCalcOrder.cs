@@ -2,6 +2,15 @@
 {
     public class UpdateCalcOrder : CalcOrderDetails
     {
+        public UpdateCalcOrder() : base()
+        {
+        }
 
+
+        public UpdateCalcOrder(string name, string description): this()
+        {
+            Name = name;
+            Description = description;
+        }
     }
 }

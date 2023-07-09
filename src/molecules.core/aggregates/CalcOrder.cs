@@ -4,7 +4,7 @@ namespace molecules.core.aggregates
 {
     public class CalcOrder
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public CalcOrderDetails Details { get; private set; }
         public string CustomerName { get; }
         public List<CalcOrderItem> Items { get; private set; }
@@ -17,12 +17,13 @@ namespace molecules.core.aggregates
             Items = new List<CalcOrderItem>();
         }
 
-        public CalcOrder(string name, string description = ""):this()
+        public CalcOrder(int id, string name, string description = ""):this()
         {
             if ( string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("name should have a value", nameof(name));
             }
+            Id = id;
             Details.Name = name; 
             Details.Description = description;
         }

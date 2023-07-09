@@ -24,8 +24,8 @@ namespace molecules.core.services.validators.servicehelpers
         public CalcOrderServiceValidations(IValidator<CreateCalcOrder> createCalcOrderValidator,
                                                 IValidator<UpdateCalcOrder> updateCalcOrderValidator)
         {
-            _createCalcOrderValidator = createCalcOrderValidator;
-            _updateCalcOrderValidator = updateCalcOrderValidator;
+            _createCalcOrderValidator = createCalcOrderValidator??throw new ArgumentNullException(nameof(createCalcOrderValidator));
+            _updateCalcOrderValidator = updateCalcOrderValidator ?? throw new ArgumentNullException(nameof(updateCalcOrderValidator));
         }
 
         /// <summary>

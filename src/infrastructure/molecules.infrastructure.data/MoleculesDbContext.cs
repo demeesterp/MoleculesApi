@@ -6,7 +6,7 @@ namespace molecules.infrastructure.data
 {
     public class MoleculesDbContext : DbContext
     {
-        public DbSet<CalcOrderDbEntity> Blogs { get; set; }
+        public DbSet<CalcOrderDbEntity> CalcOrders { get; set; }
 
         private readonly IConfiguration _configuration;
 

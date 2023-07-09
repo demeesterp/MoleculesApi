@@ -73,14 +73,7 @@ namespace molecules.api.Controllers
         {
             _logger.LogInformation("Get a calculation order by id:{id}", id);
             var result = await _calcOrderService.GetAsync(id);
-            if ( result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return Ok(result);
         }
 
         /// <summary>
@@ -146,24 +139,37 @@ namespace molecules.api.Controllers
         [Route("calcorder/update/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ServiceError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ServiceValidationError), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<CalcOrder>> UpdateAsync([FromRoute]int id, [FromBody]UpdateCalcOrder updateCalcOrder)
+        public async Task<ActionResult<CalcOrder>> UpdateAsync([FromRoute] int id, [FromBody] UpdateCalcOrder updateCalcOrder)
         {
             _logger.LogInformation("Update a calculation order with name:{name} and description:{description}",
-                                updateCalcOrder.Name,
-                                    updateCalcOrder.Description);
+                                        updateCalcOrder.Name, updateCalcOrder.Description);
+            
             var result = await _calcOrderService.UpdateAsync(id, updateCalcOrder);
-            if ( result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-               return NotFound();
-            }
+            
+            return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a calcorder
+        /// </summary>
+        /// <param name="id">The id of the calcorder to be deleted</param>
+        /// <returns></returns>
+        /// <response code="200">The CalcOrders was deleted</response>
+        /// <response code="404">No CalcOrder found for the specified id</response>
+        /// <response code="500">An unexpected error happend</response>
+        [HttpDelete]
+        [Route("calcorder/delete/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
+        {
+            _logger.LogInformation("Delete a calculation order with id:{id}", id);
+            await _calcOrderService.DeleteAsync(id);
+            return Ok();
+        }
 
     }
 }

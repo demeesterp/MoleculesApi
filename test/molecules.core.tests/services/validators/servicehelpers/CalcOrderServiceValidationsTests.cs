@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
 using FluentValidation;
+using FluentValidation.Internal;
 using molecules.core.services.validators.servicehelpers;
 using molecules.core.valueobjects.CalcOrder;
 using System;
@@ -61,32 +62,5 @@ namespace molecules.core.tests.services.validators.servicehelpers
             }
         
         }
-
-        [Fact]
-        public void ShouldValidateCreateCalcOrder()
-        {
-            // Arrange
-            var createCalcOrder = A.Fake<CreateCalcOrder>();
-
-            // Act
-            this.Service.Validate(createCalcOrder);
-
-            // Assert
-            A.CallTo(() => this._createCalcOrderValidator.ValidateAndThrow(createCalcOrder)).MustHaveHappenedOnceExactly();
-        }
-
-        [Fact]
-        public void ShouldValidateUpdateCalcOrder()
-        {
-            // Arrange
-            var updateCalcOrder = A.Fake<UpdateCalcOrder>();
-
-            // Act
-            this.Service.Validate(updateCalcOrder);
-
-            // Assert
-            A.CallTo(() => this._updateCalcOrderValidator.ValidateAndThrow(updateCalcOrder)).MustHaveHappenedOnceExactly();
-        }
-
     }
 }

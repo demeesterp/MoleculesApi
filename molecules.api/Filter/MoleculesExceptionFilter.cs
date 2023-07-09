@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using FluentValidation;
+using molecule.infrastructure.data.interfaces.MoleculesException;
 
 namespace molecules.api.Filter
 {
@@ -25,6 +26,10 @@ namespace molecules.api.Filter
                                         .Select(x => new ServiceValidationErrorItem(x.ErrorMessage,x.PropertyName))
                                         .ToList()
                 });
+            }
+            else if (context.Exception is MoleculesResourceNotFoundException moleculesResourceNotFoundException)
+            {
+                context.Result = new NotFoundObjectResult(new ServiceError());
             }
             else
             {
