@@ -17,7 +17,7 @@ namespace molecules.infrastructure.data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_configuration["ConnectionString:molecules"]?.ToString());
+            optionsBuilder.UseNpgsql(_configuration["ConnectionString"]?.ToString());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

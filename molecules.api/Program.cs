@@ -1,9 +1,12 @@
+using Microsoft.EntityFrameworkCore;
 using molecules.api.Filter;
 using molecules.api.ServiceExtensions;
 using molecules.infrastructure.data;
 using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddMoleculesServices();
@@ -22,7 +25,7 @@ builder.Services.AddMvcCore(option => {
     option.Filters.Add(new MoleculesExceptionFilter());
 });
 
-builder.Services.AddDbContext<MoleculesDbContext>();
+builder.Services.AddDbContext<MoleculesDbContext>(options => options.UseNpgsql());
 
 var app = builder.Build();
 
