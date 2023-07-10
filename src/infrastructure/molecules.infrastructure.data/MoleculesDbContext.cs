@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using molecule.infrastructure.data.interfaces.DbEntities;
 
 namespace molecules.infrastructure.data
@@ -8,20 +7,13 @@ namespace molecules.infrastructure.data
     {
         public DbSet<CalcOrderDbEntity> CalcOrders { get; set; }
 
-        private readonly IConfiguration _configuration;
-
-        public MoleculesDbContext(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql(_configuration["ConnectionString"]?.ToString());
-        }
+        public MoleculesDbContext(DbContextOptions<MoleculesDbContext> options):base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.HasDefaultSchema("moleculesapp");
+
             modelBuilder.Entity<CalcOrderDbEntity>()
                     .ToTable("CalcOrder")
                     .HasKey(o => o.Id);

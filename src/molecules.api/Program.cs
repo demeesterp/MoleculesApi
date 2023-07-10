@@ -6,6 +6,7 @@ using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// add the environment values to the configuration
 builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
@@ -21,11 +22,11 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"),true);
 });
 
-builder.Services.AddMvcCore(option => {
-    option.Filters.Add(new MoleculesExceptionFilter());
-});
+builder.Services.AddMvcCore(option => option.Filters.Add(new MoleculesExceptionFilter()));
 
-builder.Services.AddDbContext<MoleculesDbContext>(options => options.UseNpgsql());
+builder.Services.AddDbContext<MoleculesDbContext>(options => 
+                    options.UseNpgsql(builder.Configuration["ConnectionString"]?.ToString())
+                );
 
 var app = builder.Build();
 

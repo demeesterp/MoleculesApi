@@ -10,6 +10,18 @@ Logging is developed using the [Serilog](https://serilog.net/) library.
 We use [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) library
 
 
+# Database Migrations
+
+We use entity framework core migrations to manage the database schema.
+
+## common commends
+
+- dotnet ef migrations add <migration_name>  --startup-project ../../molecules.api
+- dotnet ef migrations script --startup-project ../../molecules.api --output molecules.sql
+
+for a reference of all commands : [Entity Framework Core tools reference - .NET Core CLI](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
+
+
 # References
 - **How to write markdown** :
 	- [Medium Article] (https://rasha-abdulrazzak.medium.com/how-to-write-a-readme-md-file-for-your-project-82ffd02c4d9b)
