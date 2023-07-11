@@ -29,7 +29,10 @@ namespace molecules.api.Filter
             }
             else if (context.Exception is MoleculesResourceNotFoundException moleculesResourceNotFoundException)
             {
-                context.Result = new NotFoundObjectResult(new ServiceError());
+                context.Result = new NotFoundObjectResult(new ServiceError()
+                {
+                    DisplayMessage = "The requested resource was not found"
+                });
             }
             else
             {

@@ -60,7 +60,7 @@ namespace molecules.infrastructure.data.Repositories
 
         public async Task<CalcOrderDbEntity> GetByIdAsync(int id)
         {
-            var result = await _context.CalcOrders.FirstOrDefaultAsync(i => i.Id == id);
+            var result = await _context.CalcOrders.Include(o => o.CalcOrderItems).FirstOrDefaultAsync(i => i.Id == id);
             if ( result != null)
             {
                 return result;
@@ -73,7 +73,7 @@ namespace molecules.infrastructure.data.Repositories
 
         public async Task<List<CalcOrderDbEntity>> GetByNameAsync(string name)
         {
-           return await _context.CalcOrders.Where(i => i.Name == name).ToListAsync();
+           return await _context.CalcOrders.Include(o => o.CalcOrderItems).Where(i => i.Name == name).ToListAsync();
         }
 
 

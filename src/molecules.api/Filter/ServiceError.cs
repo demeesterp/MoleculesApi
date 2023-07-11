@@ -8,6 +8,6 @@
         /// <summary>
         /// Message to display to the user
         /// </summary>
-        public string DisplayMessage => "An unexpected error happend please contact support";
+        public string DisplayMessage { get; set; } = "An unexpected error happend please contact support";
     }
 }

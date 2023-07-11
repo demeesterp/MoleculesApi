@@ -17,7 +17,7 @@ We use entity framework core migrations to manage the database schema.
 ## common commends
 
 - dotnet ef migrations add <migration_name>  --startup-project ../../molecules.api
-- dotnet ef migrations script --startup-project ../../molecules.api --output molecules.sql
+- dotnet ef migrations script --startup-project ../../molecules.api --idempotent --output molecules.sql
 
 for a reference of all commands : [Entity Framework Core tools reference - .NET Core CLI](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 

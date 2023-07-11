@@ -1,4 +1,5 @@
 ﻿using molecules.core.valueobjects;
+using molecules.core.valueobjects.CalcOrderItem;
 
 namespace molecules.core.tests.valueobjects
 {

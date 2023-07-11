@@ -1,5 +1,4 @@
-﻿
-namespace molecules.core.valueobjects
+﻿namespace molecules.core.valueobjects.CalcOrderItem
 {
     public class CalcDetails
     {
@@ -14,6 +13,11 @@ namespace molecules.core.valueobjects
             Charge = 0;
             CalcType = CalcType.GeoOpt;
             XYZ = string.Empty;
+        }
+
+        public override string ToString()
+        {
+            return $"Charge {Charge}, CalcType {CalcType}, XYZ {XYZ}";
         }
     }
 }

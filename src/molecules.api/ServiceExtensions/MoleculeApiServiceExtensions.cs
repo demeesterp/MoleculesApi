@@ -6,6 +6,7 @@ using molecules.core.services.validators;
 using molecules.core.services.validators.servicehelpers;
 using molecule.infrastructure.data.interfaces.Repositories;
 using molecules.infrastructure.data.Repositories;
+using molecules.core.Factories;
 
 namespace molecules.api.ServiceExtensions
 {
@@ -31,9 +32,16 @@ namespace molecules.api.ServiceExtensions
         {
             services.AddValidatorsFromAssemblyContaining<CreateCalcOrderValidator>();
 
-            services.AddScoped<ICalcOrderServiceValidations, CalcOrderServiceValidations>();
+            services.AddScoped<ICalcOrderServiceValidations, CalcOrderServiceValidations>();            
             services.AddScoped<ICalcOrderRepository, CalcOrderRepository>();
             services.AddScoped<ICalcOrderService, CalcOrderService>();
+            services.AddScoped<ICalcOrderFactory, CalcOrderFactory>();
+
+
+            services.AddScoped<ICalcOrderItemServiceValidations, CalcOrderItemServiceValidations>();
+            services.AddScoped<ICalcOrderItemFactory, CalcOrderItemFactory>();
+            services.AddScoped<ICalcOrderItemService, CalcOrderItemService>();
+            services.AddScoped<ICalcOrderItemRepository, CalcOrderItemRepository>();
         }
 
         internal static void AddLogging(this IServiceCollection services)

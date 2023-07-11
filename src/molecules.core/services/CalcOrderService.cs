@@ -2,6 +2,7 @@
 using molecule.infrastructure.data.interfaces.DbEntities;
 using molecule.infrastructure.data.interfaces.Repositories;
 using molecules.core.aggregates;
+using molecules.core.Factories;
 using molecules.core.services.validators.servicehelpers;
 using molecules.core.valueobjects.CalcOrder;
 
@@ -12,11 +13,13 @@ namespace molecules.core.services
     {
         #region dependencies
 
-        private readonly ILogger<CalcOrderService> _logger;
+        private readonly ILogger<CalcOrderService>          _logger;
 
-        private readonly ICalcOrderServiceValidations _validations;
+        private readonly ICalcOrderServiceValidations       _validations;
 
-        private readonly ICalcOrderRepository _calcOrderRepository;
+        private readonly ICalcOrderRepository               _calcOrderRepository;
+
+        private readonly ICalcOrderFactory                  _calcOrderFactory;
 
         #endregion
 
@@ -27,11 +30,13 @@ namespace molecules.core.services
         /// <param name="logger">The logger</param>
         public CalcOrderService(ICalcOrderServiceValidations validations,
                                     ICalcOrderRepository calcOrderRepository,
+                                    ICalcOrderFactory calcOrderFactory,
                                     ILogger<CalcOrderService> logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _validations = validations ?? throw new ArgumentNullException(nameof(validations));
-            _calcOrderRepository = calcOrderRepository ?? throw new ArgumentNullException(nameof(calcOrderRepository));
+            _logger                 = logger ?? throw new ArgumentNullException(nameof(logger));
+            _validations            = validations ?? throw new ArgumentNullException(nameof(validations));
+            _calcOrderRepository    = calcOrderRepository ?? throw new ArgumentNullException(nameof(calcOrderRepository));
+            _calcOrderFactory       = calcOrderFactory ?? throw new ArgumentNullException(nameof(calcOrderFactory));
         }
 
         /// <inheritdoc/>
@@ -44,7 +49,7 @@ namespace molecules.core.services
                                                 createCalcOrder.Name,
                                                 createCalcOrder.Description);
             _validations.Validate(createCalcOrder);
-            var result = await _calcOrderRepository.CreateAsync(new CalcOrderDbEntity()
+            var dbresult = await _calcOrderRepository.CreateAsync(new CalcOrderDbEntity()
             {
                 Name = createCalcOrder.Name,
                 Description = createCalcOrder.Description,
@@ -52,7 +57,7 @@ namespace molecules.core.services
 
             });
             await _calcOrderRepository.SaveChangesAsync();
-            return new CalcOrder(result.Id, result.Name, result.Description);
+            return _calcOrderFactory.CreateCalcOrder(dbresult);
         }
 
         /// <inheritdoc/>
@@ -64,9 +69,9 @@ namespace molecules.core.services
             _logger.LogInformation("Update CalcOrder with id: {0} set Name: {1} and set Description: {2}",
                                     id, updateCalcOrder.Name, updateCalcOrder.Description);
             _validations.Validate(updateCalcOrder);
-            var result = await _calcOrderRepository.UpdateAsync(id, updateCalcOrder.Name, updateCalcOrder.Description);
+            var dbresult = await _calcOrderRepository.UpdateAsync(id, updateCalcOrder.Name, updateCalcOrder.Description);
             await _calcOrderRepository.SaveChangesAsync();
-            return new CalcOrder(result.Id, result.Name, result.Description);
+            return _calcOrderFactory.CreateCalcOrder(dbresult);
         }
 
         /// <inheritdoc/>
@@ -84,9 +89,9 @@ namespace molecules.core.services
         {
             _logger.LogInformation("GetAsync with id {0}", id);
 
-            var result = await _calcOrderRepository.GetByIdAsync(id);
+            var dbresult = await _calcOrderRepository.GetByIdAsync(id);
             
-            return new CalcOrder(result.Id, result.Name, result.Description);
+            return _calcOrderFactory.CreateCalcOrder(dbresult);
         }
 
         /// <inheritdoc/>
@@ -94,9 +99,9 @@ namespace molecules.core.services
         {
             _logger.LogInformation("GetByNameAsync with name {0}", name);
 
-            var result = await _calcOrderRepository.GetByNameAsync(name);
+            var dbresult = await _calcOrderRepository.GetByNameAsync(name);
 
-            return result.ConvertAll(i => new CalcOrder(i.Id, i.Name, i.Description));
+            return dbresult.ConvertAll(_calcOrderFactory.CreateCalcOrder);
         }
 
         /// <inheritdoc/>
@@ -104,9 +109,9 @@ namespace molecules.core.services
         {
             _logger.LogInformation("ListAsync");
 
-            var result = await _calcOrderRepository.GetAllAsync();
+            var dbresult = await _calcOrderRepository.GetAllAsync();
             
-            return result.ConvertAll(i => new CalcOrder(i.Id, i.Name, i.Description));
+            return dbresult.ConvertAll(_calcOrderFactory.CreateCalcOrder);
         }
 
 

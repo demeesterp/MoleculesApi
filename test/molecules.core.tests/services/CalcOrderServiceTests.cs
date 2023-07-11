@@ -10,6 +10,8 @@ using FakeItEasy;
 using molecules.core.valueobjects.CalcOrder;
 using molecule.infrastructure.data.interfaces.Repositories;
 using molecule.infrastructure.data.interfaces.DbEntities;
+using molecules.core.Factories;
+using molecules.core.aggregates;
 
 namespace molecules.core.tests.services
 {
@@ -20,6 +22,8 @@ namespace molecules.core.tests.services
         private readonly ICalcOrderServiceValidations _validations;
 
         private readonly ICalcOrderRepository _repository;
+
+        private readonly ICalcOrderFactory _calcOrderFactory;
 
         private readonly CalcOrderService _calcOrderService;
 
@@ -33,8 +37,9 @@ namespace molecules.core.tests.services
             _logger = A.Fake<ILogger<CalcOrderService>>();
             _validations = A.Fake<ICalcOrderServiceValidations>();
             _repository = A.Fake<ICalcOrderRepository>();
+            _calcOrderFactory = A.Fake<ICalcOrderFactory>();
 
-            _calcOrderService = new CalcOrderService(_validations, _repository, _logger);
+            _calcOrderService = new CalcOrderService(_validations, _repository, _calcOrderFactory, _logger);
         }
 
 
@@ -46,7 +51,7 @@ namespace molecules.core.tests.services
                 // Arrange
 
                 // Act
-                var result = new CalcOrderService(_validations, _repository, _logger);
+                var result = new CalcOrderService(_validations, _repository, _calcOrderFactory, _logger);
                 
                 // Assert
                 Assert.NotNull(result);
@@ -58,7 +63,7 @@ namespace molecules.core.tests.services
                 // Arrange
 
                 // Act
-                var result = Assert.Throws<ArgumentNullException>(() => new CalcOrderService(null, _repository, _logger));
+                var result = Assert.Throws<ArgumentNullException>(() => new CalcOrderService(null, _repository, _calcOrderFactory, _logger));
 
                 // Assert
                 Assert.Equal("Value cannot be null. (Parameter 'validations')", result.Message);
@@ -70,7 +75,7 @@ namespace molecules.core.tests.services
                 // Arrange
 
                 // Act
-                var result = Assert.Throws<ArgumentNullException>(() => new CalcOrderService(_validations, _repository, null));
+                var result = Assert.Throws<ArgumentNullException>(() => new CalcOrderService(_validations, _repository, _calcOrderFactory, null));
 
                 // Assert
                 Assert.Equal("Value cannot be null. (Parameter 'logger')", result.Message);
@@ -82,10 +87,22 @@ namespace molecules.core.tests.services
                 // Arrange
 
                 // Act
-                var result = Assert.Throws<ArgumentNullException>(() => new CalcOrderService(_validations, null, _logger));
+                var result = Assert.Throws<ArgumentNullException>(() => new CalcOrderService(_validations, null, _calcOrderFactory, _logger));
 
                 // Assert
                 Assert.Equal("Value cannot be null. (Parameter 'calcOrderRepository')", result.Message);
+            }
+
+            [Fact]
+            public void CalcOrderServiceConstructor_WhenNullCalcOrderFactoryPassed_ThenArgumentNullExceptionThrown()
+            {
+                // Arrange
+
+                // Act
+                var result = Assert.Throws<ArgumentNullException>(() => new CalcOrderService(_validations, _repository, null, _logger));
+
+                // Assert
+                Assert.Equal("Value cannot be null. (Parameter 'calcOrderFactory')", result.Message);
             }
         }
 
@@ -95,10 +112,15 @@ namespace molecules.core.tests.services
             public CalcOrderServiceCreateTests() : base()
             {
                 A.CallTo(() => _repository.CreateAsync(A<CalcOrderDbEntity>.Ignored))
-                    .Returns(new CalcOrderDbEntity()
-                    {
-                        Name = _name
-                    });
+                    .Returns(new CalcOrderDbEntity() { Name = _name });
+
+
+
+                A.CallTo(() => _repository.GetByNameAsync(A<string>.Ignored))
+                    .Returns(new List<CalcOrderDbEntity>() { new CalcOrderDbEntity() { Name = _name } });
+
+                A.CallTo(() => _calcOrderFactory.CreateCalcOrder(A<CalcOrderDbEntity>.Ignored))
+                    .Returns(new CalcOrder(1, _name, _description));
             }
 
 
@@ -178,6 +200,9 @@ namespace molecules.core.tests.services
                         Name = _name,
                         Description = _description
                     });
+
+                A.CallTo(() => _calcOrderFactory.CreateCalcOrder(A<CalcOrderDbEntity>.Ignored))
+                    .Returns(new CalcOrder(1, _name, _description));
             }
 
             [Fact]
@@ -275,7 +300,6 @@ namespace molecules.core.tests.services
             }
         }   
 
-
         public class CalcOrderServiceGetTests : CalcOrderServiceTests
         {
 
@@ -291,10 +315,36 @@ namespace molecules.core.tests.services
                 A.CallTo(() => _repository.GetByIdAsync(0)).MustHaveHappened();
             }
 
+            [Fact]
+            public async Task CalcOrderServiceGet_Then_CalcOrderFactory_CreateCalcOrderCalled()
+            {
+                // Arrange
+
+                // Act
+                await _calcOrderService.GetAsync(0);
+
+                // Assert
+                A.CallTo(() => _calcOrderFactory.CreateCalcOrder(A<CalcOrderDbEntity>.Ignored)).MustHaveHappened();
+            }
+
         }
 
         public class CalcOrderServiceGetByNameTests : CalcOrderServiceTests
         {
+
+            public CalcOrderServiceGetByNameTests() : base()
+            {
+                A.CallTo(() => _repository.GetByNameAsync(_name))
+                    .Returns(new List<CalcOrderDbEntity>()  { new CalcOrderDbEntity()
+                            {
+                                Name = _name,
+                                Description = _description
+                            } 
+                        });
+
+                A.CallTo(() => _calcOrderFactory.CreateCalcOrder(A<CalcOrderDbEntity>.Ignored))
+                    .Returns(new CalcOrder(1, _name, _description));
+            }
 
             [Fact]
             public async Task CalcOrderServiceGetByName_Then_Respository_GetByNameAsyncCalled()
@@ -306,12 +356,40 @@ namespace molecules.core.tests.services
 
                 // Assert
                 A.CallTo(() => _repository.GetByNameAsync(_name)).MustHaveHappened();
-            }   
-            
+            }
+
+            [Fact]
+            public async Task CalcOrderServiceGetByName_ThenCalcOrderFactory_CreateCalcOrderCalled()
+            {
+                // Arrange
+
+                // Act
+                await _calcOrderService.GetByNameAsync(_name);
+
+                // Assert
+                A.CallTo(() => _calcOrderFactory.CreateCalcOrder(A<CalcOrderDbEntity>.Ignored)).MustHaveHappened();
+            }
+
+
         }
 
         public class CalcOrderServiceListTests : CalcOrderServiceTests
         {
+
+            public CalcOrderServiceListTests() : base()
+            {
+                A.CallTo(() => _repository.GetAllAsync())
+                    .Returns(new List<CalcOrderDbEntity>() { new CalcOrderDbEntity()
+                    {
+                                Name = _name,
+                                Description = _description
+                            } 
+                        });
+
+                A.CallTo(() => _calcOrderFactory.CreateCalcOrder(A<CalcOrderDbEntity>.Ignored))
+                    .Returns(new CalcOrder(1, _name, _description));
+            }
+
             [Fact]
             public async Task CalcOrderServiceList_Then_Respository_ListAsyncCalled()
             {
@@ -322,7 +400,20 @@ namespace molecules.core.tests.services
 
                 // Assert
                 A.CallTo(() => _repository.GetAllAsync()).MustHaveHappened();
-            } 
+            }
+
+
+            [Fact]
+            public async Task CalcOrderServiceList_Then_CalcOrderFactory_CreateCalcOrderCalled()
+            {
+                // Arrange
+
+                // Act
+                await _calcOrderService.ListAsync();
+
+                // Assert
+                A.CallTo(() => _calcOrderFactory.CreateCalcOrder(A<CalcOrderDbEntity>.Ignored)).MustHaveHappened();
+            }
         }
 
     }
