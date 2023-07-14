@@ -2,12 +2,7 @@
 {
     public class UpdateCalcOrder : CalcOrderDetails
     {
-        public UpdateCalcOrder() : base()
-        {
-        }
-
-
-        public UpdateCalcOrder(string name, string description): this()
+        public UpdateCalcOrder(string name, string description)
         {
             Name = name;
             Description = description;
