@@ -10,6 +10,8 @@
 
         public string CalcType { get; set; } = "";
 
+        public string BasissetCode { get; set; } = "";
+
         public string XYZ { get; set; } = "";
 
         public int CalcOrderId { get; set; }

@@ -2,11 +2,6 @@
 {
     public class CreateCalcOrder : CalcOrderDetails
     {
-
-        public CreateCalcOrder(string name, string description)
-        {
-            this.Name = name;
-            this.Description = description;
-        }
+        public CreateCalcOrder(string name, string description): base(name,description) { }
     }
 }

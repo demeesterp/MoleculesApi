@@ -6,7 +6,7 @@ namespace molecules.core.tests.aggregates
 {
     public class CalcOrderItemTests
     {
-        public class CalcOrderItemConstrcutorTests : CalcOrderItemTests
+        public class CalcOrderItemConstructorTests : CalcOrderItemTests
         {
             [Fact]
             public void Should_Initialise_Members_When_Default_Constructor_Called()
@@ -61,8 +61,6 @@ namespace molecules.core.tests.aggregates
                 Assert.Equal(moleculeName, item.MoleculeName);
                 Assert.NotNull(item.Details);
             }
-
-
         }
 
         public class UpdateDetailsTests : CalcOrderItemTests

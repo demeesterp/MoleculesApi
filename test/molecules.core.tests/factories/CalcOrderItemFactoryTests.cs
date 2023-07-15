@@ -9,6 +9,7 @@ using molecule.infrastructure.data.interfaces.DbEntities;
 using molecules.core.aggregates;
 using molecules.core.Factories;
 using molecules.core.valueobjects;
+using molecules.core.valueobjects.BasisSet;
 
 namespace molecules.core.tests.factories
 {
@@ -31,6 +32,7 @@ namespace molecules.core.tests.factories
             dbEntity.Id = 1;
             dbEntity.MoleculeName = "TestMolecule";
             dbEntity.CalcOrderId = 2;
+            dbEntity.BasissetCode = CalcBasisSetCode.B3_21G.ToString();
             return dbEntity;
         }
 
@@ -51,6 +53,7 @@ namespace molecules.core.tests.factories
             result.Details.Charge.Should().Be(dbEntity.Charge);
             result.Details.XYZ.Should().Be(dbEntity.XYZ);
             result.Details.CalcType.ToString().Should().Be(dbEntity.CalcType);
+            result.Details.BasisSetCode.ToString().Should().Be(dbEntity.BasissetCode);
         }
 
         [Fact]
@@ -70,7 +73,7 @@ namespace molecules.core.tests.factories
             result.Details.Charge.Should().Be(dbEntity.Charge);
             result.Details.XYZ.Should().Be(dbEntity.XYZ);
             result.Details.CalcType.Should().Be(CalcType.GeoOpt);
-
+            result.Details.BasisSetCode.ToString().Should().Be(dbEntity.BasissetCode);
         }
 
     }

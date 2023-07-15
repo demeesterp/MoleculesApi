@@ -49,7 +49,8 @@ namespace molecules.core.services
                 MoleculeName = calcOrderItem.MoleculeName,
                 XYZ = calcOrderItem.CalcDetails.XYZ,
                 Charge = calcOrderItem.CalcDetails.Charge,
-                CalcType = calcOrderItem.CalcDetails.CalcType.ToString()
+                CalcType = calcOrderItem.CalcDetails.CalcType.ToString(),
+                BasissetCode = calcOrderItem.CalcDetails.BasisSetCode.ToString()
             });
 
             await _calcOrderItemRepository.SaveChangesAsync();

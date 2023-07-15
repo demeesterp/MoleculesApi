@@ -64,6 +64,11 @@ namespace molecules.infrastructure.data
                 .HasMaxLength(50);
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
+               .Property(o => o.BasissetCode)
+               .IsRequired()
+               .HasMaxLength(50);
+
+            modelBuilder.Entity<CalcOrderItemDbEntity>()
                 .Property(o => o.MoleculeName)
                 .IsRequired()
                 .HasMaxLength(250);

@@ -73,3 +73,22 @@ BEGIN
 END $EF$;
 COMMIT;
 
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230715105108_AddBasissetCodeToCalcOrderItem') THEN
+    ALTER TABLE moleculesapp."CalcOrderItem" ADD "BasissetCode" character varying(50) NOT NULL DEFAULT '';
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230715105108_AddBasissetCodeToCalcOrderItem') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230715105108_AddBasissetCodeToCalcOrderItem', '7.0.8');
+    END IF;
+END $EF$;
+COMMIT;
+

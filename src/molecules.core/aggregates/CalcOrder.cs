@@ -9,23 +9,16 @@ namespace molecules.core.aggregates
         public string CustomerName { get; }
         public List<CalcOrderItem> Items { get; private set; }
 
-        public CalcOrder()
+        public CalcOrder(int id, string name, string description = "")
         {
-            Id = 0;
-            CustomerName = "Default";
-            Details = new CalcOrderDetails();
-            Items = new List<CalcOrderItem>();
-        }
-
-        public CalcOrder(int id, string name, string description = ""):this()
-        {
-            if ( string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("name should have a value", nameof(name));
             }
             Id = id;
-            Details.Name = name; 
-            Details.Description = description;
+            Details = new CalcOrderDetails(name, description);
+            CustomerName = "Default";
+            Items = new List<CalcOrderItem>();
         }
 
         public void AddItem(CalcOrderItem item)

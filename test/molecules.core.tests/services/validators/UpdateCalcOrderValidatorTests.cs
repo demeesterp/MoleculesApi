@@ -14,7 +14,7 @@ namespace molecules.core.tests.services.validators
         public void CalcOrderDetailsValidator_WhenNameIsEmpty_ReturnsError()
         {
             // Arrange
-            var calcOrderDetails = new UpdateCalcOrder();
+            var calcOrderDetails = new UpdateCalcOrder(null,string.Empty);
             var validator = new UpdateCalcOrderValidator();
 
             // Act
@@ -29,8 +29,7 @@ namespace molecules.core.tests.services.validators
         public void CalcOrderDetailsValidator_WhenNameIsWhitespace_ReturnsError()
         {
             // Arrange
-            var calcOrderDetails = new UpdateCalcOrder();
-            calcOrderDetails.Name = " ";
+            var calcOrderDetails = new UpdateCalcOrder(" ",string.Empty);
             var validator = new UpdateCalcOrderValidator();
 
             // Act
@@ -45,8 +44,7 @@ namespace molecules.core.tests.services.validators
         public void CalcOrderDetailsValidator_WhenNameIsTooLong_ReturnsError()
         {
             // Arrange
-            var calcOrderDetails = new UpdateCalcOrder();
-            calcOrderDetails.Name = new string('t', 251);
+            var calcOrderDetails = new UpdateCalcOrder(new string('t', 251),String.Empty);
             var validator = new UpdateCalcOrderValidator();
 
             // Act

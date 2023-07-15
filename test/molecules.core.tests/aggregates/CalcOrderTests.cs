@@ -7,22 +7,6 @@ namespace molecules.core.tests.aggregates
         public class ConstructorTests : CalcOrderTests
         {
             [Fact]
-            public void Should_Initialise_Members_When_DefaultConstructor_Called()
-            {
-                // Arrange
-
-                // Act
-                CalcOrder calcOrder = new CalcOrder();
-
-                // Assert
-                Assert.Equal(0, calcOrder.Id);
-                Assert.Equal("Default", calcOrder.CustomerName);
-                Assert.Equal(string.Empty, calcOrder.Details.Name);
-                Assert.Equal(string.Empty, calcOrder.Details.Description);
-                Assert.NotNull(calcOrder.Items);
-            }
-
-            [Fact]
             public void Should_Initialise_Name_When_Constructor_With_Name_Parameter_Is_Called()
             {
                 // Arrange
@@ -58,7 +42,7 @@ namespace molecules.core.tests.aggregates
             }
 
             [Fact]
-            public void Should_Initialise_Name_And_Description_When_Constructor_With_Name_ANd_DescriptionParameter_Is_Called()
+            public void Should_Initialise_Name_And_Description_When_Constructor_With_Name_And_DescriptionParameter_Is_Called()
             {
                 // Arrange
                 string name = "Test Name";
@@ -96,7 +80,7 @@ namespace molecules.core.tests.aggregates
             public void Should_Throw_When_AddItem_With_Null_Parameter_Is_Called()
             {
                 // Arrange
-                CalcOrder calcOrder = new CalcOrder();
+                CalcOrder calcOrder = new CalcOrder(0, "test");
 
                 CalcOrderItem? toAdd = null;
 
@@ -107,7 +91,7 @@ namespace molecules.core.tests.aggregates
             public void Should_Add_Item_ToList_WhenItem_Is_Valid()
             {
                 // Arrange
-                CalcOrder calcOrder = new CalcOrder();
+                CalcOrder calcOrder = new CalcOrder(0, "test");
 
                 CalcOrderItem toAdd = new CalcOrderItem("Test Molecule");
 
@@ -127,7 +111,7 @@ namespace molecules.core.tests.aggregates
             public void Should_Remove_Item_FromList_WhenItem_Is_Valid()
             {
                 // Arrange
-                CalcOrder calcOrder = new CalcOrder();
+                CalcOrder calcOrder = new CalcOrder(0, "test");
 
                 CalcOrderItem toAdd = new CalcOrderItem("Test Molecule");
                 toAdd.Id = 100;
@@ -144,7 +128,7 @@ namespace molecules.core.tests.aggregates
             public void Should_Not_Remove_Item_FromList_WhenItem_Is_Not_Found()
             {
                 // Arrange
-                CalcOrder calcOrder = new CalcOrder();
+                CalcOrder calcOrder = new CalcOrder(0, "test");
 
                 CalcOrderItem toAdd = new CalcOrderItem("Test Molecule");
                 calcOrder.AddItem(toAdd);

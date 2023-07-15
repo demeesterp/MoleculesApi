@@ -15,6 +15,7 @@ using molecules.core.valueobjects;
 using molecules.core.aggregates;
 using molecule.infrastructure.data.interfaces.DbEntities;
 using molecules.core.valueobjects.CalcOrderItem;
+using molecules.core.valueobjects.BasisSet;
 
 namespace molecules.core.tests.services
 {
@@ -46,13 +47,21 @@ namespace molecules.core.tests.services
         public static CreateCalcOrderItem CreateFromCalcOrderItemDbEntity(CalcOrderItemDbEntity dbEntity)
         {
             CreateCalcOrderItem retval = new CreateCalcOrderItem();
-            retval.MoleculeName = dbEntity.MoleculeName;
-            retval.CalcDetails.Charge = dbEntity.Charge;
-            retval.CalcDetails.XYZ = dbEntity.XYZ;
+            retval.MoleculeName 
+                = dbEntity.MoleculeName;
+            retval.CalcDetails.Charge 
+                = dbEntity.Charge;
+            retval.CalcDetails.XYZ 
+                = dbEntity.XYZ;
+            
             if (Enum.TryParse(dbEntity.CalcType, out CalcType calcType))
             {
                 retval.CalcDetails.CalcType = calcType;
             }
+            
+            retval.CalcDetails.BasisSetCode
+                = Enum.Parse<CalcBasisSetCode>(dbEntity.BasissetCode);
+            
             return retval;
         }
 
