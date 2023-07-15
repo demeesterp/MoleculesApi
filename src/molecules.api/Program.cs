@@ -3,6 +3,7 @@ using molecules.api.Filter;
 using molecules.api.ServiceExtensions;
 using molecules.infrastructure.data;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,12 @@ builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
 builder.Services.AddMoleculesServices();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(
+    options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -23,6 +29,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddMvcCore(option => option.Filters.Add(new MoleculesExceptionFilter()));
+
 
 builder.Services.AddDbContext<MoleculesDbContext>(options => 
                     options.UseNpgsql(builder.Configuration["ConnectionString"]?.ToString())
@@ -42,5 +49,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
