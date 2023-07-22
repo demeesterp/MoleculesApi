@@ -35,6 +35,17 @@ builder.Services.AddDbContext<MoleculesDbContext>(options =>
                     options.UseNpgsql(builder.Configuration["ConnectionString"]?.ToString())
                 );
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,6 +53,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowAllOrigins");
 }
 
 app.UseHttpsRedirection();
@@ -49,7 +61,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-
 
 app.Run();

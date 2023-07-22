@@ -20,7 +20,16 @@ namespace molecules.infrastructure.data.Repositories
 
         public async Task<CalcOrderItemDbEntity> CreateAsync(CalcOrderItemDbEntity entity)
         {
-            await _context.CalcOrderItems.AddAsync(entity);
+            var order = _context.CalcOrders.Find(entity.CalcOrderId);
+            if( order != null )
+            {
+                entity.CalcOrder = order;
+                await _context.CalcOrderItems.AddAsync(entity);
+            }
+            else
+            {
+                throw new MoleculesResourceNotFoundException($"Resource {nameof(CalcOrderDbEntity)} with Id {entity.CalcOrderId} was not found");
+            }            
             return entity;
         }
 

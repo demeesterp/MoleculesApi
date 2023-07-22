@@ -49,17 +49,17 @@ namespace molecules.core.tests.services
             CreateCalcOrderItem retval = new CreateCalcOrderItem();
             retval.MoleculeName 
                 = dbEntity.MoleculeName;
-            retval.CalcDetails.Charge 
+            retval.Details.Charge 
                 = dbEntity.Charge;
-            retval.CalcDetails.XYZ 
+            retval.Details.XYZ 
                 = dbEntity.XYZ;
             
             if (Enum.TryParse(dbEntity.CalcType, out CalcType calcType))
             {
-                retval.CalcDetails.CalcType = calcType;
+                retval.Details.CalcType = calcType;
             }
             
-            retval.CalcDetails.BasisSetCode
+            retval.Details.BasisSetCode
                 = Enum.Parse<CalcBasisSetCode>(dbEntity.BasissetCode);
             
             return retval;
@@ -213,7 +213,7 @@ namespace molecules.core.tests.services
 
                 // Assert
                 A.CallTo(() => _calcOrderItemRepository.CreateAsync(A<CalcOrderItemDbEntity>.That
-                    .Matches(dbEntity => dbEntity.CalcType == createCalcOrderItem.CalcDetails.CalcType.ToString()))).MustHaveHappenedOnceExactly();
+                    .Matches(dbEntity => dbEntity.CalcType == createCalcOrderItem.Details.CalcType.ToString()))).MustHaveHappenedOnceExactly();
             }
 
             [Fact]
@@ -228,7 +228,7 @@ namespace molecules.core.tests.services
 
                 // Assert
                 A.CallTo(() => _calcOrderItemRepository.CreateAsync(A<CalcOrderItemDbEntity>.That
-                    .Matches(dbEntity => dbEntity.Charge == createCalcOrderItem.CalcDetails.Charge))).MustHaveHappenedOnceExactly();
+                    .Matches(dbEntity => dbEntity.Charge == createCalcOrderItem.Details.Charge))).MustHaveHappenedOnceExactly();
             }
 
             [Fact]

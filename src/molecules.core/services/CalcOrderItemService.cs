@@ -39,7 +39,7 @@ namespace molecules.core.services
             _logger.LogInformation("CreateAsync for calcOrderId {0} and molecule {1} with details {3} was called ", 
                             calcOrderId,
                             calcOrderItem.MoleculeName,
-                            calcOrderItem.CalcDetails);
+                            calcOrderItem.Details);
 
             _calcOrderItemServiceValidations.Validate(calcOrderItem);
 
@@ -47,10 +47,10 @@ namespace molecules.core.services
             {
                 CalcOrderId = calcOrderId,
                 MoleculeName = calcOrderItem.MoleculeName,
-                XYZ = calcOrderItem.CalcDetails.XYZ,
-                Charge = calcOrderItem.CalcDetails.Charge,
-                CalcType = calcOrderItem.CalcDetails.CalcType.ToString(),
-                BasissetCode = calcOrderItem.CalcDetails.BasisSetCode.ToString()
+                XYZ = calcOrderItem.Details.XYZ,
+                Charge = calcOrderItem.Details.Charge,
+                CalcType = calcOrderItem.Details.CalcType.ToString(),
+                BasissetCode = calcOrderItem.Details.BasisSetCode.ToString()
             });
 
             await _calcOrderItemRepository.SaveChangesAsync();

@@ -28,7 +28,7 @@ namespace molecules.infrastructure.data.Repositories
 
         public async Task DeleteAsync(int id)
         {
-           var result = await _context.CalcOrders.FindAsync(id);
+           var result = await _context.CalcOrders.Include(o => o.CalcOrderItems).FirstOrDefaultAsync(o => o.Id == id);
            if ( result != null)
            {
                 _context.CalcOrders.Remove(result);
@@ -41,7 +41,7 @@ namespace molecules.infrastructure.data.Repositories
 
         public async Task<CalcOrderDbEntity> UpdateAsync(int id, string name, string description)
         {
-            var result = await _context.CalcOrders.FindAsync(id);
+            var result = await _context.CalcOrders.Include(o => o.CalcOrderItems).FirstOrDefaultAsync(o => o.Id == id);
             if (result != null)
             {
                 result.Name =name;
@@ -55,7 +55,7 @@ namespace molecules.infrastructure.data.Repositories
 
         public async Task<List<CalcOrderDbEntity>> GetAllAsync()
         {
-            return await (from i in _context.CalcOrders select i).ToListAsync();
+            return await (from i in _context.CalcOrders.Include(o => o.CalcOrderItems) select i).ToListAsync();
         }
 
         public async Task<CalcOrderDbEntity> GetByIdAsync(int id)

@@ -91,7 +91,7 @@ namespace molecules.api.Controllers
         /// <response code="204">No CalcOrders found</response>
         /// <response code="500">An unexpected error happend</response>
         [HttpGet]
-        [Route("{name}")]
+        [Route("Name/{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
@@ -141,7 +141,7 @@ namespace molecules.api.Controllers
         /// <response code="404">No CalcOrder found for the specified id</response>
         /// <response code="422">Failed to update calcorder because the input was invalid</response>
         /// <response code="500">An unexpected error happend</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -188,16 +188,16 @@ namespace molecules.api.Controllers
         /// <response code="422">Failed to create the calcorderitem because the input was invalid</response>
         /// <response code="500">An unexpected error happend</response>
         [HttpPost()]
-        [Route("{id}/calcorderitem")]
+        [Route("{calcOrderId}/calcorderitem")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ServiceValidationError), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CalcOrderItem>> CreateAsync([FromRoute] int calcOrderId, [FromBody] CreateCalcOrderItem createCalcOrderItem)
+        public async Task<ActionResult<CalcOrderItem>> CreateCalcOrderItemAsync([FromRoute] int calcOrderId, [FromBody] CreateCalcOrderItem createCalcOrderItem)
         {
             _logger.LogInformation("Create calcorder item for calcOrder {0} and molecule {1} with details {3}",
                                         calcOrderId,
                                             createCalcOrderItem.MoleculeName,
-                                                createCalcOrderItem.CalcDetails);
+                                                createCalcOrderItem.Details);
 
             return StatusCode(StatusCodes.Status201Created, await _calcOrderItemService.CreateAsync(calcOrderId, createCalcOrderItem));
 
