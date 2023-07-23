@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "molecule.infrastructure.dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "molecules.api", "src\molecules.api\molecules.api.csproj", "{F51AB152-B870-4E90-A38E-CAD6CFB3570D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoleculesConsole", "src\MoleculesConsole\MoleculesConsole.csproj", "{665F4234-ABFB-4855-9016-B5BF37FB69DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{F51AB152-B870-4E90-A38E-CAD6CFB3570D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F51AB152-B870-4E90-A38E-CAD6CFB3570D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F51AB152-B870-4E90-A38E-CAD6CFB3570D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{665F4234-ABFB-4855-9016-B5BF37FB69DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{665F4234-ABFB-4855-9016-B5BF37FB69DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{665F4234-ABFB-4855-9016-B5BF37FB69DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{665F4234-ABFB-4855-9016-B5BF37FB69DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{BCA661E8-CA9F-4E3D-87EA-A90DA815CAF6} = {B4F2FD3B-A375-4714-B9BF-458A91C9E99B}
 		{6B0538E9-3A27-4CD8-B541-1E3B05A59B20} = {75B0A7AC-BBAC-4634-9E2B-D9C60C97DD47}
 		{F51AB152-B870-4E90-A38E-CAD6CFB3570D} = {3ABCE6C8-ADCA-44C0-959A-50603454B6C8}
+		{665F4234-ABFB-4855-9016-B5BF37FB69DB} = {3ABCE6C8-ADCA-44C0-959A-50603454B6C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA41D430-BF99-4117-85E2-66522219BEFB}
