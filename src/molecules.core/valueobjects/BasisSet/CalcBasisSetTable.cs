@@ -1,17 +1,15 @@
-﻿using molecules.core.valueobjects.BasisSet;
-
-namespace molecules.core.aggregates
+﻿namespace molecules.core.valueobjects.BasisSet
 {
-    public static class AllCalcBasisSets
+    public static class CalcBasisSetTable
     {
         public static CalcBasisSet[] CalcBasisSets { get; }
 
         public static CalcBasisSet? GetCalcBasisSet(CalcBasisSetCode code)
         {
-           return CalcBasisSets.FirstOrDefault(s => s.Code == code);
+            return CalcBasisSets.FirstOrDefault(s => s.Code == code);
         }
 
-        static AllCalcBasisSets()
+        static CalcBasisSetTable()
         {
             CalcBasisSets = new CalcBasisSet[]
             {

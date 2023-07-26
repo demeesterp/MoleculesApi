@@ -1,6 +1,6 @@
 ﻿using molecules.core.valueobjects.BasisSet;
 
-namespace molecules.core.valueobjects.CalcOrderItem
+namespace molecules.core.valueobjects
 {
     public class CalcDetails
     {
@@ -18,6 +18,17 @@ namespace molecules.core.valueobjects.CalcOrderItem
             CalcType = CalcType.GeoOpt;
             XYZ = string.Empty;
             BasisSetCode = CalcBasisSetCode.BSTO3G;
+        }
+
+
+        public List<(string symbol, decimal x, decimal y, decimal z)> ParseXyz()
+        {
+            List<(string symbol, decimal x, decimal y, decimal z)> retval
+                                = new List<(string symbol, decimal x, decimal y, decimal z)>();
+
+
+
+            return retval;
         }
 
         public override string ToString()
