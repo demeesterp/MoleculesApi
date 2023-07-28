@@ -49,7 +49,7 @@ namespace molecules.core.services
                 MoleculeName = calcOrderItem.MoleculeName,
                 XYZ = calcOrderItem.Details.XYZ,
                 Charge = calcOrderItem.Details.Charge,
-                CalcType = calcOrderItem.Details.CalcType.ToString(),
+                CalcType = calcOrderItem.Details.Type.ToString(),
                 BasissetCode = calcOrderItem.Details.BasisSetCode.ToString()
             });
 

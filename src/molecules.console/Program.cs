@@ -5,11 +5,13 @@ using molecules.console;
 using molecules.console.App;
 using Microsoft.EntityFrameworkCore;
 using molecules.infrastructure.data;
+using System.Reflection;
 
-var builder = Host.CreateDefaultBuilder(args)
+var builder 
+    = Host.CreateDefaultBuilder(args)
        .ConfigureServices((hostContext, services) => {
 
-           services.AddMoleculesServices();
+           services.AddMoleculesServices(hostContext.Configuration["basePath"]?.ToString());
            
            services.AddDbContext<MoleculesDbContext> (
                         options => options.UseNpgsql(hostContext.Configuration["ConnectionString"]?.ToString()));
@@ -20,7 +22,9 @@ var builder = Host.CreateDefaultBuilder(args)
 
 builder.ConfigureAppConfiguration(options => {
     options.AddEnvironmentVariables();
+    options.AddCommandLine(args);
+    options.AddUserSecrets(Assembly.GetExecutingAssembly());
 });
 
-await builder.Build().StartAsync();
+await builder.Build().RunAsync();
 

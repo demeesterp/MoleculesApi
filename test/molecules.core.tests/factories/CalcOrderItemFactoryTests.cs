@@ -10,6 +10,7 @@ using molecules.core.aggregates;
 using molecules.core.Factories;
 using molecules.core.valueobjects;
 using molecules.core.valueobjects.BasisSet;
+using molecules.core.valueobjects.CalcOrderItem;
 
 namespace molecules.core.tests.factories
 {
@@ -40,7 +41,7 @@ namespace molecules.core.tests.factories
         public void CreateCalcOrderItem_Should_Return_Valid_CalcOrderItem_When_Valid_CalcType_Input()
         {
             // Arrange
-            var dbEntity = CreateDummyCalcOrderItem(CalcType.NoGeoOpt.ToString());
+            var dbEntity = CreateDummyCalcOrderItem(CalcOrderItemType.AllKindsNoGeoOpt.ToString());
 
             // Act
             var result = calcOrderItemFactory.CreateCalcOrderItem(dbEntity);
@@ -52,7 +53,7 @@ namespace molecules.core.tests.factories
             result.Id.Should().Be(dbEntity.Id);
             result.Details.Charge.Should().Be(dbEntity.Charge);
             result.Details.XYZ.Should().Be(dbEntity.XYZ);
-            result.Details.CalcType.ToString().Should().Be(dbEntity.CalcType);
+            result.Details.Type.ToString().Should().Be(dbEntity.CalcType);
             result.Details.BasisSetCode.ToString().Should().Be(dbEntity.BasissetCode);
         }
 
@@ -72,7 +73,7 @@ namespace molecules.core.tests.factories
             result.Id.Should().Be(dbEntity.Id);
             result.Details.Charge.Should().Be(dbEntity.Charge);
             result.Details.XYZ.Should().Be(dbEntity.XYZ);
-            result.Details.CalcType.Should().Be(CalcType.GeoOpt);
+            result.Details.Type.Should().Be(CalcOrderItemType.AllKinds);
             result.Details.BasisSetCode.ToString().Should().Be(dbEntity.BasissetCode);
         }
 

@@ -1,21 +1,35 @@
-﻿namespace molecules.core.valueobjects.GmsCalc.Output
+﻿using System.Text;
+
+namespace molecules.core.valueobjects.GmsCalc.Output
 {
     public class GmsCalcOuputItem
     {
-        public GmsCalcItem Details { get; }
+        private string _orderName { get; }
+        private int _orderItemId { get; }
+        private GmsCalcInfo _gmsCalcInfo { get; }
 
-        public GmsCalcOuputItem(string displayName, string content)
+        public GmsCalcOuputItem(string orderName, int orderItemId, GmsCalcInfo info) 
         {
-            var (moleculeName, kind) = ParseDisplayName(displayName);
-            Details = new GmsCalcItem(moleculeName, kind, content);
+            _orderName = orderName;
+            _orderItemId = orderItemId;
+            _gmsCalcInfo = info;
         }
 
-        private (string moleculeName, GmsCalculationKind kind) ParseDisplayName(string displayName)
+        public GmsCalcOuputItem(string displayName, StringBuilder content)
         {
-            var result = displayName.Split("_", StringSplitOptions.RemoveEmptyEntries);
-            if (result.Length != 2) { throw new ArgumentException($"Invalid display name {displayName}"); }
-            if (!Enum.TryParse(result[1], true, out GmsCalculationKind kind)) { throw new ArgumentException($"Invalid calculation kind {result[1]}"); }
-            return (result[0], kind);
+            var entries = displayName.Split("_");
+            if (entries.Length != 4 
+                    || !Enum.IsDefined(typeof(GmsCalculationKind), entries[3])) 
+            { 
+                throw new ArgumentException($"Invalid display name {displayName}"); 
+            }
+            _orderName = entries[0];
+            _orderItemId = int.Parse(entries[1]);
+            _gmsCalcInfo = new GmsCalcInfo(entries[2], 
+                                            (GmsCalculationKind)Enum.Parse(typeof(GmsCalculationKind), entries[3]), 
+                                                content);
         }
+
+
     }
 }

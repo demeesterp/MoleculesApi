@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "molecules.console": {
+      "commandName": "Project",
+      "commandLineArgs": "basePath=C:\\Data"
+    }
+  }
+}

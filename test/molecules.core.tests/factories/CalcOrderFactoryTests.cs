@@ -3,6 +3,7 @@ using FluentAssertions;
 using molecule.infrastructure.data.interfaces.DbEntities;
 using molecules.core.Factories;
 using molecules.core.valueobjects;
+using molecules.core.valueobjects.CalcOrderItem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace molecules.core.tests.factories
             // Arrange
             var dbEntity = CreateDummyCalcOrderDbEntity(new List<CalcOrderItemDbEntity>()
             {
-                CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString())
+                CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString())
             });
 
             // Act

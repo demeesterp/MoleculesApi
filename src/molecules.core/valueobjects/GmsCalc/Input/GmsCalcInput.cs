@@ -1,20 +1,17 @@
 ﻿namespace molecules.core.valueobjects.GmsCalc.Input
 {
     public class GmsCalcInput
-    {
-        public string OrderName { get; }
-
+    { 
         public List<GmsCalcInputItem> Items { get; }
 
-        public GmsCalcInput(string orderName)
+        public GmsCalcInput()
         {
-            OrderName = orderName;
             Items = new List<GmsCalcInputItem>();
         }
 
-        public void AddItem(GmsCalcInputItem item)
+        public void AddItem(string orderName, int orderItemId, GmsCalcInfo info)
         {
-            Items.Add(item);
+            Items.Add(new GmsCalcInputItem(orderName, orderItemId, info));
         }
     }
 }

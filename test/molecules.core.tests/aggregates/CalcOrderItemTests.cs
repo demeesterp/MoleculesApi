@@ -70,7 +70,7 @@ namespace molecules.core.tests.aggregates
             {
                 // Arrange
                 CalcOrderItem item = new CalcOrderItem();
-                CalcDetails details = null;
+                CalcOrderItemDetails details = null;
 
                 // Act
                 Action action = () => item.UpdateDetails(details);
@@ -84,7 +84,7 @@ namespace molecules.core.tests.aggregates
             {
                 // Arrange
                 CalcOrderItem item = new CalcOrderItem();
-                CalcDetails details = new CalcDetails();
+                CalcOrderItemDetails details = new CalcOrderItemDetails();
 
                 // Act
                 item.UpdateDetails(details);

@@ -4,6 +4,6 @@
     {
         public string MoleculeName { get; set; } = "";
 
-        public CalcDetails Details { get; set; } = new CalcDetails();
+        public CalcOrderItemDetails Details { get; set; } = new CalcOrderItemDetails();
     }
 }

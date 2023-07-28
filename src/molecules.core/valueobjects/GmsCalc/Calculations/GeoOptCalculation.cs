@@ -1,4 +1,4 @@
-﻿using molecules.core.valueobjects.AtomProperties;
+﻿using molecules.core.valueobjects.AtomProperty;
 using molecules.core.valueobjects.BasisSet;
 using molecules.core.valueobjects.Molecules;
 using System.Text;
@@ -7,6 +7,8 @@ namespace molecules.core.valueobjects.GmsCalc.Calculations
 {
     public class GeoOptCalculation : ICalculation
     {
+        public GmsCalculationKind Kind => GmsCalculationKind.GeometryOptimization;
+
         public string GenerateInputFile(CalcDetails details)
         {
             StringBuilder retval = new StringBuilder();

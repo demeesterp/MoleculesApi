@@ -9,6 +9,7 @@ using molecules.infrastructure.data.Repositories;
 using molecules.core.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using molecules.core.factories;
 
 namespace molecules.console
 {
@@ -19,9 +20,9 @@ namespace molecules.console
         /// </summary>
         /// <param name="services">The application Services Collection</param>
         /// <returns>The modified services collection</returns>
-        public static IServiceCollection AddMoleculesServices(this IServiceCollection services)
+        public static IServiceCollection AddMoleculesServices(this IServiceCollection services, string? basePath)
         {
-            services.AddLogging();
+            services.AddLogging(basePath??Directory.GetCurrentDirectory());
             services.AddCoreServices();
 
             return services;
@@ -32,22 +33,25 @@ namespace molecules.console
             services.AddValidatorsFromAssemblyContaining<CreateCalcOrderValidator>();
 
             services.AddSingleton<ICalcOrderServiceValidations, CalcOrderServiceValidations>();
-            services.AddSingleton<ICalcOrderRepository, CalcOrderRepository>();
-            services.AddSingleton<ICalcOrderService, CalcOrderService>();
             services.AddSingleton<ICalcOrderFactory, CalcOrderFactory>();
-
+            services.AddSingleton<ICalcOrderService, CalcOrderService>();
+            services.AddSingleton<ICalcOrderRepository, CalcOrderRepository>();
 
             services.AddSingleton<ICalcOrderItemServiceValidations, CalcOrderItemServiceValidations>();
-            services.AddSingleton<ICalcOrderItemFactory, CalcOrderItemFactory>();
+            services.AddSingleton<ICalcOrderItemFactory, CalcOrderItemFactory>();            
             services.AddSingleton<ICalcOrderItemService, CalcOrderItemService>();
             services.AddSingleton<ICalcOrderItemRepository, CalcOrderItemRepository>();
+
+            services.AddSingleton<ICalcDeliveryFactory, CalcDeliveryFactory>();
+            services.AddSingleton<ICalcDeliveryService, CalcDeliveryService>();
+
         }
 
-        internal static void AddLogging(this IServiceCollection services)
+        internal static void AddLogging(this IServiceCollection services, string basePath)
         {
             var logger = new LoggerConfiguration()
                             .MinimumLevel.Debug()
-                                .WriteTo.File(path: "C:\\Data\\Logs\\log.txt",
+                                .WriteTo.File(path: Path.Combine(basePath, "Logs", "log.txt"),
                                                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
                                                 rollingInterval: RollingInterval.Day,
                                                 restrictedToMinimumLevel: LogEventLevel.Information)

@@ -54,9 +54,9 @@ namespace molecules.core.tests.services
             retval.Details.XYZ 
                 = dbEntity.XYZ;
             
-            if (Enum.TryParse(dbEntity.CalcType, out CalcType calcType))
+            if (Enum.TryParse(dbEntity.CalcType, out CalcOrderItemType calcType))
             {
-                retval.Details.CalcType = calcType;
+                retval.Details.Type = calcType;
             }
             
             retval.Details.BasisSetCode
@@ -153,14 +153,14 @@ namespace molecules.core.tests.services
             public CalcOrderItemServiceCreateAsyncTest() : base()
             {
                 A.CallTo(() => _calcOrderItemRepository.CreateAsync(A<CalcOrderItemDbEntity>.Ignored))
-                    .Returns(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                    .Returns(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
             }
 
             [Fact]
             public async Task ShouldCallValidateOnCalcOrderItemServiceValidations()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -174,7 +174,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateAsyncOnRepository()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity( CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity( CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -190,7 +190,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateAsyncOnRepositoryWithCorrectCalcOrderItemDbEntity()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -205,7 +205,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateAsyncOnRepositoryWithCorrectCalcOrderItemDbEntityCalcType()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -213,14 +213,14 @@ namespace molecules.core.tests.services
 
                 // Assert
                 A.CallTo(() => _calcOrderItemRepository.CreateAsync(A<CalcOrderItemDbEntity>.That
-                    .Matches(dbEntity => dbEntity.CalcType == createCalcOrderItem.Details.CalcType.ToString()))).MustHaveHappenedOnceExactly();
+                    .Matches(dbEntity => dbEntity.CalcType == createCalcOrderItem.Details.Type.ToString()))).MustHaveHappenedOnceExactly();
             }
 
             [Fact]
             public async Task ShouldCallCreateAsyncOnRepositoryWithCorrectCalcOrderItemDbEntityCharge()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -235,7 +235,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateCalcOrderItemOnFactory()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -249,7 +249,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallSaveChangesAsyncOnRepository()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcType.GeoOpt.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
                 int calcOrderId = 1;
 
                 // Act

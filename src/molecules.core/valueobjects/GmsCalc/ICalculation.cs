@@ -7,5 +7,7 @@ namespace molecules.core.valueobjects.GmsCalc
         string GenerateInputFile(CalcDetails details);
 
         Molecule ParseOutputFile();
+
+        GmsCalculationKind Kind { get; }
     }
 }

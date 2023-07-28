@@ -1,4 +1,4 @@
-﻿using molecules.core.valueobjects;
+﻿using molecules.core.valueobjects.CalcOrderItem;
 
 namespace molecules.core.aggregates
 {
@@ -8,13 +8,13 @@ namespace molecules.core.aggregates
 
         public string MoleculeName { get; set; }
 
-        public CalcDetails Details { get; set; }
+        public CalcOrderItemDetails Details { get; set; }
 
         public CalcOrderItem()
         {
             Id = 0;
             MoleculeName = string.Empty;
-            Details = new CalcDetails();
+            Details = new CalcOrderItemDetails();
         }
 
         public CalcOrderItem(string moleculeName):this()
@@ -26,7 +26,7 @@ namespace molecules.core.aggregates
             MoleculeName = moleculeName;
         }
 
-        public void UpdateDetails(CalcDetails details)
+        public void UpdateDetails(CalcOrderItemDetails details)
         {
             if ( details == null)
             {

@@ -1,7 +1,7 @@
 ﻿using molecule.infrastructure.data.interfaces.DbEntities;
 using molecules.core.aggregates;
-using molecules.core.valueobjects;
 using molecules.core.valueobjects.BasisSet;
+using molecules.core.valueobjects.CalcOrderItem;
 
 namespace molecules.core.Factories
 {
@@ -22,9 +22,9 @@ namespace molecules.core.Factories
             retval.Details.Charge = dbEntity.Charge;
             retval.Details.XYZ = dbEntity.XYZ;
             
-            if (Enum.TryParse(dbEntity.CalcType, out CalcType calcType))
+            if (Enum.TryParse(dbEntity.CalcType, out CalcOrderItemType calcType))
             {
-                retval.Details.CalcType = calcType;
+                retval.Details.Type = calcType;
             }
 
             if (Enum.TryParse(dbEntity.BasissetCode, out CalcBasisSetCode calcBasisSetCode))

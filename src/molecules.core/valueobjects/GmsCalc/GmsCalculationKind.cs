@@ -2,7 +2,7 @@
 {
     public enum GmsCalculationKind
     {
-            GeoMetryOptimization = 1,
+            GeometryOptimization = 1,
             CHelpGCharge = 2,
             GeoDiskCharge= 3,
             FukuiNeutral = 4,
