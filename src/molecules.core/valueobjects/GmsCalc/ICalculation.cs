@@ -1,10 +1,12 @@
-﻿namespace molecules.core.valueobjects.GmsCalc
+﻿using molecules.core.valueobjects.Molecules;
+
+namespace molecules.core.valueobjects.GmsCalc
 {
     public interface ICalculation
     {
         string GenerateInputFile(CalcDetails details);
 
-        object ParseOutputFile();
+        Molecule ParseOutputFile();
 
         GmsCalculationKind Kind { get; }
     }

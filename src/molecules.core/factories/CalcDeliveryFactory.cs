@@ -20,8 +20,8 @@ namespace molecules.core.factories
                 new CHelpGChargeCalculation(),
                 new GeoDiskChargeCalculation(),
                 new FukuiNeutralCalculation(),
-                new FukuiLewisAcidCalculation(),
-                new FukuiLewisBaseCalculation()
+                new FukuiHOMOCalculation(),
+                new FukuiLUMOCalculation()
             };
         }
 
@@ -32,7 +32,8 @@ namespace molecules.core.factories
             {
                 foreach(var calcOrderItem in calcOrder.Items)
                 {
-                    foreach (var calc in _calculations.FindAll(item => calcOrderItem.Details.Type == CalcOrderItemType.AllKinds
+                    foreach (var calc in _calculations.FindAll(item => 
+                                                                calcOrderItem.Details.Type == CalcOrderItemType.AllKinds
                                                                     ||
                                                                 item.Kind != GmsCalculationKind.GeometryOptimization))
                     {

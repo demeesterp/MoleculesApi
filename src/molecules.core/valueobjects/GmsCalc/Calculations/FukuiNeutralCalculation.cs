@@ -1,5 +1,6 @@
 ﻿using molecules.core.valueobjects.AtomProperty;
 using molecules.core.valueobjects.BasisSet;
+using molecules.core.valueobjects.Molecules;
 using System.Text;
 
 namespace molecules.core.valueobjects.GmsCalc.Calculations
@@ -28,7 +29,7 @@ namespace molecules.core.valueobjects.GmsCalc.Calculations
             return input.ToString();
         }
 
-        public object ParseOutputFile()
+        public Molecule ParseOutputFile()
         {
             throw new NotImplementedException();
         }

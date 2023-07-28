@@ -1,19 +1,22 @@
 ﻿using molecules.core.valueobjects.AtomProperty;
 using molecules.core.valueobjects.BasisSet;
+using molecules.core.valueobjects.Molecules;
 using System.Text;
 
 namespace molecules.core.valueobjects.GmsCalc.Calculations
 {
-    public class FukuiLewisBaseCalculation : ICalculation
+    // Remove one electron we see the highest occupied molecular orbital
+    // The orbital that can donate an electron to an electron acceptor lewis base
+    public class FukuiHOMOCalculation : ICalculation
     {
-        public GmsCalculationKind Kind => GmsCalculationKind.FukuiLewisBase;
+        public GmsCalculationKind Kind => GmsCalculationKind.FukuiHOMO;
 
         public string GenerateInputFile(CalcDetails details)
         {
             StringBuilder retval = new StringBuilder();
             var basisSet = CalcBasisSetTable.GetCalcBasisSet(details.BasisSetCode);
             retval.AppendLine($" {basisSet?.GmsInput}");
-            retval.AppendLine($" $CONTRL SCFTYP=UHF MAXIT=60 MULT=2 ICHARG={details.Charge - 1} $END");
+            retval.AppendLine($" $CONTRL SCFTYP=UHF MAXIT=60 MULT=2 ICHARG={details.Charge + 1} $END");
             retval.AppendLine($" $SYSTEM MEMDDI=1000 MWORDS=30 $END");
             retval.AppendLine($" $SCF DIRSCF=.TRUE. $END");
             retval.AppendLine(" $STATPT OPTTOL=0.0001 NSTEP=999 $END");
@@ -29,7 +32,7 @@ namespace molecules.core.valueobjects.GmsCalc.Calculations
             return retval.ToString();
         }
 
-        public object ParseOutputFile()
+        public Molecule ParseOutputFile()
         {
             throw new NotImplementedException();
         }
