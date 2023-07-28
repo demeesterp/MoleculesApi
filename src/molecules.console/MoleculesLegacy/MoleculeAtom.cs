@@ -1,6 +1,6 @@
 ﻿using molecules.core.valueobjects.AtomProperty;
 
-namespace molecules.core.valueobjects.Molecules
+namespace molecules.console.MoleculesLegacy
 {
     public class MoleculeAtom
     {

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace molecules.core.valueobjects.Molecules
+namespace molecules.console.MoleculesLegacy
 {
 
     public enum MoleculeErrorStatus
@@ -21,11 +21,11 @@ namespace molecules.core.valueobjects.Molecules
 
         public int Id { get; set; }
 
-        public string NameInfo { get; set; } = String.Empty;
+        public string NameInfo { get; set; } = string.Empty;
 
-        public string Description { get; set; } = String.Empty;
+        public string Description { get; set; } = string.Empty;
 
-        public string Comment { get; set; } = String.Empty;
+        public string Comment { get; set; } = string.Empty;
 
         public MoleculeErrorStatus Status { get; set; }
 

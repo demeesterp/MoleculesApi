@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using molecules.console.MoleculesLegacy;
 using molecules.core.services;
 
 namespace molecules.console.App
@@ -38,8 +39,9 @@ namespace molecules.console.App
                     Console.WriteLine("Press 0 to exit");
                     Console.WriteLine("Press 1 to export calculation input files");
                     Console.WriteLine("Press 2 to import calculation output files");
-                    var result = Console.ReadLine();
-                    if (int.TryParse(result, out int option))
+                    Console.WriteLine("Press 3 to convert legacy files");
+                    var command = Console.ReadLine();
+                    if (int.TryParse(command, out int option))
                     {
                         if (option == 0)
                         {
@@ -54,6 +56,20 @@ namespace molecules.console.App
                         {
                             await _calcDeliveryService.ImportCalcDeliveryOutputAsync(basePath);
                             break;
+                        }
+                        else if (option == 3)
+                        {
+                            var list = Directory.EnumerateFiles(Path.Combine(basePath,"Molecules"), "*.json");
+                            foreach (var item in list)
+                            {
+                                string result = File.ReadAllText(item);
+                                var molecule = Molecule.DeserializeFromJsonString(result);
+                                if ( molecule != null)
+                                {
+                                    var xyzFileData = Molecule.GetXyzFileData(molecule);
+                                    File.WriteAllText(Path.Combine(basePath, "Molecules", $"{molecule.NameInfo}.xyz"), xyzFileData);
+                                }                               
+                            }   
                         }
                         else
                         {
