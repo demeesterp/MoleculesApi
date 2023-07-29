@@ -9,7 +9,7 @@ namespace molecules.core.valueobjects.Molecules
 
         public int Number { get; set; }
 
-        public string? Symbol { get; set; }
+        public string Symbol { get; set; } = string.Empty;
 
         public int? AtomicWeight { get; set; }
 

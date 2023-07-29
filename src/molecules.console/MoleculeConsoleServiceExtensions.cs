@@ -42,8 +42,12 @@ namespace molecules.console
             services.AddSingleton<ICalcOrderItemService, CalcOrderItemService>();
             services.AddSingleton<ICalcOrderItemRepository, CalcOrderItemRepository>();
 
-            services.AddSingleton<ICalcDeliveryFactory, CalcDeliveryFactory>();
+            services.AddSingleton<IGmsCalcInputFactory, GmsCalcInputFactory>();
             services.AddSingleton<ICalcDeliveryService, CalcDeliveryService>();
+
+            services.AddSingleton<IMoleculeRepository, MoleculeRepository>();
+            services.AddSingleton<ICalcMoleculeFactory, CalcMoleculeFactory>();
+            services.AddSingleton<ICalcMoleculeService, CalcMoleculeService>();
 
         }
 

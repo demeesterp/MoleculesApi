@@ -9,6 +9,9 @@ namespace molecules.infrastructure.data
 
         public DbSet<CalcOrderItemDbEntity> CalcOrderItems { get; set; }
 
+
+        public DbSet<MoleculeDbEntity> Molecule { get; set; }
+
         public MoleculesDbContext(DbContextOptions<MoleculesDbContext> options):base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -16,7 +19,7 @@ namespace molecules.infrastructure.data
 
             modelBuilder.HasDefaultSchema("moleculesapp");
 
-            // CalcOrderDvEntity
+            // CalcOrderDbEntity
 
             modelBuilder.Entity<CalcOrderDbEntity>()
                     .ToTable("CalcOrder")
@@ -28,10 +31,10 @@ namespace molecules.infrastructure.data
                     .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<CalcOrderDbEntity>()
-                .HasMany(o => o.CalcOrderItems)
-                .WithOne(i => i.CalcOrder)
-                .HasForeignKey(i => i.CalcOrderId)
-                .HasPrincipalKey(o => o.Id);
+                    .HasMany(o => o.CalcOrderItems)
+                    .WithOne(i => i.CalcOrder)
+                    .HasForeignKey(i => i.CalcOrderId)
+                    .HasPrincipalKey(o => o.Id);
 
             modelBuilder.Entity<CalcOrderDbEntity>()
                    .Property(o => o.Name)
@@ -50,39 +53,64 @@ namespace molecules.infrastructure.data
                     .HasKey(o => o.Id);
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
-                .Property(o => o.Id)
-                .IsRequired()
-                .ValueGeneratedOnAdd();
+                    .Property(o => o.Id)
+                    .IsRequired()
+                    .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
-                .Property(o => o.CalcOrderId)
-                .IsRequired();
+                    .Property(o => o.CalcOrderId)
+                    .IsRequired();
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
-                .Property(o => o.CalcType)
-                .IsRequired()
-                .HasMaxLength(50);
+                    .Property(o => o.CalcType)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
-               .Property(o => o.BasissetCode)
-               .IsRequired()
-               .HasMaxLength(50);
+                    .Property(o => o.BasissetCode)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
-                .Property(o => o.MoleculeName)
-                .IsRequired()
-                .HasMaxLength(250);
+                    .Property(o => o.MoleculeName)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
-                .Property(o => o.XYZ)
-                .IsRequired();
+                    .Property(o => o.XYZ)
+                    .IsRequired();
 
             modelBuilder.Entity<CalcOrderItemDbEntity>()
-                .Property(o => o.Charge)
-                .IsRequired();
+                    .Property(o => o.Charge)
+                    .IsRequired();
 
 
+            // MoleculeDbEntity
+            modelBuilder.Entity<MoleculeDbEntity>()
+                    .ToTable("Molecule")
+                    .HasKey(m => m.Id);
 
+            modelBuilder.Entity<MoleculeDbEntity>()
+                    .HasIndex(m => m.OrderItemId)
+                    .IsUnique();
+
+            modelBuilder.Entity<MoleculeDbEntity>()
+                    .Property(m => m.Id)
+                    .IsRequired()
+                    .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<MoleculeDbEntity>()
+                    .Property(m => m.OrderItemId)
+                    .IsRequired();
+
+            modelBuilder.Entity<MoleculeDbEntity>()
+                    .Property(m => m.MoleculeName)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+            modelBuilder.Entity<MoleculeDbEntity>()
+                    .Property(m => m.Molecule)
+                    .IsRequired();
 
         }
     }

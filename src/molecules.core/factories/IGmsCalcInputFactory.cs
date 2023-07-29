@@ -3,8 +3,8 @@ using molecules.core.valueobjects.GmsCalc.Input;
 
 namespace molecules.core.factories
 {
-    public interface ICalcDeliveryFactory
+    public interface IGmsCalcInputFactory
     {
-        GmsCalcInput BuildCalcInput(IList<CalcOrder> orders);
+        List<GmsCalcInputItem> BuildCalcInput(IList<CalcOrder> orders);
     }
 }

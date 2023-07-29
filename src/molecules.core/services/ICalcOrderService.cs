@@ -13,7 +13,7 @@ namespace molecules.core.services
         /// Get the list of all ongoing CalcOrders
         /// </summary>
         /// <returns>A list of CalcOrders</returns>
-        public Task<IList<CalcOrder>> ListAsync();
+        public Task<List<CalcOrder>> ListAsync();
 
         /// <summary>
         /// Get the CalcOrder with the specified id
@@ -27,7 +27,7 @@ namespace molecules.core.services
         /// </summary>
         /// <param name="name">The name or the name pattern to search for</param>
         /// <returns>The corresponding CalcOrders</returns>
-        public Task<IList<CalcOrder>> GetByNameAsync(string name);
+        public Task<List<CalcOrder>> GetByNameAsync(string name);
 
         /// <summary>
         /// Create a CalcOrder with name and description

@@ -7,6 +7,7 @@ using molecules.core.services.validators.servicehelpers;
 using molecule.infrastructure.data.interfaces.Repositories;
 using molecules.infrastructure.data.Repositories;
 using molecules.core.Factories;
+using molecules.core.factories;
 
 namespace molecules.api.ServiceExtensions
 {
@@ -42,6 +43,13 @@ namespace molecules.api.ServiceExtensions
             services.AddScoped<ICalcOrderItemFactory, CalcOrderItemFactory>();
             services.AddScoped<ICalcOrderItemService, CalcOrderItemService>();
             services.AddScoped<ICalcOrderItemRepository, CalcOrderItemRepository>();
+
+            services.AddScoped<IGmsCalcInputFactory, GmsCalcInputFactory>();
+            services.AddScoped<ICalcDeliveryService, CalcDeliveryService>();
+
+            services.AddScoped<ICalcMoleculeFactory, CalcMoleculeFactory>();            
+            services.AddScoped<IMoleculeRepository, MoleculeRepository>();
+            services.AddScoped<ICalcMoleculeService, CalcMoleculeService>();
         }
 
         internal static void AddLogging(this IServiceCollection services)

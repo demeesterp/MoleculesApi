@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\infrastructure\molecules.infrastructure.data.interfaces\molecule.infrastructure.data.interfaces\molecule.infrastructure.data.interfaces.csproj" />
+    <ProjectReference Include="..\shared\molecules.shared\molecules.shared.csproj" />
   </ItemGroup>
 
 </Project>

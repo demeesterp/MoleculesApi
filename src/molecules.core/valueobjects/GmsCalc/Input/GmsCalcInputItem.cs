@@ -1,24 +1,32 @@
-﻿namespace molecules.core.valueobjects.GmsCalc.Input
+﻿using System.Text;
+
+namespace molecules.core.valueobjects.GmsCalc.Input
 {
     public class GmsCalcInputItem
     {
-
-        private GmsCalcInfo _info { get; }
-
         private int _orderItemId { get; }
 
         private string _orderName { get; }
 
+        public string MoleculeName { get; }
 
-        public GmsCalcInputItem(string orderName, int orderItemId, GmsCalcInfo info) {
+        public GmsCalculationKind Kind { get; }
+
+        public string Content { get; }
+
+        public GmsCalcInputItem(string orderName, 
+                                    int orderItemId,
+                                     string moleculeName,
+                                        GmsCalculationKind kind,
+                                            string content) {
             _orderItemId = orderItemId;
             _orderName = orderName;
-            _info = info;
+            MoleculeName = moleculeName;
+            Kind = kind;
+            Content = content;
         }
 
-        public string DisplayName => $"{_orderName}_{_orderItemId}_{_info.MoleculeName}_{_info.Kind}";
-
-        public string Content => _info.Content.ToString();
+        public string DisplayName => $"{_orderName}_{_orderItemId}_{MoleculeName}_{Kind}";
 
     }
 }

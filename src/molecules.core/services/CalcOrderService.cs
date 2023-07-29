@@ -95,7 +95,7 @@ namespace molecules.core.services
         }
 
         /// <inheritdoc/>
-        public async Task<IList<CalcOrder>> GetByNameAsync(string name)
+        public async Task<List<CalcOrder>> GetByNameAsync(string name)
         {
             _logger.LogInformation("GetByNameAsync with name {0}", name);
 
@@ -105,7 +105,7 @@ namespace molecules.core.services
         }
 
         /// <inheritdoc/>
-        public async Task<IList<CalcOrder>> ListAsync()
+        public async Task<List<CalcOrder>> ListAsync()
         {
             _logger.LogInformation("ListAsync");
 
