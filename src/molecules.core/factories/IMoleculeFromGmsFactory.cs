@@ -2,7 +2,7 @@
 
 namespace molecules.core.factories
 {
-    public interface IGmsMoleculeFactory
+    public interface IMoleculeFromGmsFactory
     {
 
         bool TryCompleteMolecule(string fileName, List<string> fileLines, Molecule molecule);

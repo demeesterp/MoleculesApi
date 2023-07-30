@@ -1,4 +1,6 @@
-﻿namespace molecules.core.factories.GmsParsers
+﻿using molecules.core.valueobjects.Molecules;
+
+namespace molecules.core.factories.GmsParsers
 {
     internal class NeutralPopulationAnalysisParser : PopulationAnalysisParser
     {
@@ -57,5 +59,12 @@
         }
 
         #endregion
+
+
+
+        internal static void GetPopulation(List<string> fileLines,Molecule molecule )
+        {
+            new NeutralPopulationAnalysisParser().Parse(fileLines, molecule);
+        }
     }
 }

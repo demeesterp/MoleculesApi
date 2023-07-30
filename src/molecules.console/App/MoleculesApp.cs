@@ -39,7 +39,7 @@ namespace molecules.console.App
                     Console.WriteLine("Press 0 to exit");
                     Console.WriteLine("Press 1 to export calculation input files");
                     Console.WriteLine("Press 2 to import calculation output files");
-                    Console.WriteLine("Press 3 to convert legacy files");
+                    Console.WriteLine("Press 3 to convert files");
                     var command = Console.ReadLine();
                     if (int.TryParse(command, out int option))
                     {

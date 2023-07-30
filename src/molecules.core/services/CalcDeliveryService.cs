@@ -13,7 +13,7 @@ namespace molecules.core.services
 
         private readonly IGmsCalcInputFactory       _calcDeliveryInputFactory;
 
-        private readonly IGmsMoleculeFactory        _gmsMoleculeFactory;
+        private readonly IMoleculeFromGmsFactory    _gmsMoleculeFactory;
 
         private readonly ICalcMoleculeService       _calcMoleculeService;
 
@@ -22,7 +22,7 @@ namespace molecules.core.services
         public CalcDeliveryService(ICalcOrderService calcOrderService,
                                     ICalcMoleculeService calcMoleculeService,
                                         IGmsCalcInputFactory calcDeliveryFactory,
-                                        IGmsMoleculeFactory gmsMoleculeFactory,
+                                        IMoleculeFromGmsFactory gmsMoleculeFactory,
                                             ILogger<CalcOrderService> logger)
         {
             _calcOrderService           = calcOrderService;
@@ -41,13 +41,6 @@ namespace molecules.core.services
             {
                 await File.WriteAllTextAsync(Path.Combine(basePath, "Calculations", $"{calcInput.DisplayName}.inp"), calcInput.Content);
             });
-        }
-
-
-
-        private string OutFileDisplayName(string orderName, int orderItemId, string moleculeName, GmsCalculationKind kind)
-        {
-            return $"{orderName}_{orderItemId}_{moleculeName}_{kind}.log";
         }
 
         public async Task ImportCalcDeliveryOutputAsync(string basePath)
@@ -138,6 +131,17 @@ namespace molecules.core.services
 
                 });
             });
+        }
+
+
+
+
+
+
+
+        private string OutFileDisplayName(string orderName, int orderItemId, string moleculeName, GmsCalculationKind kind)
+        {
+            return $"{orderName}_{orderItemId}_{moleculeName}_{kind}.log";
         }
     }
 }

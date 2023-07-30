@@ -20,5 +20,10 @@
             return EnergyTag;
         }
 
+        internal static decimal GetEnergy(List<string> fileLines)
+        {
+            return new FukuiEnergyLewisHOMOParser().Parse(fileLines);
+        }
+
     }
 }
