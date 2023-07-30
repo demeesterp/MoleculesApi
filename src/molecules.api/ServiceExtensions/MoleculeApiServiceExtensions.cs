@@ -33,11 +33,10 @@ namespace molecules.api.ServiceExtensions
         {
             services.AddValidatorsFromAssemblyContaining<CreateCalcOrderValidator>();
 
-            services.AddScoped<ICalcOrderServiceValidations, CalcOrderServiceValidations>();            
-            services.AddScoped<ICalcOrderRepository, CalcOrderRepository>();
-            services.AddScoped<ICalcOrderService, CalcOrderService>();
+            services.AddScoped<ICalcOrderServiceValidations, CalcOrderServiceValidations>();
             services.AddScoped<ICalcOrderFactory, CalcOrderFactory>();
-
+            services.AddScoped<ICalcOrderService, CalcOrderService>();
+            services.AddScoped<ICalcOrderRepository, CalcOrderRepository>();
 
             services.AddScoped<ICalcOrderItemServiceValidations, CalcOrderItemServiceValidations>();
             services.AddScoped<ICalcOrderItemFactory, CalcOrderItemFactory>();
@@ -45,11 +44,16 @@ namespace molecules.api.ServiceExtensions
             services.AddScoped<ICalcOrderItemRepository, CalcOrderItemRepository>();
 
             services.AddScoped<IGmsCalcInputFactory, GmsCalcInputFactory>();
+            services.AddScoped<IMoleculeFromGmsFactory, MoleculeFromGmsFactory>();
             services.AddScoped<ICalcDeliveryService, CalcDeliveryService>();
 
-            services.AddScoped<ICalcMoleculeFactory, CalcMoleculeFactory>();            
             services.AddScoped<IMoleculeRepository, MoleculeRepository>();
+            services.AddScoped<ICalcMoleculeFactory, CalcMoleculeFactory>();
             services.AddScoped<ICalcMoleculeService, CalcMoleculeService>();
+
+
+
+            services.AddScoped<ICalcFileConversionService, CalcFileConversionService>();
         }
 
         internal static void AddLogging(this IServiceCollection services)

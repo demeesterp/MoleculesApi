@@ -36,5 +36,26 @@ namespace molecules.shared
             }
             return retval;
         }
+
+
+        public static string ToString(decimal? input)
+        {
+            return input?.ToString(CultureInfo.CreateSpecificCulture("en-US"))??string.Empty;
+        }
+
+        public static string ToString(double? input)
+        {
+            return input?.ToString(CultureInfo.CreateSpecificCulture("en-US"))??string.Empty;
+        }
+
+        public static string ToString(int? input)
+        {
+            return input?.ToString(CultureInfo.CreateSpecificCulture("en-US"))??string.Empty;
+        }
+
+        public static string ToString(long? input)
+        {
+            return input?.ToString(CultureInfo.CreateSpecificCulture("en-US"))??string.Empty;
+        }
     }
 }

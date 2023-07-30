@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using molecules.shared;
+using System.Text;
 using System.Text.Json;
 
 namespace molecules.console.MoleculesLegacy
@@ -65,7 +66,10 @@ namespace molecules.console.MoleculesLegacy
                 retval.AppendLine();
                 foreach (var ln in molecule.Atoms)
                 {
-                    retval.AppendLine($"{ln.Symbol} {ln.PosX} {ln.PosY} {ln.PosZ}");
+                    retval.AppendLine($"{ln.Symbol}" +
+                        $" {StringConversion.ToString(ln.PosX)}" +
+                        $" {StringConversion.ToString(ln.PosY)}" +
+                        $" {StringConversion.ToString(ln.PosZ)}");
                 }
             }
             return retval.ToString();

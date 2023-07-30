@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using molecules.core.valueobjects.AtomProperty;
+using molecules.shared;
 
 namespace molecules.core.valueobjects.Molecules
 {
@@ -80,7 +81,10 @@ namespace molecules.core.valueobjects.Molecules
                 retval.AppendLine();
                 foreach (var ln in molecule.Atoms)
                 {
-                    retval.AppendLine($"{ln.Symbol} {ln.PosX} {ln.PosY} {ln.PosZ}");
+                    retval.AppendLine($"{ln.Symbol}" +
+                        $" {StringConversion.ToString(ln.PosX)}" +
+                        $" {StringConversion.ToString(ln.PosY)}" +
+                        $" {StringConversion.ToString(ln.PosZ)}");
                 }
             }
             return retval.ToString();

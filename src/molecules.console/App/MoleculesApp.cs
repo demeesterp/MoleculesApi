@@ -16,7 +16,10 @@ namespace molecules.console.App
 
         private readonly ICalcDeliveryService _calcDeliveryService;
 
+        private readonly ICalcFileConversionService _calcFileConversionService;
+
         public MoleculesApp(ICalcDeliveryService calcDeliveryService,
+            ICalcFileConversionService calcFileConversionService,
                                 IConfiguration configuration,
                                     ILogger<MoleculesApp> logger,
                                         IHostApplicationLifetime hostApplicationLifetime)
@@ -25,6 +28,7 @@ namespace molecules.console.App
             _configuration = configuration;
             _hostApplicationLifetime = hostApplicationLifetime;
             _calcDeliveryService = calcDeliveryService;
+            _calcFileConversionService = calcFileConversionService;
         }
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -39,7 +43,8 @@ namespace molecules.console.App
                     Console.WriteLine("Press 0 to exit");
                     Console.WriteLine("Press 1 to export calculation input files");
                     Console.WriteLine("Press 2 to import calculation output files");
-                    Console.WriteLine("Press 3 to convert files");
+                    Console.WriteLine("Press 3 to convert geoopt files to xyz files");
+                    Console.WriteLine("Press 4 to convert legacy molecule files to xyz files");
                     var command = Console.ReadLine();
                     if (int.TryParse(command, out int option))
                     {
@@ -59,17 +64,20 @@ namespace molecules.console.App
                         }
                         else if (option == 3)
                         {
-                            var list = Directory.EnumerateFiles(Path.Combine(basePath,"Molecules"), "*.json");
-                            foreach (var item in list)
+                            _calcFileConversionService.ConvertGeoOptFileToXyzFileAsync(basePath);
+                        }
+                        else if (option == 4)
+                        {
+                            foreach (var item in Directory.EnumerateFiles(Path.Combine(basePath, "Molecules"), "*.json", SearchOption.AllDirectories))
                             {
                                 string result = File.ReadAllText(item);
                                 var molecule = Molecule.DeserializeFromJsonString(result);
-                                if ( molecule != null)
+                                if (molecule != null)
                                 {
                                     var xyzFileData = Molecule.GetXyzFileData(molecule);
                                     File.WriteAllText(Path.Combine(basePath, "Molecules", $"{molecule.NameInfo}.xyz"), xyzFileData);
-                                }                               
-                            }   
+                                }
+                            }
                         }
                         else
                         {
