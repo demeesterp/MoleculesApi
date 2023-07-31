@@ -7,7 +7,13 @@ namespace molecules.core.services.validators.servicehelpers
         /// <summary>
         /// Validated a CreateCalcOrderItem
         /// </summary>
-        /// <param name="createCalcOrderItem">Create calc order item</param>
+        /// <param name="createCalcOrderItem">Create calcorderitem</param>
         void Validate(CreateCalcOrderItem createCalcOrderItem);
+
+        /// <summary>
+        /// Validated a CreateCalcOrderItem
+        /// </summary>
+        /// <param name="updateCalcOrderItem">Update calcorderitem</param>
+        void Validate(UpdateCalcOrderItem updateCalcOrderItem); 
     }
 }

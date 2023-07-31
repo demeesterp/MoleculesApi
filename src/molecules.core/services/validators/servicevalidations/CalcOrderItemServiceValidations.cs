@@ -12,23 +12,34 @@ namespace molecules.core.services.validators.servicehelpers
 
         private readonly IValidator<CreateCalcOrderItem> _createCalcOrderItemValidator;
 
+        private readonly IValidator<UpdateCalcOrderItem> _updateCalcOrderItemValidator;
+
         #endregion
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="validator">Injected validator from fluent validations</param>
+        /// <param name="createValidator">Injected validator from fluent validations</param>
+        /// <param name="updateValidator">Injected validator from fluent validations</param>
         /// <exception cref="ArgumentNullException">validator should not be null</exception>
-        public CalcOrderItemServiceValidations(IValidator<CreateCalcOrderItem> validator)
+        public CalcOrderItemServiceValidations(IValidator<CreateCalcOrderItem> createValidator,
+                                                    IValidator<UpdateCalcOrderItem> updateValidator)
         {
-            _createCalcOrderItemValidator = validator ?? throw new ArgumentNullException(nameof(validator));
+            _createCalcOrderItemValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
+            _updateCalcOrderItemValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
         }
 
 
         /// <inheritdoc/>
-        public void Validate(CreateCalcOrderItem calcOrderItem)
+        public void Validate(CreateCalcOrderItem createCalcOrderItem)
         {
-            _createCalcOrderItemValidator.ValidateAndThrow(calcOrderItem);
+            _createCalcOrderItemValidator.ValidateAndThrow(createCalcOrderItem);
+        }
+
+        /// <inheritdoc/>
+        public void Validate(UpdateCalcOrderItem updateCalcOrderItem)
+        {
+            _updateCalcOrderItemValidator.ValidateAndThrow(updateCalcOrderItem);
         }
     }
 }

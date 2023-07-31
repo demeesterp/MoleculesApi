@@ -34,23 +34,23 @@ namespace molecules.core.services
         }
 
         // <inheritdoc />
-        public async Task<CalcOrderItem> CreateAsync(int calcOrderId, CreateCalcOrderItem calcOrderItem)
+        public async Task<CalcOrderItem> CreateAsync(int calcOrderId, CreateCalcOrderItem createCalcOrderItem)
         {
             _logger.LogInformation("CreateAsync for calcOrderId {0} and molecule {1} with details {3} was called ", 
                             calcOrderId,
-                            calcOrderItem.MoleculeName,
-                            calcOrderItem.Details);
+                            createCalcOrderItem.MoleculeName,
+                            createCalcOrderItem.Details);
 
-            _calcOrderItemServiceValidations.Validate(calcOrderItem);
+            _calcOrderItemServiceValidations.Validate(createCalcOrderItem);
 
             var result = await _calcOrderItemRepository.CreateAsync(new CalcOrderItemDbEntity()
             {
                 CalcOrderId = calcOrderId,
-                MoleculeName = calcOrderItem.MoleculeName,
-                XYZ = calcOrderItem.Details.XYZ,
-                Charge = calcOrderItem.Details.Charge,
-                CalcType = calcOrderItem.Details.Type.ToString(),
-                BasissetCode = calcOrderItem.Details.BasisSetCode.ToString()
+                MoleculeName = createCalcOrderItem.MoleculeName,
+                XYZ = createCalcOrderItem.Details.XYZ,
+                Charge = createCalcOrderItem.Details.Charge,
+                CalcType = createCalcOrderItem.Details.Type.ToString(),
+                BasissetCode = createCalcOrderItem.Details.BasisSetCode.ToString()
             });
 
             await _calcOrderItemRepository.SaveChangesAsync();
@@ -59,13 +59,15 @@ namespace molecules.core.services
         }
 
         // <inheritdoc />
-        public async Task<CalcOrderItem> UpdateAsync(int id, UpdateCalcOrderItem calcOrderItemUpdate)
+        public async Task<CalcOrderItem> UpdateAsync(int id, UpdateCalcOrderItem updateCalcOrderItem)
         {
             _logger.LogInformation("UpdateAsync with id {0}", id);
 
-            var result = await _calcOrderItemRepository.UpdateAsync(id,            calcOrderItemUpdate.Details.Charge,
-                                                calcOrderItemUpdate.MoleculeName,  calcOrderItemUpdate.Details.Type.ToString(), 
-                                                calcOrderItemUpdate.Details.BasisSetCode.ToString(),  calcOrderItemUpdate.Details.XYZ);
+            _calcOrderItemServiceValidations.Validate(updateCalcOrderItem);
+
+            var result = await _calcOrderItemRepository.UpdateAsync(id, updateCalcOrderItem.Details.Charge,
+                                                updateCalcOrderItem.MoleculeName, updateCalcOrderItem.Details.Type.ToString(),
+                                                updateCalcOrderItem.Details.BasisSetCode.ToString(), updateCalcOrderItem.Details.XYZ);
 
             await _calcOrderItemRepository.SaveChangesAsync();
 

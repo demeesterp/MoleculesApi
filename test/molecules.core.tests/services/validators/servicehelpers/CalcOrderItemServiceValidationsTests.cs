@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using FakeItEasy;
+using FluentAssertions;
 using FluentValidation;
 using molecules.core.services.validators.servicehelpers;
 using molecules.core.valueobjects.CalcOrderItem;
@@ -12,16 +13,31 @@ namespace molecules.core.tests.services.validators.servicehelpers
 {
     public class CalcOrderItemServiceValidationsTests
     {
-        public class CalcOrderItemServiceValidationsConstrcutrTests : CalcOrderItemServiceValidationsTests
+        public class CalcOrderItemServiceValidationsConstructorTests : CalcOrderItemServiceValidationsTests
         {
             [Fact]
-            public void CalcOrderItemServiceValidationsConstrcutrTests_WhenValidatorIsNull_ThrowsArgumentNullException()
+            public void CalcOrderItemServiceValidationsConstructorTests_WhenCreateValidatorIsNull_ThrowsArgumentNullException()
             {
                 // Arrange
-                IValidator<CreateCalcOrderItem> validator = null;
+                IValidator<CreateCalcOrderItem> createvalidator = null;
+                IValidator<UpdateCalcOrderItem> updateValidator = A.Fake<IValidator<UpdateCalcOrderItem>>();
 
                 // Act
-                Action act = () => new CalcOrderItemServiceValidations(validator);
+                Action act = () => new CalcOrderItemServiceValidations(createvalidator, updateValidator);
+
+                // Assert
+                act.Should().Throw<ArgumentNullException>();
+            }
+
+            [Fact]
+            public void CalcOrderItemServiceValidationsConstructorTests_WhenUpdateValidatorIsNull_ThrowsArgumentNullException()
+            {
+                // Arrange
+                IValidator<CreateCalcOrderItem> createvalidator = A.Fake<IValidator<CreateCalcOrderItem>>();
+                IValidator<UpdateCalcOrderItem> updateValidator = null;
+
+                // Act
+                Action act = () => new CalcOrderItemServiceValidations(createvalidator, updateValidator);
 
                 // Assert
                 act.Should().Throw<ArgumentNullException>();
