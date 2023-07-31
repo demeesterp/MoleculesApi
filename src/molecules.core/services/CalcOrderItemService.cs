@@ -59,6 +59,20 @@ namespace molecules.core.services
         }
 
         // <inheritdoc />
+        public async Task<CalcOrderItem> UpdateAsync(int id, UpdateCalcOrderItem calcOrderItemUpdate)
+        {
+            _logger.LogInformation("UpdateAsync with id {0}", id);
+
+            var result = await _calcOrderItemRepository.UpdateAsync(id,
+                            calcOrderItemUpdate.Details.Charge, calcOrderItemUpdate.Details.Type.ToString(), 
+                                calcOrderItemUpdate.Details.BasisSetCode.ToString(), calcOrderItemUpdate.Details.XYZ);
+
+            await _calcOrderItemRepository.SaveChangesAsync();
+
+            return _calcOrderItemFactory.CreateCalcOrderItem(result);
+        }
+
+        // <inheritdoc />
         public async Task DeleteAsync(int id)
         {
             _logger.LogInformation("DeleteAsync with id {0}", id);
@@ -67,5 +81,7 @@ namespace molecules.core.services
 
             await _calcOrderItemRepository.SaveChangesAsync();
         }
+
+
     }
 }

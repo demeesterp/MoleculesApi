@@ -179,7 +179,7 @@ namespace molecules.api.Controllers
 
 
         /// <summary>
-        /// Create a new CalcOrderItems
+        /// Create a new CalcOrderItem
         /// </summary>
         /// <param name="createCalcOrderItem">The name and the description of the new CalcOrder</param>
         /// <param name="calcOrderId">The calcorder to who the tiem belongs</param>
@@ -201,6 +201,27 @@ namespace molecules.api.Controllers
 
             return StatusCode(StatusCodes.Status201Created, await _calcOrderItemService.CreateAsync(calcOrderId, createCalcOrderItem));
 
+        }
+
+        /// <summary>
+        /// Update a calcorder item
+        /// </summary>
+        /// <param name="calcOrderItemId">The id of the item to be updated</param>
+        /// <param name="updateCalcOrderItem">The data that must be updated</param>
+        /// <returns>The updated item</returns>
+        /// <response code="200">The CalcOrderItem was updated</response>
+        /// <response code="422">Failed to create the calcorderitem because the input was invalid</response>
+        /// <response code="500">An unexpected error happend</response>
+        [HttpPatch()]
+        [Route("{calcOrderItemId}/calcorderitem")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceValidationError), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<CalcOrderItem>> UpdateCalcOrderItemAsync([FromRoute] int calcOrderItemId, [FromBody] UpdateCalcOrderItem updateCalcOrderItem)
+        {
+            _logger.LogInformation("Update calcorder item with id {0}", calcOrderItemId);
+
+            return StatusCode(StatusCodes.Status202Accepted, await _calcOrderItemService.UpdateAsync(calcOrderItemId, updateCalcOrderItem));
         }
 
         /// <summary>

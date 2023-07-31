@@ -14,6 +14,14 @@ namespace molecules.core.services
         Task<CalcOrderItem> CreateAsync(int calcOrderId, CreateCalcOrderItem calcOrderItem);
 
         /// <summary>
+        /// Update a CalcOrderItem with a given id
+        /// </summary>
+        /// <param name="id">id of the calcorder item to update</param>
+        /// <param name="calcOrderItem">The parameters to update</param>
+        /// <returns>The modified item</returns>
+        Task<CalcOrderItem> UpdateAsync(int id, UpdateCalcOrderItem calcOrderItem);
+
+        /// <summary>
         /// Delete a CalcOrderItem with a given id
         /// </summary>
         /// <param name="id">Id of the calcorder item</param>
