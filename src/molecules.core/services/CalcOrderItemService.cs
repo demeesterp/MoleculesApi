@@ -63,9 +63,9 @@ namespace molecules.core.services
         {
             _logger.LogInformation("UpdateAsync with id {0}", id);
 
-            var result = await _calcOrderItemRepository.UpdateAsync(id,
-                            calcOrderItemUpdate.Details.Charge, calcOrderItemUpdate.Details.Type.ToString(), 
-                                calcOrderItemUpdate.Details.BasisSetCode.ToString(), calcOrderItemUpdate.Details.XYZ);
+            var result = await _calcOrderItemRepository.UpdateAsync(id,            calcOrderItemUpdate.Details.Charge,
+                                                calcOrderItemUpdate.MoleculeName,  calcOrderItemUpdate.Details.Type.ToString(), 
+                                                calcOrderItemUpdate.Details.BasisSetCode.ToString(),  calcOrderItemUpdate.Details.XYZ);
 
             await _calcOrderItemRepository.SaveChangesAsync();
 

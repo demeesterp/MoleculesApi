@@ -47,11 +47,12 @@ namespace molecules.infrastructure.data.Repositories
             }
         }
 
-        public async Task<CalcOrderItemDbEntity> UpdateAsync(int id, int charge, string calcType, string basisSetCode, string xyz)
+        public async Task<CalcOrderItemDbEntity> UpdateAsync(int id, int charge, string moleculeName, string calcType, string basisSetCode, string xyz)
         {
             var result = await _context.CalcOrderItems.Include(oi => oi.CalcOrder).FirstOrDefaultAsync(oi => oi.Id == id);
             if (result != null)
             {
+                result.MoleculeName = moleculeName;
                 result.Charge = charge;
                 result.CalcType = calcType;
                 result.BasissetCode = basisSetCode;

@@ -210,10 +210,10 @@ namespace molecules.api.Controllers
         /// <param name="updateCalcOrderItem">The data that must be updated</param>
         /// <returns>The updated item</returns>
         /// <response code="200">The CalcOrderItem was updated</response>
-        /// <response code="422">Failed to create the calcorderitem because the input was invalid</response>
+        /// <response code="422">Failed to update the calcorderitem because the input was invalid</response>
         /// <response code="500">An unexpected error happend</response>
         [HttpPatch()]
-        [Route("{calcOrderItemId}/calcorderitem")]
+        [Route("calcorderitem/{calcOrderItemId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceValidationError), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
