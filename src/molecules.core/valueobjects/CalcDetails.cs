@@ -1,5 +1,5 @@
 ﻿using molecules.core.valueobjects.BasisSet;
-using static System.Net.Mime.MediaTypeNames;
+using molecules.shared;
 
 namespace molecules.core.valueobjects
 {
@@ -30,7 +30,7 @@ namespace molecules.core.valueobjects
                 string[] lineItems = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
                 if ( lineItems.Length > 2)
                 {
-                    retval.Add((lineItems[0], decimal.Parse(lineItems[1]), decimal.Parse(lineItems[2]), decimal.Parse(lineItems[3])));
+                    retval.Add((lineItems[0], StringConversion.ToDecimal(lineItems[1]), StringConversion.ToDecimal(lineItems[2]), StringConversion.ToDecimal(lineItems[3])));
                 }
             }
             return retval;
