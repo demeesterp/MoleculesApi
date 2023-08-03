@@ -30,29 +30,29 @@ namespace molecules.console
 
         internal static void AddCoreServices(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblyContaining<CreateCalcOrderValidator>();
+            services.AddValidatorsFromAssemblyContaining<CreateCalcOrderValidator>(ServiceLifetime.Transient);
 
-            services.AddSingleton<ICalcOrderServiceValidations, CalcOrderServiceValidations>();
-            services.AddSingleton<ICalcOrderFactory, CalcOrderFactory>();
-            services.AddSingleton<ICalcOrderService, CalcOrderService>();
-            services.AddSingleton<ICalcOrderRepository, CalcOrderRepository>();
+            services.AddTransient<ICalcOrderServiceValidations, CalcOrderServiceValidations>();
+            services.AddTransient<ICalcOrderFactory, CalcOrderFactory>();
+            services.AddTransient<ICalcOrderService, CalcOrderService>();
+            services.AddTransient<ICalcOrderRepository, CalcOrderRepository>();
 
-            services.AddSingleton<ICalcOrderItemServiceValidations, CalcOrderItemServiceValidations>();
-            services.AddSingleton<ICalcOrderItemFactory, CalcOrderItemFactory>();            
-            services.AddSingleton<ICalcOrderItemService, CalcOrderItemService>();
-            services.AddSingleton<ICalcOrderItemRepository, CalcOrderItemRepository>();
+            services.AddTransient<ICalcOrderItemServiceValidations, CalcOrderItemServiceValidations>();
+            services.AddTransient<ICalcOrderItemFactory, CalcOrderItemFactory>();            
+            services.AddTransient<ICalcOrderItemService, CalcOrderItemService>();
+            services.AddTransient<ICalcOrderItemRepository, CalcOrderItemRepository>();
 
-            services.AddSingleton<IGmsCalcInputFactory, GmsCalcInputFactory>();
-            services.AddSingleton<IMoleculeFromGmsFactory, MoleculeFromGmsFactory>();
-            services.AddSingleton<ICalcDeliveryService, CalcDeliveryService>();
+            services.AddTransient<IGmsCalcInputFactory, GmsCalcInputFactory>();
+            services.AddTransient<IMoleculeFromGmsFactory, MoleculeFromGmsFactory>();
+            services.AddTransient<ICalcDeliveryService, CalcDeliveryService>();
 
-            services.AddSingleton<IMoleculeRepository, MoleculeRepository>();
-            services.AddSingleton<ICalcMoleculeFactory, CalcMoleculeFactory>();
-            services.AddSingleton<ICalcMoleculeService, CalcMoleculeService>();
+            services.AddTransient<IMoleculeRepository, MoleculeRepository>();
+            services.AddTransient<ICalcMoleculeFactory, CalcMoleculeFactory>();
+            services.AddTransient<ICalcMoleculeService, CalcMoleculeService>();
 
 
 
-            services.AddSingleton<ICalcFileConversionService, CalcFileConversionService>();
+            services.AddTransient<ICalcFileConversionService, CalcFileConversionService>();
 
         }
 

@@ -91,8 +91,11 @@ namespace molecules.infrastructure.data
                     .HasKey(m => m.Id);
 
             modelBuilder.Entity<MoleculeDbEntity>()
-                    .HasIndex(m => m.OrderItemId)
-                    .IsUnique();
+                .HasIndex(m => new {
+                            m.MoleculeName,
+                            m.OrderName,
+                            m.BasisSet
+                            }).IsUnique();
 
             modelBuilder.Entity<MoleculeDbEntity>()
                     .Property(m => m.Id)
@@ -100,7 +103,7 @@ namespace molecules.infrastructure.data
                     .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<MoleculeDbEntity>()
-                    .Property(m => m.OrderItemId)
+                    .Property(m => m.BasisSet)
                     .IsRequired();
 
             modelBuilder.Entity<MoleculeDbEntity>()

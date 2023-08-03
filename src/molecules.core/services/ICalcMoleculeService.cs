@@ -7,7 +7,9 @@ namespace molecules.core.services
     {
         Task<CalcMolecule> GetAsync(int id);
 
-        Task<CalcMolecule> GetForOrderItemIdAsync(int id);
+        Task<CalcMolecule?> FindAsync(string orderName, string basisSet, string moleculeName);
+
+        Task<List<CalcMolecule>> FindAllByNameAsync(string moleculeName);
 
         Task<CalcMolecule> CreateAsync(CalcMolecule molecule);
 

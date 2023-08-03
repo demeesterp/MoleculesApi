@@ -8,9 +8,9 @@ namespace molecules.core.factories
     {
         public CalcMolecule BuildMolecule(MoleculeDbEntity moleculeDbEntity)
         {
-            CalcMolecule retval =
-                    new CalcMolecule(moleculeDbEntity.Id,
-                                        moleculeDbEntity.OrderItemId,
+            CalcMolecule retval = new CalcMolecule(moleculeDbEntity.Id,
+                                    moleculeDbEntity.OrderName,
+                                        moleculeDbEntity.BasisSet, 
                                             moleculeDbEntity.MoleculeName);
 
 

@@ -16,16 +16,8 @@ namespace molecules.infrastructure.data.Repositories
 
         public async Task<MoleculeDbEntity> CreateAsync(MoleculeDbEntity entity)
         {
-            var orderItem = await _context.CalcOrderItems.FindAsync(entity.OrderItemId);
-            if ( orderItem != null)
-            {
-               await _context.Molecule.AddAsync(entity);
-               return entity;
-            }
-            else
-            {
-                throw new MoleculesResourceNotFoundException($"Resource {nameof(CalcOrderItemDbEntity)} with Id {entity.OrderItemId} was not found");
-            }
+            await _context.Molecule.AddAsync(entity);
+            return entity;
         }
 
         public async Task DeleteAsync(int id)
@@ -54,17 +46,18 @@ namespace molecules.infrastructure.data.Repositories
             }
         }
 
-        public async Task<MoleculeDbEntity> GetByOrdeItemIdAsync(int orderItemId)
+        public async Task<MoleculeDbEntity?> FindAsync(string orderName, string basisSet, string moleculeName)
         {
-            var result = await _context.Molecule.FirstOrDefaultAsync(i => i.OrderItemId == orderItemId);
-            if (result != null)
-            {
-                return result;
-            }
-            else
-            {
-                throw new MoleculesResourceNotFoundException($"Resource {nameof(MoleculeDbEntity)} with orderItemId {orderItemId} was not found");
-            }
+            return await _context.Molecule.FirstOrDefaultAsync(i => i.OrderName == orderName 
+                                                                        && i.BasisSet == basisSet 
+                                                                            && i.MoleculeName == moleculeName);
+        }
+
+        public async Task<List<MoleculeDbEntity>> FindAllByNameAsync(string moleculeName)
+        {
+            return await (from mol in _context.Molecule
+             where  EF.Functions.Like(mol.MoleculeName.ToLower(), $"{moleculeName.ToLower()}%")
+             select mol).ToListAsync();
         }
 
         public async Task SaveChangesAsync()
@@ -86,5 +79,7 @@ namespace molecules.infrastructure.data.Repositories
                 throw new MoleculesResourceNotFoundException($"Resource {nameof(MoleculeDbEntity)} with Id {id} was not found");
             }
         }
+
+        
     }
 }

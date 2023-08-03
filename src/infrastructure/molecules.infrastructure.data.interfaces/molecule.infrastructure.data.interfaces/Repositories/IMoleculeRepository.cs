@@ -14,6 +14,8 @@ namespace molecule.infrastructure.data.interfaces.Repositories
 
         Task<MoleculeDbEntity> GetByIdAsync(int id);
 
-        Task<MoleculeDbEntity> GetByOrdeItemIdAsync(int orderItemId);
+        Task<MoleculeDbEntity?> FindAsync(string orderName, string basisSet, string moleculeName);
+
+        Task<List<MoleculeDbEntity>> FindAllByNameAsync(string moleculeName);
     }
 }

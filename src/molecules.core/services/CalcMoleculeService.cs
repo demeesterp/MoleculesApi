@@ -35,13 +35,22 @@ namespace molecules.core.services
              return _factory.BuildMolecule(moleculeDbEntity);
         }
 
-        public async Task<CalcMolecule> GetForOrderItemIdAsync(int id)
+        public async Task<CalcMolecule?> FindAsync(string orderName, string basisSet, string moleculeName)
         {
-            _logger.LogInformation("GetForOrderItemIdAsync {0}", id);
+            _logger.LogInformation("FindAsync for OrderName {0}, basisSet {1} moleculeNae {2} ", orderName, basisSet, moleculeName);
 
-            var moleculeDbEntity = await _repository.GetByOrdeItemIdAsync(id);
+            var moleculeDbEntity = await _repository.FindAsync(orderName, basisSet, moleculeName);
 
-            return _factory.BuildMolecule(moleculeDbEntity);
+            return moleculeDbEntity== null ? null : _factory.BuildMolecule(moleculeDbEntity);
+        }
+
+        public async Task<List<CalcMolecule>> FindAllByNameAsync(string moleculeName)
+        {
+            _logger.LogInformation("FindAllByNameAsync for moleculeName {0}", moleculeName); 
+            
+            var moleculeDbEntities = await _repository.FindAllByNameAsync(moleculeName);
+
+            return moleculeDbEntities.Select(_factory.BuildMolecule).ToList();
         }
 
         public async Task<CalcMolecule> CreateAsync(CalcMolecule molecule)
@@ -59,7 +68,8 @@ namespace molecules.core.services
                 await _repository.CreateAsync(new MoleculeDbEntity()
                 {
                     Id = molecule.Id,
-                    OrderItemId = molecule.CalcOrderItemId,
+                    OrderName = molecule.OrderName,
+                    BasisSet = molecule.BasisSet,
                     MoleculeName = molecule.MoleculeName,
                     Molecule = moleculeStringData
                 });
@@ -79,8 +89,6 @@ namespace molecules.core.services
             await _repository.SaveChangesAsync();
         }
 
-
-
         public async Task<CalcMolecule> UpdateAsync(int id, Molecule molecule)
         {
             _logger.LogInformation("UpdateAsync");
@@ -91,5 +99,7 @@ namespace molecules.core.services
 
             return _factory.BuildMolecule(result);
         }
+
+
     }
 }

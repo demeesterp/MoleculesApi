@@ -124,3 +124,50 @@ BEGIN
 END $EF$;
 COMMIT;
 
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230803175920_ModifyMoleculeDbEntity') THEN
+    DROP INDEX moleculesapp."IX_Molecule_OrderItemId";
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230803175920_ModifyMoleculeDbEntity') THEN
+    ALTER TABLE moleculesapp."Molecule" DROP COLUMN "OrderItemId";
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230803175920_ModifyMoleculeDbEntity') THEN
+    ALTER TABLE moleculesapp."Molecule" ADD "BasisSet" text NOT NULL DEFAULT '';
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230803175920_ModifyMoleculeDbEntity') THEN
+    ALTER TABLE moleculesapp."Molecule" ADD "OrderName" text NOT NULL DEFAULT '';
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230803175920_ModifyMoleculeDbEntity') THEN
+    CREATE UNIQUE INDEX "IX_Molecule_MoleculeName_OrderName_BasisSet" ON moleculesapp."Molecule" ("MoleculeName", "OrderName", "BasisSet");
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20230803175920_ModifyMoleculeDbEntity') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20230803175920_ModifyMoleculeDbEntity', '7.0.9');
+    END IF;
+END $EF$;
+COMMIT;
+

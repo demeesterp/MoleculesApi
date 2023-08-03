@@ -1,5 +1,6 @@
 ﻿using molecules.core.valueobjects.Molecules;
 using molecules.shared;
+using System.ComponentModel;
 
 namespace molecules.core.factories.GmsParsers
 {
@@ -60,12 +61,12 @@ namespace molecules.core.factories.GmsParsers
                     {
                         ElectronicPotential item = new ElectronicPotential()
                         {
-                            PosX = Convert.ToDecimal(data[1]),
-                            PosY = Convert.ToDecimal(data[2]),
-                            PosZ = Convert.ToDecimal(data[3]),
-                            Electronic = Convert.ToDecimal(data[4]),
-                            Nuclear = Convert.ToDecimal(data[5]),
-                            Total = Convert.ToDecimal(data[6]),
+                            PosX = StringConversion.ToDecimal(data[1]),
+                            PosY = StringConversion.ToDecimal(data[2]),
+                            PosZ = StringConversion.ToDecimal(data[3]),
+                            Electronic = StringConversion.ToDecimal(data[4]),
+                            Nuclear = StringConversion.ToDecimal(data[5]),
+                            Total = StringConversion.ToDecimal(data[6]),
                             Type = isGeoDisc ? ElectronicPotentialType.GeoDisc.ToString() : ElectronicPotentialType.CHelgG.ToString()
                         };
                         molecule.ElPot.Add(item);

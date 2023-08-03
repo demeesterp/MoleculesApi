@@ -31,8 +31,9 @@ namespace molecules.core.valueobjects.Molecules
             }
         }
 
-
         public string Name { get; set; } = string.Empty;
+
+        public string CalcValidityRemarks { get; set; } = string.Empty;
 
         public List<Bond> Bonds { get; set; } = new List<Bond>();
 
@@ -69,7 +70,7 @@ namespace molecules.core.valueobjects.Molecules
 
         public static string SerializeToJsonString(Molecule molecule)
         {
-            return JsonSerializer.Serialize(molecule);
+            return JsonSerializer.Serialize(molecule, JsonSerializerOptions.Default);
         }
 
         public static string GetXyzFileData(Molecule molecule)

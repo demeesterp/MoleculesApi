@@ -10,12 +10,18 @@ namespace molecules.core.factories.GmsParsers
 
         public static void Parse(List<string> fileLines, Molecule molecule)
         {
-            string line = string.Empty;
             bool start = false;
             int position = 1;
+
+            if ( !IsValid(fileLines) )
+            {
+                molecule.CalcValidityRemarks += "| No valid geometry optimization result found.";
+                return;
+            }
+
             for (int c = 0; c < fileLines.Count; ++c)
             {
-                line = fileLines[c];
+                var line = fileLines[c];
                 if (line.Contains(OptimizationResultTag))
                 {
                     start = true;
@@ -52,6 +58,14 @@ namespace molecules.core.factories.GmsParsers
                 }
             }
         }
+
+
+
+        private static bool IsValid(List<string> fileLines)
+        {
+            return fileLines.Exists((i) => i.Contains(OptimizationResultTag));
+        }
+
 
         private static Atom ParseOptAtomPosition(string line)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using molecules.core.aggregates;
 using molecules.core.factories;
+using molecules.core.valueobjects.BasisSet;
 using molecules.core.valueobjects.CalcOrderItem;
 using molecules.core.valueobjects.GmsCalc;
 using molecules.core.valueobjects.Molecules;
@@ -47,26 +48,36 @@ namespace molecules.core.services
         {
             _logger.LogInformation($"ImportCalcDeliveryOutputAsync basePath {basePath}");
             List<CalcOrder> orders = await _calcOrderService.ListAsync();
-            orders.ForEach(order =>
+            foreach(var order in orders)
             {
-                order.Items.ForEach(async orderItem =>
+                foreach(var orderItem in order.Items)
                 {
-                    CalcMolecule molecule = await _calcMoleculeService.GetForOrderItemIdAsync(orderItem.Id);
+                    var basisSet = (CalcBasisSetTable.GetCalcBasisSet(orderItem.Details.BasisSetCode)?.Name) ?? string.Empty;
 
-                    if ( molecule == null)
+                    CalcMolecule? molecule = await _calcMoleculeService.FindAsync(order.Details.Name, basisSet, orderItem.MoleculeName);
+
+                    if (molecule == null)
                     {
-                        molecule = await _calcMoleculeService.CreateAsync(new CalcMolecule(orderItem.Id, orderItem.MoleculeName)
+                        molecule = await _calcMoleculeService.CreateAsync(new CalcMolecule(order.Details.Name, basisSet, orderItem.MoleculeName)
                         {
-                            Molecule = new Molecule(orderItem.Details)
+                            Molecule = new Molecule(orderItem.Details) // Init with XYZ file
+                            {
+                                Name = orderItem.MoleculeName
+                            }
                         });
                     }
 
-                    if ( molecule.Molecule == null) {
-                        molecule.Molecule = new Molecule(orderItem.Details); // Init with XYZ file
+                    if (molecule.Molecule == null)
+                    {
+                        molecule.Molecule = new Molecule(orderItem.Details)
+                        {
+                            Name = orderItem.MoleculeName
+                        };
                     }
-                    
-                    if (orderItem.Details.Type == CalcOrderItemType.AllKinds) {
-                        
+
+                    if (orderItem.Details.Type == CalcOrderItemType.AllKinds)
+                    {
+
                         // Search for a geoOptFile
                         string geoOptFile = Path.Combine(basePath, "Calculations",
                                                 OutFileDisplayName(order.Details.Name, orderItem.Id,
@@ -83,7 +94,8 @@ namespace molecules.core.services
                                                         OutFileDisplayName(order.Details.Name, orderItem.Id,
                                                             molecule.MoleculeName, GmsCalculationKind.GeoDiskCharge));
 
-                    if ( File.Exists(geoDiskFile)) {
+                    if (File.Exists(geoDiskFile))
+                    {
                         _gmsMoleculeFactory.TryCompleteMolecule(geoDiskFile, File.ReadAllLines(geoDiskFile).ToList(), molecule.Molecule);
                     }
 
@@ -92,7 +104,7 @@ namespace molecules.core.services
                                                                                OutFileDisplayName(order.Details.Name, orderItem.Id,
                                                                                  molecule.MoleculeName, GmsCalculationKind.CHelpGCharge));
 
-                    if ( File.Exists(CHelpGChargeFile))
+                    if (File.Exists(CHelpGChargeFile))
                     {
                         _gmsMoleculeFactory.TryCompleteMolecule(CHelpGChargeFile, File.ReadAllLines(CHelpGChargeFile).ToList(), molecule.Molecule);
                     }
@@ -102,7 +114,7 @@ namespace molecules.core.services
                                                              OutFileDisplayName(order.Details.Name, orderItem.Id,
                                                                                   molecule.MoleculeName, GmsCalculationKind.FukuiNeutral));
 
-                    if ( File.Exists(fukuiNeutralFile))
+                    if (File.Exists(fukuiNeutralFile))
                     {
                         _gmsMoleculeFactory.TryCompleteMolecule(fukuiNeutralFile, File.ReadAllLines(fukuiNeutralFile).ToList(), molecule.Molecule);
                     }
@@ -126,18 +138,9 @@ namespace molecules.core.services
                     }
 
                     await _calcMoleculeService.UpdateAsync(molecule.Id, molecule.Molecule);
-
-                    
-
-                });
-            });
+                }
+            }
         }
-
-
-
-
-
-
 
         private string OutFileDisplayName(string orderName, int orderItemId, string moleculeName, GmsCalculationKind kind)
         {

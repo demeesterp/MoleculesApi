@@ -6,26 +6,29 @@ namespace molecules.core.aggregates
     {
         public int Id { get; }
 
-        public int CalcOrderItemId { get; }
+        public string OrderName { get; }
+
+        public string BasisSet { get; }
 
         public string MoleculeName { get; }
 
         public Molecule? Molecule { get; set; }
 
-        public CalcMolecule(int id,
-                                int calcOrderItemId,
-                                    string moleculeName)
+        public CalcMolecule(int id, string orderName, string basisset, string moleculeName)
         {
-            Id = id;
-            CalcOrderItemId = calcOrderItemId;
-            MoleculeName = moleculeName;
+            Id              = id;
+            OrderName       = orderName;
+            BasisSet        = basisset;
+            MoleculeName    = moleculeName;
         }
 
-        public CalcMolecule(int calcOrderItemId,
-                                    string moleculeName)
+        public CalcMolecule(string orderName,
+                                  string basisSet,
+                                  string moleculeName)
         {
-            CalcOrderItemId = calcOrderItemId;
-            MoleculeName = moleculeName;
+            OrderName       = orderName;
+            BasisSet        = basisSet;
+            MoleculeName    = moleculeName;
         }
     }
 }
