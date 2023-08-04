@@ -22,9 +22,7 @@ namespace molecules.core.aggregates
             MoleculeName    = moleculeName;
         }
 
-        public CalcMolecule(string orderName,
-                                  string basisSet,
-                                  string moleculeName)
+        public CalcMolecule(string orderName, string basisSet, string moleculeName)
         {
             OrderName       = orderName;
             BasisSet        = basisSet;

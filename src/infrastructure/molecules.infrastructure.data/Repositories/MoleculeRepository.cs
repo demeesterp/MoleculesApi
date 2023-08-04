@@ -53,11 +53,17 @@ namespace molecules.infrastructure.data.Repositories
                                                                             && i.MoleculeName == moleculeName);
         }
 
-        public async Task<List<MoleculeDbEntity>> FindAllByNameAsync(string moleculeName)
+        public async Task<List<MoleculeNameInfoDbEntity>> FindAllByNameAsync(string moleculeName)
         {
             return await (from mol in _context.Molecule
              where  EF.Functions.Like(mol.MoleculeName.ToLower(), $"{moleculeName.ToLower()}%")
-             select mol).ToListAsync();
+             select new MoleculeNameInfoDbEntity()
+             {
+                 Id = mol.Id,
+                 MoleculeName = mol.MoleculeName,
+                 OrderName = mol.OrderName,
+                 BasisSet = mol.BasisSet
+             }).AsNoTracking().ToListAsync();
         }
 
         public async Task SaveChangesAsync()

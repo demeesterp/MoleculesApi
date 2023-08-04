@@ -17,5 +17,13 @@ namespace molecules.core.factories
             retval.Molecule = Molecule.DeserializeFromJsonString(moleculeDbEntity.Molecule);
             return retval;
         }
+
+        public CalcMolecule BuildMolecule(MoleculeNameInfoDbEntity moleculeNameInfoDb)
+        {
+            return new CalcMolecule(moleculeNameInfoDb.Id,
+                                    moleculeNameInfoDb.OrderName,
+                                        moleculeNameInfoDb.BasisSet,
+                                            moleculeNameInfoDb.MoleculeName);
+        }
     }
 }

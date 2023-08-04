@@ -16,6 +16,6 @@ namespace molecule.infrastructure.data.interfaces.Repositories
 
         Task<MoleculeDbEntity?> FindAsync(string orderName, string basisSet, string moleculeName);
 
-        Task<List<MoleculeDbEntity>> FindAllByNameAsync(string moleculeName);
+        Task<List<MoleculeNameInfoDbEntity>> FindAllByNameAsync(string moleculeName);
     }
 }

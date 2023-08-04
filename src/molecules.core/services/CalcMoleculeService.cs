@@ -50,7 +50,10 @@ namespace molecules.core.services
             
             var moleculeDbEntities = await _repository.FindAllByNameAsync(moleculeName);
 
-            return moleculeDbEntities.Select(_factory.BuildMolecule).ToList();
+            return moleculeDbEntities.OrderByDescending(i => i.OrderName)
+                                    .ThenByDescending(i => i.MoleculeName)
+                                    .ThenByDescending(i => i.Id)
+                                    .Select(_factory.BuildMolecule).ToList();
         }
 
         public async Task<CalcMolecule> CreateAsync(CalcMolecule molecule)

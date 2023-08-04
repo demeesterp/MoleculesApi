@@ -6,5 +6,7 @@ namespace molecules.core.factories
     public interface ICalcMoleculeFactory
     {
         CalcMolecule BuildMolecule(MoleculeDbEntity moleculeDbEntity);
+
+        CalcMolecule BuildMolecule(MoleculeNameInfoDbEntity moleculeNameInfoDb);
     }
 }

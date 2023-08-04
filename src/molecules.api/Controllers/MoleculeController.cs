@@ -58,9 +58,10 @@ namespace molecules.api.Controllers
         /// <response code="200">The requested molecule</response>
         /// <response code="500">An unexpected error happend</response>
         [HttpGet]
+        [Route("name/{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
-        public async  Task<ActionResult<List<CalcMolecule>>> GetByNameAsync([FromQuery] string name)
+        public async  Task<ActionResult<List<CalcMolecule>>> GetByNameAsync([FromRoute] string name)
         {
             _logger.LogInformation("Get a molecule by name:{name}", name);
             var result = await _service.FindAllByNameAsync(name);
