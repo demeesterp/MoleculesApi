@@ -284,11 +284,11 @@ namespace molecules.core.factories.GmsParsers
                             }
                             if (GetPopulationStatus() == PopulationAnalysisType.lewisLUMO)
                             {
-                                found.OverlapPopulationLUMO = found.OverlapPopulation;
+                                found.OverlapPopulationLUMO = bond.OverlapPopulationLUMO;
                             }
                             if (GetPopulationStatus() == PopulationAnalysisType.lewisHOMO)
                             {
-                                found.OverlapPopulationHOMO = found.OverlapPopulation;
+                                found.OverlapPopulationHOMO = bond.OverlapPopulationHOMO;
                             }
                         }
                         else
