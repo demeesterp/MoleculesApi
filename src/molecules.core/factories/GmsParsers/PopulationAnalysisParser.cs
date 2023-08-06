@@ -121,14 +121,14 @@ namespace molecules.core.factories.GmsParsers
                                             }
                                         case PopulationAnalysisType.lewisLUMO:
                                             {
-                                                orbital.MullikenPopulationLUMO = mulliken;
-                                                orbital.LowdinPopulationLUMO = lowdin;
+                                                orbital.MullikenPopulationPlus1 = mulliken;
+                                                orbital.LowdinPopulationPlus1 = lowdin;
                                                 break;
                                             }
                                         case PopulationAnalysisType.lewisHOMO:
                                             {
-                                                orbital.MullikenPopulationHOMO = mulliken;
-                                                orbital.LowdinPopulationHOMO = lowdin;
+                                                orbital.MullikenPopulationMinus1 = mulliken;
+                                                orbital.LowdinPopulationMinus1 = lowdin;
                                                 break;
                                             }
                                     }
@@ -154,8 +154,8 @@ namespace molecules.core.factories.GmsParsers
                                                 {
                                                     Symbol = orbitalSymbol,
                                                     Position = orbitalpos,
-                                                    LowdinPopulationLUMO = lowdin,
-                                                    MullikenPopulationLUMO = mulliken
+                                                    LowdinPopulationPlus1 = lowdin,
+                                                    MullikenPopulationPlus1 = mulliken
                                                 });
                                                 break;
                                             }
@@ -165,8 +165,8 @@ namespace molecules.core.factories.GmsParsers
                                                 {
                                                     Symbol = orbitalSymbol,
                                                     Position = orbitalpos,
-                                                    LowdinPopulationHOMO = lowdin,
-                                                    MullikenPopulationHOMO = mulliken
+                                                    LowdinPopulationMinus1 = lowdin,
+                                                    MullikenPopulationMinus1 = mulliken
                                                 });
                                                 break;
                                             }
@@ -239,7 +239,7 @@ namespace molecules.core.factories.GmsParsers
                                                 {
                                                     Atom1Position = int.Parse(data[0]),
                                                     Atom2Position = blockCount * 5 + pos,
-                                                    OverlapPopulationLUMO = StringConversion.ToDecimal(data[pos].Trim())
+                                                    OverlapPopulationPlus1 = StringConversion.ToDecimal(data[pos].Trim())
                                                 };
 
 
@@ -251,7 +251,7 @@ namespace molecules.core.factories.GmsParsers
                                                 {
                                                     Atom1Position = int.Parse(data[0]),
                                                     Atom2Position = blockCount * 5 + pos,
-                                                    OverlapPopulationHOMO = StringConversion.ToDecimal(data[pos].Trim())
+                                                    OverlapPopulationMinus1 = StringConversion.ToDecimal(data[pos].Trim())
                                                 };
                                                 break;
                                             }
@@ -284,11 +284,11 @@ namespace molecules.core.factories.GmsParsers
                             }
                             if (GetPopulationStatus() == PopulationAnalysisType.lewisLUMO)
                             {
-                                found.OverlapPopulationLUMO = bond.OverlapPopulationLUMO;
+                                found.OverlapPopulationPlus1 = bond.OverlapPopulationPlus1;
                             }
                             if (GetPopulationStatus() == PopulationAnalysisType.lewisHOMO)
                             {
-                                found.OverlapPopulationHOMO = bond.OverlapPopulationHOMO;
+                                found.OverlapPopulationMinus1 = bond.OverlapPopulationMinus1;
                             }
                         }
                         else
@@ -366,7 +366,7 @@ namespace molecules.core.factories.GmsParsers
                                         var b = molecule.Bonds.Find(i => i.Atom1Position == atompos1 && i.Atom2Position == atompos2 || i.Atom1Position == atompos2 && i.Atom2Position == atompos1);
                                         if (b != null)
                                         {
-                                            b.BondOrderLUMO = bondorder;
+                                            b.BondOrderPlus1 = bondorder;
                                             b.Distance = dist;
                                         }
                                         break;
@@ -376,7 +376,7 @@ namespace molecules.core.factories.GmsParsers
                                         var b = molecule.Bonds.Find(i => i.Atom1Position == atompos1 && i.Atom2Position == atompos2 || i.Atom1Position == atompos2 && i.Atom2Position == atompos1);
                                         if (b != null)
                                         {
-                                            b.BondOrderHOMO = bondorder;
+                                            b.BondOrderMinus1 = bondorder;
                                             b.Distance = dist;
                                         }
                                         break;
@@ -432,8 +432,8 @@ namespace molecules.core.factories.GmsParsers
                                         var atom = molecule.Atoms.Find(i => i.Position == position && i.Symbol == symbol);
                                         if (atom != null)
                                         {
-                                            atom.MullikenPopulationLUMO = mullpop;
-                                            atom.LowdinPopulationLUMO = lowdinpop;
+                                            atom.MullikenPopulationPlus1 = mullpop;
+                                            atom.LowdinPopulationPlus1 = lowdinpop;
                                         }
                                         break;
                                     }
@@ -442,8 +442,8 @@ namespace molecules.core.factories.GmsParsers
                                         var atom = molecule.Atoms.Find(i => i.Position == position && i.Symbol == symbol);
                                         if (atom != null)
                                         {
-                                            atom.MullikenPopulationHOMO = mullpop;
-                                            atom.LowdinPopulationHOMO = lowdinpop;
+                                            atom.MullikenPopulationMinus1 = mullpop;
+                                            atom.LowdinPopulationMinus1 = lowdinpop;
                                         }
                                         break;
                                     }

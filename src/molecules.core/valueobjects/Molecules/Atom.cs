@@ -25,28 +25,28 @@ namespace molecules.core.valueobjects.Molecules
 
         public decimal? MullikenPopulation { get; set; }
 
-        public decimal? MullikenPopulationHOMO { get; set; }
+        public decimal? MullikenPopulationMinus1 { get; set; }
 
-        public decimal? MullikenPopulationLUMO { get; set; }
-
-        [JsonIgnore]
-        public decimal? MullikenPopulationAcid => MullikenPopulationLUMO - MullikenPopulation;
+        public decimal? MullikenPopulationPlus1 { get; set; }
 
         [JsonIgnore]
-        public decimal? MullikenPopulationBase => MullikenPopulation - MullikenPopulationHOMO;
+        public decimal? MullikenPopulationLUMO => MullikenPopulationPlus1 - MullikenPopulation;
+
+        [JsonIgnore]
+        public decimal? MullikenPopulationHOMO => MullikenPopulation - MullikenPopulationMinus1;
 
 
         public decimal? LowdinPopulation { get; set; }
 
-        public decimal? LowdinPopulationHOMO { get; set; }
+        public decimal? LowdinPopulationMinus1 { get; set; }
 
-        public decimal? LowdinPopulationLUMO { get; set; }
-
-        [JsonIgnore]
-        public decimal? LowdinPopulationAcid => LowdinPopulationLUMO - LowdinPopulation;
+        public decimal? LowdinPopulationPlus1 { get; set; }
 
         [JsonIgnore]
-        public decimal? LowdinPopulationBase => LowdinPopulation - LowdinPopulationHOMO;
+        public decimal? LowdinPopulationLUMO => LowdinPopulationPlus1 - LowdinPopulation;
+
+        [JsonIgnore]
+        public decimal? LowdinPopulationHOMO => LowdinPopulation - LowdinPopulationMinus1;
 
         public decimal? CHelpGCharge { get; set; }
 

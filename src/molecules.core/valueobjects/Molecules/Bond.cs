@@ -11,27 +11,27 @@ namespace molecules.core.valueobjects.Molecules
         public decimal? Distance { get; set; }
 
         public decimal? BondOrder { get; set; }
+        
+        public decimal? BondOrderMinus1  { get;  set; }
 
-        public decimal? BondOrderHOMO  { get;  set; }
-
-        public decimal? BondOrderLUMO { get; set; }
+        public decimal? BondOrderPlus1 { get; set; }
 
         public decimal? OverlapPopulation { get; set; }
 
-        public decimal? OverlapPopulationHOMO { get; set; }
+        public decimal? OverlapPopulationMinus1 { get; set; }
 
-        public decimal? OverlapPopulationLUMO { get; set; }
-
-        [JsonIgnore]
-        public decimal? BondOrderBase => BondOrder - BondOrderHOMO;
+        public decimal? OverlapPopulationPlus1 { get; set; }
 
         [JsonIgnore]
-        public decimal? BondOrderAcid => BondOrderLUMO - BondOrder;
+        public decimal? BondOrderHOMO => BondOrder - BondOrderMinus1;
 
         [JsonIgnore]
-        public decimal? OverlapPopulationBase => OverlapPopulation - OverlapPopulationHOMO;
+        public decimal? BondOrderLUMO => BondOrderPlus1 - BondOrder;
 
         [JsonIgnore]
-        public decimal? OverlapPopulationAcid => OverlapPopulationLUMO - OverlapPopulation;
+        public decimal? OverlapPopulationHOMO => OverlapPopulation - OverlapPopulationMinus1;
+
+        [JsonIgnore]
+        public decimal? OverlapPopulationLUMO => OverlapPopulationPlus1 - OverlapPopulation;
     }
 }

@@ -10,6 +10,7 @@ using molecules.core.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using molecules.core.factories;
+using molecules.core.factories.Reports;
 
 namespace molecules.console
 {
@@ -50,7 +51,8 @@ namespace molecules.console
             services.AddTransient<ICalcMoleculeFactory, CalcMoleculeFactory>();
             services.AddTransient<ICalcMoleculeService, CalcMoleculeService>();
 
-
+            services.AddTransient<IMoleculeReportFactory, MoleculeReportFactory>();
+            services.AddTransient<IMoleculeReportService, MoleculeReportService>();
 
             services.AddTransient<ICalcFileConversionService, CalcFileConversionService>();
 

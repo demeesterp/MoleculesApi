@@ -8,6 +8,7 @@ using molecule.infrastructure.data.interfaces.Repositories;
 using molecules.infrastructure.data.Repositories;
 using molecules.core.Factories;
 using molecules.core.factories;
+using molecules.core.factories.Reports;
 
 namespace molecules.api.ServiceExtensions
 {
@@ -51,7 +52,8 @@ namespace molecules.api.ServiceExtensions
             services.AddScoped<ICalcMoleculeFactory, CalcMoleculeFactory>();
             services.AddScoped<ICalcMoleculeService, CalcMoleculeService>();
 
-
+            services.AddScoped<IMoleculeReportFactory, MoleculeReportFactory>();
+            services.AddScoped<IMoleculeReportService, MoleculeReportService>();
 
             services.AddScoped<ICalcFileConversionService, CalcFileConversionService>();
         }
