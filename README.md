@@ -2,6 +2,7 @@
 Api for the molecules project, this API provides the following functionalities:
 
 - Manage Calculation Orders
+- Get Molecular Reports ( To be completed )
 
 
 # Logging
