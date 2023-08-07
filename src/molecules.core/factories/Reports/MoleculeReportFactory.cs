@@ -15,20 +15,24 @@ namespace molecules.core.factories.Reports
                 {
                     MoleculeName = molecule.Name,
                     AtomID = $"{atom.Symbol}{atom.Position}",
-                    MullikenPopulation = atom.MullikenPopulation
+                    MullikenPopulation = atom.MullikenPopulation.HasValue ? Math.Round(atom.MullikenPopulation.Value, 6) : null,
                 };
 
                 foreach (var orbital in atom.Orbitals)
                 {
-                    toAdd.OrbitalReport.Add(new AtomOrbitalReport()
+                    var toadd = new AtomOrbitalReport()
                     {
                         AtomID = $"{atom.Symbol}{atom.Position}",
                         MoleculeName = molecule.Name,
                         OrbitalID = $"{orbital.Symbol}{orbital.Position}",
-                        PopulationFraction = (100 * orbital.MullikenPopulation) / atom.MullikenPopulation,
-                        PopulationFractionHOMO = (100 * orbital.MullikenPopulationHomo) / atom.MullikenPopulationHOMO,
-                        PopulationFractionLUMO = (100 * orbital.MullikenPopulationLumo) / atom.MullikenPopulationLUMO
-                    });
+                        PopulationFraction = 100 * orbital.MullikenPopulation / atom.MullikenPopulation,
+                        PopulationFractionHOMO = 100 * orbital.MullikenPopulationHomo / atom.MullikenPopulationHOMO,
+                        PopulationFractionLUMO = 100 * orbital.MullikenPopulationLumo / atom.MullikenPopulationLUMO
+                    };
+                    toadd.PopulationFraction = toadd.PopulationFraction.HasValue ? Math.Round(toadd.PopulationFraction.Value, 6): null;
+                    toadd.PopulationFractionHOMO = toadd.PopulationFractionHOMO.HasValue ? Math.Round(toadd.PopulationFractionHOMO.Value, 6) : null;
+                    toadd.PopulationFractionLUMO = toadd.PopulationFractionLUMO.HasValue ? Math.Round(toadd.PopulationFractionLUMO.Value, 6) : null;
+                    toAdd.OrbitalReport.Add(toadd);
                 }
                 report.Add(toAdd);
 
