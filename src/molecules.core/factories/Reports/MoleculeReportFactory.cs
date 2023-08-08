@@ -66,22 +66,23 @@ namespace molecules.core.factories.Reports
             if (molecule == null) return report;
             foreach (var bond in molecule.Bonds)
             {
-
-                Atom? atom1 = molecule.Atoms.Find(a => a.Position == bond.Atom1Position);
-                Atom? atom2 = molecule.Atoms.Find(a => a.Position == bond.Atom2Position);
-
-                report.Add(new MoleculeBondsReport()
+                if ( bond.OverlapPopulation >= 0.1M || bond.OverlapPopulationHOMO >= 0.1M || bond.OverlapPopulationLUMO >= 0.1M)
                 {
-                    MoleculeName = molecule.Name,
-                    BondID = $"{atom1?.Symbol}{atom1?.Position}-{atom2?.Symbol}{atom2?.Position}",
-                    Distance = bond.Distance,
-                    BondOrder = bond.BondOrder,
-                    OverlapPopulation = bond.OverlapPopulation,
-                    OverlapPopulationHOMO = bond.OverlapPopulationHOMO,
-                    OverlapPopulationLUMO = bond.OverlapPopulationLUMO
-                });
-            }
+                    Atom? atom1 = molecule.Atoms.Find(a => a.Position == bond.Atom1Position);
+                    Atom? atom2 = molecule.Atoms.Find(a => a.Position == bond.Atom2Position);
 
+                    report.Add(new MoleculeBondsReport()
+                    {
+                        MoleculeName = molecule.Name,
+                        BondID = $"{atom1?.Symbol}{atom1?.Position}-{atom2?.Symbol}{atom2?.Position}",
+                        Distance = bond.Distance,
+                        BondOrder = bond.BondOrder,
+                        OverlapPopulation = bond.OverlapPopulation,
+                        OverlapPopulationHOMO = bond.OverlapPopulationHOMO,
+                        OverlapPopulationLUMO = bond.OverlapPopulationLUMO
+                    });
+                }
+            }
             return report;
         }
 
