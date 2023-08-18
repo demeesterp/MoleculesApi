@@ -69,12 +69,11 @@ namespace molecules.console
         internal static void AddLogging(this IServiceCollection services, string basePath)
         {
             var logger = new LoggerConfiguration()
-                            .MinimumLevel.Debug()
+                                .MinimumLevel.Debug()
                                 .WriteTo.File(path: Path.Combine(basePath, "Logs", "log.txt"),
                                                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
                                                 rollingInterval: RollingInterval.Day,
                                                 restrictedToMinimumLevel: LogEventLevel.Information)
-                                .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Debug)
                                 .CreateLogger();
 
 
