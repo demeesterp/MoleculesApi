@@ -79,19 +79,20 @@ namespace molecules.console.App
             _logger.LogInformation("MoleculesApp running at: {time}", DateTimeOffset.Now);
             try
             {
-                while (!stoppingToken.IsCancellationRequested)
+                bool done = false; 
+                while (!stoppingToken.IsCancellationRequested && !done)
                 {
                     AppName app = GetApp();
-                    switch(app)
+                    switch (app)
                     {
                         case AppName.Default:
                             Console.WriteLine("Exiting...");
-                            _hostApplicationLifetime.StopApplication();
-                            break;
+                            done = true;
+                            return;
                         case AppName.CalcDeliveryApp:
                             // Run Calculation Delivery : Generate molecules in DB
                             await _calcDeliveryApp.RunAsync(GetBasePath());
-                            break;
+                            continue;
                         case AppName.ConversionApp:
                             // Do some custom conversions
                             _calcConversionApp.Run(GetBasePath());
@@ -99,10 +100,12 @@ namespace molecules.console.App
                         case AppName.MoleculeReportApp:
                             // Write reports to consumers
                             await _moleculeReportApp.RunAsync();
-                            break;
+                            done = true;
+                            return;
                         default:
                             Console.WriteLine($"Invalid option: {app}");
-                            break;
+                            done = true;
+                            return;
                     }
                 }
             }
