@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using molecules.core.factories.GmsParsers;
 using molecules.core.valueobjects.Molecules;
+using molecules.shared;
 
 namespace molecules.core.services
 {
@@ -35,7 +36,7 @@ namespace molecules.core.services
             foreach (var item in Directory.EnumerateFiles(Path.Combine(basePath, "Molecules"), "*.json", SearchOption.AllDirectories))
             {
                 string result = File.ReadAllText(item);
-                var molecule = Molecule.DeserializeFromJsonString(result);
+                var molecule = StringConversion.FromJsonString<Molecule>(result);
                 if (molecule != null)
                 {
                     var xyzFileData = Molecule.GetXyzFileData(molecule);

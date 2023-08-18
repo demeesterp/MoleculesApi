@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.Json;
 
 namespace molecules.shared
 {
@@ -37,7 +38,6 @@ namespace molecules.shared
             return retval;
         }
 
-
         public static string ToString(decimal? input)
         {
             return input?.ToString(CultureInfo.CreateSpecificCulture("en-US"))??string.Empty;
@@ -67,5 +67,17 @@ namespace molecules.shared
         {
             return input?.ToString(CultureInfo.CreateSpecificCulture("en-US"))??string.Empty;
         }
+
+
+        public static string ToJsonString<T>(T o)
+        {
+            return JsonSerializer.Serialize(o, JsonSerializerOptions.Default);
+        }
+
+        public static T? FromJsonString<T>(string jsonString)
+        {
+            return JsonSerializer.Deserialize<T>(jsonString);
+        }
+
     }
 }

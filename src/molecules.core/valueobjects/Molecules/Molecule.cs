@@ -1,8 +1,7 @@
-﻿using System.Text.Json;
+﻿using molecules.core.valueobjects.AtomProperty;
+using molecules.shared;
 using System.Text;
 using System.Text.Json.Serialization;
-using molecules.core.valueobjects.AtomProperty;
-using molecules.shared;
 
 namespace molecules.core.valueobjects.Molecules
 {
@@ -63,15 +62,6 @@ namespace molecules.core.valueobjects.Molecules
         [JsonIgnore]
         public decimal? Hardness => 0.5M * (IonisationEnergy - ElectronAffinitiy);
 
-        public static Molecule? DeserializeFromJsonString(string jsonString)
-        {
-            return JsonSerializer.Deserialize<Molecule>(jsonString);
-        }
-
-        public static string SerializeToJsonString(Molecule molecule)
-        {
-            return JsonSerializer.Serialize(molecule, JsonSerializerOptions.Default);
-        }
 
         public static string GetXyzFileData(Molecule molecule)
         {

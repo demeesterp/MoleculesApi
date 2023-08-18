@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using molecules.core.factories;
 using molecules.core.factories.Reports;
+using molecules.console.App;
 
 namespace molecules.console
 {
@@ -25,8 +26,15 @@ namespace molecules.console
         {
             services.AddLogging(basePath??Directory.GetCurrentDirectory());
             services.AddCoreServices();
-
+            services.AddApps();
             return services;
+        }
+
+        internal static void AddApps(this IServiceCollection services)
+        {
+            services.AddSingleton<CalcDeliveryApp>();
+            services.AddSingleton<CalcConversionApp>();
+            services.AddSingleton<MoleculeReportApp>();
         }
 
         internal static void AddCoreServices(this IServiceCollection services)

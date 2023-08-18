@@ -1,88 +1,108 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using molecules.console.MoleculesLegacy;
-using molecules.core.services;
+using molecules.console.Constants;
 
 namespace molecules.console.App
 {
     public class MoleculesApp : BackgroundService
     {
+        #region dependencies
+
         private readonly ILogger<MoleculesApp> _logger;
 
         private readonly IConfiguration _configuration;
 
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-        private readonly ICalcDeliveryService _calcDeliveryService;
+        private readonly CalcDeliveryApp _calcDeliveryApp;
 
-        private readonly ICalcFileConversionService _calcFileConversionService;
+        private readonly CalcConversionApp _calcConversionApp;
 
-        public MoleculesApp(ICalcDeliveryService calcDeliveryService,
-            ICalcFileConversionService calcFileConversionService,
-                                IConfiguration configuration,
-                                    ILogger<MoleculesApp> logger,
-                                        IHostApplicationLifetime hostApplicationLifetime)
+        private readonly MoleculeReportApp _moleculeReportApp;
+
+        #endregion
+
+        public MoleculesApp(
+            CalcDeliveryApp calcDeliveryApp,
+            CalcConversionApp calcConversionApp,
+            MoleculeReportApp moleculeReportApp,
+            IConfiguration configuration,
+                              ILogger<MoleculesApp> logger,
+                                IHostApplicationLifetime hostApplicationLifetime)
         {
             _logger = logger;
             _configuration = configuration;
+            _calcDeliveryApp = calcDeliveryApp;
+            _calcConversionApp = calcConversionApp;
+            _moleculeReportApp = moleculeReportApp;
             _hostApplicationLifetime = hostApplicationLifetime;
-            _calcDeliveryService = calcDeliveryService;
-            _calcFileConversionService = calcFileConversionService;
+        }
+
+        private AppName GetApp()
+        {
+            if ( !Enum.TryParse(_configuration["appName"], true, out AppName result))
+            {
+                Console.WriteLine("Press 0 to exit");
+
+                foreach(var enumItem in Enum.GetValues<AppName>())
+                {
+                    Console.WriteLine("Press {0} for {1}", (int)enumItem, enumItem.ToString());
+                }
+
+                Console.Write(":");
+
+                var command = Console.ReadLine();
+
+                if (int.TryParse(command, out int option))
+                {
+                    if (option == 0)
+                    {
+                        return AppName.Default;
+                    }
+                    else if (Enum.IsDefined(typeof(AppName), option))
+                    {
+                        result = (AppName)option;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private string GetBasePath()
+        {
+            return _configuration["basePath"] ?? Directory.GetCurrentDirectory();
         }
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("MoleculesApp running at: {time}", DateTimeOffset.Now);
-            Console.WriteLine("Welcome to molecules App!");
-            string basePath = _configuration["basePath"] ?? Directory.GetCurrentDirectory();
             try
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    Console.WriteLine("Press 0 to exit");
-                    Console.WriteLine("Press 1 to export calculation input files");
-                    Console.WriteLine("Press 2 to import calculation output files");
-                    Console.WriteLine("Press 3 to convert geoopt files to xyz files");
-                    Console.WriteLine("Press 4 to convert legacy molecule files to xyz files");
-                    var command = Console.ReadLine();
-                    if (int.TryParse(command, out int option))
+                    AppName app = GetApp();
+                    switch(app)
                     {
-                        if (option == 0)
-                        {
+                        case AppName.Default:
+                            Console.WriteLine("Exiting...");
+                            _hostApplicationLifetime.StopApplication();
                             break;
-                        }
-                        else if (option == 1)
-                        {
-                            await _calcDeliveryService.ExportCalcDeliveryInputAsync(basePath);
+                        case AppName.CalcDeliveryApp:
+                            // Run Calculation Delivery : Generate molecules in DB
+                            await _calcDeliveryApp.RunAsync(GetBasePath());
                             break;
-                        }
-                        else if (option == 2)
-                        {
-                            await _calcDeliveryService.ImportCalcDeliveryOutputAsync(basePath);
+                        case AppName.ConversionApp:
+                            // Do some custom conversions
+                            _calcConversionApp.Run(GetBasePath());
                             break;
-                        }
-                        else if (option == 3)
-                        {
-                            _calcFileConversionService.ConvertGeoOptFileToXyzFileAsync(basePath);
-                        }
-                        else if (option == 4)
-                        {
-                            foreach (var item in Directory.EnumerateFiles(Path.Combine(basePath, "Molecules"), "*.json", SearchOption.AllDirectories))
-                            {
-                                string result = File.ReadAllText(item);
-                                var molecule = Molecule.DeserializeFromJsonString(result);
-                                if (molecule != null)
-                                {
-                                    var xyzFileData = Molecule.GetXyzFileData(molecule);
-                                    File.WriteAllText(Path.Combine(basePath, "Molecules", $"{molecule.NameInfo}.xyz"), xyzFileData);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            continue;
-                        }
+                        case AppName.MoleculeReportApp:
+                            // Write reports to consumers
+                            await _moleculeReportApp.RunAsync();
+                            break;
+                        default:
+                            Console.WriteLine($"Invalid option: {app}");
+                            break;
                     }
                 }
             }

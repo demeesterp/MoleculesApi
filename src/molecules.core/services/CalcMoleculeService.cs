@@ -4,6 +4,7 @@ using molecule.infrastructure.data.interfaces.Repositories;
 using molecules.core.aggregates;
 using molecules.core.factories;
 using molecules.core.valueobjects.Molecules;
+using molecules.shared;
 
 namespace molecules.core.services
 {
@@ -64,7 +65,7 @@ namespace molecules.core.services
             
             if ( molecule.Molecule != null)
             {
-                moleculeStringData = Molecule.SerializeToJsonString(molecule.Molecule);
+                moleculeStringData = StringConversion.ToJsonString(molecule.Molecule);
             }
             
             var moleculeDbEntity =
@@ -96,7 +97,7 @@ namespace molecules.core.services
         {
             _logger.LogInformation("UpdateAsync");
 
-            var result = await _repository.UpdateAsync(id, molecule.Name, Molecule.SerializeToJsonString(molecule));
+            var result = await _repository.UpdateAsync(id, molecule.Name, StringConversion.ToJsonString(molecule));
 
             await _repository.SaveChangesAsync();
 

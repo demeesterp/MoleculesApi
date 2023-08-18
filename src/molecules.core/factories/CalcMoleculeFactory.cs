@@ -1,6 +1,7 @@
 ﻿using molecule.infrastructure.data.interfaces.DbEntities;
 using molecules.core.aggregates;
 using molecules.core.valueobjects.Molecules;
+using molecules.shared;
 
 namespace molecules.core.factories
 {
@@ -14,7 +15,7 @@ namespace molecules.core.factories
                                             moleculeDbEntity.MoleculeName);
 
 
-            retval.Molecule = Molecule.DeserializeFromJsonString(moleculeDbEntity.Molecule);
+            retval.Molecule = StringConversion.FromJsonString<Molecule>(moleculeDbEntity.Molecule);
             return retval;
         }
 

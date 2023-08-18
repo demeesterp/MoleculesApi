@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using molecules.infrastructure.data;
 using System.Reflection;
 
-var builder 
-    = Host.CreateDefaultBuilder(args)
+var builder = Host.CreateDefaultBuilder(args)
        .ConfigureServices((hostContext, services) => {
 
            services.AddMoleculesServices(hostContext.Configuration["basePath"]?.ToString());
