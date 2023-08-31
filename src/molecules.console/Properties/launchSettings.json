@@ -2,7 +2,10 @@
   "profiles": {
     "molecules.console": {
       "commandName": "Project",
-      "commandLineArgs": "basePath=C:\\Data ReportType=charge MoleculeId=17"
+      "commandLineArgs": "basePath=C:\\Data"
+    },
+    "Docker": {
+      "commandName": "Docker"
     }
   }
 }

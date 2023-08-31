@@ -13,8 +13,8 @@ namespace molecules.core.services
         private readonly ILogger<MoleculeReportService>     _logger;
 
         public MoleculeReportService(ICalcMoleculeService calcMoleculeService, 
-                                    IMoleculeReportFactory moleculeReportFactory,
-                                        ILogger<MoleculeReportService> logger)
+                                        IMoleculeReportFactory moleculeReportFactory,
+                                            ILogger<MoleculeReportService> logger)
         {
             _moleculeReportFactory = moleculeReportFactory??throw new ArgumentNullException(nameof(moleculeReportFactory));
             _calcMoleculeService = calcMoleculeService??throw new ArgumentNullException(nameof(calcMoleculeService));

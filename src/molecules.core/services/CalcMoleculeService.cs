@@ -38,7 +38,7 @@ namespace molecules.core.services
 
         public async Task<CalcMolecule?> FindAsync(string orderName, string basisSet, string moleculeName)
         {
-            _logger.LogInformation("FindAsync for OrderName {0}, basisSet {1} moleculeNae {2} ", orderName, basisSet, moleculeName);
+            _logger.LogInformation("FindAsync for OrderName {0}, basisSet {1} moleculeName {2} ", orderName, basisSet, moleculeName);
 
             var moleculeDbEntity = await _repository.FindAsync(orderName, basisSet, moleculeName);
 
