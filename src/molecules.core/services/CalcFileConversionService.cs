@@ -21,7 +21,7 @@ namespace molecules.core.services
         public void ConvertGeoOptFileToXyzFileAsync(string basePath)
         {
             _Logger.LogInformation("ConvertMoleculeToXyzFileAsync basePath {0}", basePath);
-            foreach (var item in Directory.EnumerateFiles(Path.Combine(basePath, "Conversion"), "*geoopt*.log", SearchOption.AllDirectories))
+            foreach (var item in Directory.EnumerateFiles(Path.Combine(basePath, "Conversion"), "*GeometryOptimization*.log", SearchOption.AllDirectories))
             {
                 Molecule molecule = new Molecule();              
                 GeoOptParser.Parse(File.ReadAllLines(item).ToList(), molecule);
