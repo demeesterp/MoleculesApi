@@ -153,14 +153,14 @@ namespace molecules.core.tests.services
             public CalcOrderItemServiceCreateAsyncTest() : base()
             {
                 A.CallTo(() => _calcOrderItemRepository.CreateAsync(A<CalcOrderItemDbEntity>.Ignored))
-                    .Returns(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                    .Returns(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
             }
 
             [Fact]
             public async Task ShouldCallValidateOnCalcOrderItemServiceValidations()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -174,7 +174,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateAsyncOnRepository()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity( CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity( CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -190,7 +190,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateAsyncOnRepositoryWithCorrectCalcOrderItemDbEntity()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -205,7 +205,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateAsyncOnRepositoryWithCorrectCalcOrderItemDbEntityCalcType()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -220,7 +220,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateAsyncOnRepositoryWithCorrectCalcOrderItemDbEntityCharge()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -235,7 +235,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallCreateCalcOrderItemOnFactory()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
                 int calcOrderId = 1;
 
                 // Act
@@ -249,7 +249,7 @@ namespace molecules.core.tests.services
             public async Task ShouldCallSaveChangesAsyncOnRepository()
             {
                 // Arrange
-                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString()));
+                var createCalcOrderItem = CreateFromCalcOrderItemDbEntity(CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString()));
                 int calcOrderId = 1;
 
                 // Act

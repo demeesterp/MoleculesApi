@@ -93,9 +93,13 @@ namespace molecules.core.services
             await _repository.SaveChangesAsync();
         }
 
-        public async Task<CalcMolecule> UpdateAsync(int id, Molecule molecule)
+        public async Task<CalcMolecule> UpdateAsync(int id, Molecule? molecule)
         {
             _logger.LogInformation("UpdateAsync");
+            if ( molecule == null)
+            {
+                throw new ArgumentNullException(nameof(molecule));
+            } 
 
             var result = await _repository.UpdateAsync(id, molecule.Name, StringConversion.ToJsonString(molecule));
 

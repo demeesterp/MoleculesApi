@@ -43,28 +43,22 @@ namespace molecules.console.App
         {
             if ( !Enum.TryParse(_configuration["appName"], true, out AppName result))
             {
-                Console.WriteLine("Press 0 to exit");
-
                 foreach(var enumItem in Enum.GetValues<AppName>())
                 {
-                    Console.WriteLine("Press {0} for {1}", (int)enumItem, enumItem.ToString());
+                    Console.WriteLine("For {0} press {1}", enumItem.ToString(), (int)enumItem);
                 }
-
-                Console.Write(":");
-
-                var command = Console.ReadLine();
-
-                if (int.TryParse(command, out int option))
+                Console.Write("Your choice:");
+                var userInput = Console.ReadLine();
+                bool invalidInput = !int.TryParse(userInput, out int option) || !Enum.IsDefined(typeof(AppName), option);
+                while (invalidInput)
                 {
-                    if (option == 0)
-                    {
-                        return AppName.Default;
-                    }
-                    else if (Enum.IsDefined(typeof(AppName), option))
-                    {
-                        result = (AppName)option;
-                    }
+                    Console.WriteLine($"\"{userInput}\" is an invalid choice !");
+                    Console.WriteLine("Try again or press 0 to exit.");
+                    Console.Write("Your choice:");
+                    userInput = Console.ReadLine();
+                    invalidInput = !int.TryParse(userInput, out option) || !Enum.IsDefined(typeof(AppName), option);
                 }
+                result = (AppName)option;
             }
             return result;
         }
@@ -85,10 +79,6 @@ namespace molecules.console.App
                     AppName app = GetApp();
                     switch (app)
                     {
-                        case AppName.Default:
-                            Console.WriteLine("Exiting...");
-                            done = true;
-                            return;
                         case AppName.CalcDeliveryApp:
                             // Run Calculation Delivery : Generate molecules in DB
                             await _calcDeliveryApp.RunAsync(GetBasePath());
@@ -102,8 +92,11 @@ namespace molecules.console.App
                             await _moleculeReportApp.RunAsync();
                             done = true;
                             return;
+                        case AppName.Exit:
+                            done = true;
+                            return;
                         default:
-                            Console.WriteLine($"Invalid option: {app}");
+                            Console.WriteLine($"Unknow application: {app}");
                             done = true;
                             return;
                     }
@@ -112,7 +105,7 @@ namespace molecules.console.App
             catch(Exception e)
             {
                 _logger.LogError(e, "Something went wrong");
-                Console.WriteLine("An error happend please retry!");
+                Console.WriteLine("An error happend please request support or retry!");
                 Console.WriteLine("Press any key!");
                 Console.ReadLine();
             }

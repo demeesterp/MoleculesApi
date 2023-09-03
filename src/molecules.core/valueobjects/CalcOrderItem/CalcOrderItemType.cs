@@ -2,7 +2,7 @@
 {
     public enum CalcOrderItemType
     {
-        AllKinds = 0,
-        AllKindsNoGeoOpt = 1
+        GeoOpt = 0,
+        MolecularProperties = 1
     }
 }

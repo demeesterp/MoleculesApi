@@ -4,7 +4,17 @@
     {
         public static CalcBasisSet[] CalcBasisSets { get; }
 
-        public static CalcBasisSet? GetCalcBasisSet(CalcBasisSetCode code)
+        public static string GetCalcBasisSetDisplayName(CalcBasisSetCode code)
+        {
+            return GetCalcBasisSet(code)?.Name ?? string.Empty;
+        }
+
+        public static string GetCalcBasisSetGmsInput(CalcBasisSetCode code)
+        {
+            return GetCalcBasisSet(code)?.GmsInput ?? string.Empty;
+        }
+
+        private static CalcBasisSet? GetCalcBasisSet(CalcBasisSetCode code)
         {
             return CalcBasisSets.FirstOrDefault(s => s.Code == code);
         }

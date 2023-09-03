@@ -44,7 +44,7 @@ namespace molecules.core.tests.factories
             // Arrange
             var dbEntity = CreateDummyCalcOrderDbEntity(new List<CalcOrderItemDbEntity>()
             {
-                CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.AllKinds.ToString())
+                CalcOrderItemFactoryTests.CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString())
             });
 
             // Act
@@ -56,8 +56,7 @@ namespace molecules.core.tests.factories
             result.Details.Name.Should().Be(dbEntity.Name);
             result.Details.Description.Should().Be(dbEntity.Description);
 
-            A.CallTo(() => _calcOrderItemFactory.CreateCalcOrderItem(A<CalcOrderItemDbEntity>.Ignored))
-                .MustHaveHappenedOnceExactly();
+            A.CallTo(() => _calcOrderItemFactory.CreateCalcOrderItem(A<CalcOrderItemDbEntity>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
 

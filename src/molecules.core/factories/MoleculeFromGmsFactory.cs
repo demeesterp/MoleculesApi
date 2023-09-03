@@ -6,8 +6,9 @@ namespace molecules.core.factories
 {
     public class MoleculeFromGmsFactory : IMoleculeFromGmsFactory
     {
-        public bool TryCompleteMolecule(string fileName, List<string> fileLines, Molecule molecule)
+        public bool TryCompleteMolecule(string fileName, List<string> fileLines, Molecule? molecule)
         {
+            if (molecule == null) return false;
             if ( fileName.Contains(GmsCalculationKind.GeometryOptimization.ToString()) ) {
                 if (GmsCalcValidityParser.TryParse(GmsCalculationKind.GeometryOptimization, fileLines, molecule))
                 {

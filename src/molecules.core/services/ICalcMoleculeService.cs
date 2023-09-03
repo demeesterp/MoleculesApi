@@ -13,7 +13,7 @@ namespace molecules.core.services
 
         Task<CalcMolecule> CreateAsync(CalcMolecule molecule);
 
-        Task<CalcMolecule> UpdateAsync(int id, Molecule molecule);
+        Task<CalcMolecule> UpdateAsync(int id, Molecule? molecule);
 
         Task DeleteAsync(int id);
 

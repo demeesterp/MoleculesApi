@@ -18,27 +18,47 @@ namespace molecules.core.factories
             {
                 foreach(var calcOrderItem in calcOrder.Items)
                 { 
-                    if (calcOrderItem.Details.Type == CalcOrderItemType.AllKinds)
+                    if (calcOrderItem.Details.Type == CalcOrderItemType.GeoOpt)
                     {
-                        retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, calcOrderItem.Id, calcOrderItem.MoleculeName,
-                                                         GmsCalculationKind.GeometryOptimization, BuildGeoOptGmsInput(calcOrderItem.Details)));
+                        retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, 
+                                                            calcOrderItem.Id, 
+                                                                calcOrderItem.MoleculeName,
+                                                                    GmsCalculationKind.GeometryOptimization,
+                                                                        BuildGeoOptGmsInput(calcOrderItem.Details)));
+                    } 
+                    else
+                    {
+                        retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, 
+                                                            calcOrderItem.Id,
+                                                                calcOrderItem.MoleculeName,
+                                                                    GmsCalculationKind.FukuiNeutral,
+                                                                        BuildFukuiNeutralInput(calcOrderItem.Details)));
+
+                        retval.Add(new GmsCalcInputItem(calcOrder.Details.Name,
+                                                            calcOrderItem.Id,
+                                                                calcOrderItem.MoleculeName,
+                                                                    GmsCalculationKind.FukuiLUMO, 
+                                                                        BuildFukuiLUMOInput(calcOrderItem.Details)));
+
+                        retval.Add(new GmsCalcInputItem(calcOrder.Details.Name,
+                                                            calcOrderItem.Id,
+                                                                calcOrderItem.MoleculeName,
+                                                                    GmsCalculationKind.FukuiHOMO,
+                                                                        BuildFukuiHOMOInput(calcOrderItem.Details)));
+
+
+                        retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, 
+                                                            calcOrderItem.Id, 
+                                                                calcOrderItem.MoleculeName,
+                                                                    GmsCalculationKind.CHelpGCharge, 
+                                                                        BuildCHelpGChargeInput(calcOrderItem.Details)));
+
+                        retval.Add(new GmsCalcInputItem(calcOrder.Details.Name,
+                                                            calcOrderItem.Id, 
+                                                                calcOrderItem.MoleculeName,
+                                                                    GmsCalculationKind.GeoDiskCharge, 
+                                                                        BuildGeoDiskChargeInput(calcOrderItem.Details)));
                     }
-
-                    retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, calcOrderItem.Id, calcOrderItem.MoleculeName,
-                                                         GmsCalculationKind.FukuiNeutral, BuildFukuiNeutralInput(calcOrderItem.Details)));
-
-                    retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, calcOrderItem.Id, calcOrderItem.MoleculeName,
-                                                         GmsCalculationKind.FukuiLUMO, BuildFukuiLUMOInput(calcOrderItem.Details)));
-
-                    retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, calcOrderItem.Id, calcOrderItem.MoleculeName,
-                                     GmsCalculationKind.FukuiHOMO, BuildFukuiHOMOInput(calcOrderItem.Details)));
-
-
-                    retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, calcOrderItem.Id, calcOrderItem.MoleculeName,
-                                     GmsCalculationKind.CHelpGCharge, BuildCHelpGChargeInput(calcOrderItem.Details)));
-
-                    retval.Add(new GmsCalcInputItem(calcOrder.Details.Name, calcOrderItem.Id, calcOrderItem.MoleculeName,
-                                     GmsCalculationKind.GeoDiskCharge, BuildGeoDiskChargeInput(calcOrderItem.Details)));
                 }
             }
             return retval;
@@ -48,8 +68,8 @@ namespace molecules.core.factories
         private string BuildFukuiLUMOInput(CalcOrderItemDetails details)
         {
             StringBuilder retval = new StringBuilder();
-            var basisSet = CalcBasisSetTable.GetCalcBasisSet(details.BasisSetCode);
-            retval.AppendLine($" {basisSet?.GmsInput}");
+            var basisSet = CalcBasisSetTable.GetCalcBasisSetGmsInput(details.BasisSetCode);
+            retval.AppendLine($" {basisSet}");
             retval.AppendLine($" $CONTRL SCFTYP=UHF MAXIT=60 MULT=2 ICHARG={details.Charge - 1} $END");
             retval.AppendLine($" $SYSTEM MEMDDI=1000 MWORDS=30 $END");
             retval.AppendLine($" $SCF DIRSCF=.TRUE. $END");
@@ -69,8 +89,8 @@ namespace molecules.core.factories
         private string BuildFukuiHOMOInput(CalcOrderItemDetails details)
         {
             StringBuilder retval = new StringBuilder();
-            var basisSet = CalcBasisSetTable.GetCalcBasisSet(details.BasisSetCode);
-            retval.AppendLine($" {basisSet?.GmsInput}");
+            var basisSet = CalcBasisSetTable.GetCalcBasisSetGmsInput(details.BasisSetCode);
+            retval.AppendLine($" {basisSet}");
             retval.AppendLine($" $CONTRL SCFTYP=UHF MAXIT=60 MULT=2 ICHARG={details.Charge + 1} $END");
             retval.AppendLine($" $SYSTEM MEMDDI=1000 MWORDS=30 $END");
             retval.AppendLine($" $SCF DIRSCF=.TRUE. $END");
@@ -90,8 +110,8 @@ namespace molecules.core.factories
         private string BuildFukuiNeutralInput(CalcOrderItemDetails details)
         {
             var input = new StringBuilder();
-            var basisSet = CalcBasisSetTable.GetCalcBasisSet(details.BasisSetCode);
-            input.AppendLine($" {basisSet?.GmsInput}");
+            var basisSet = CalcBasisSetTable.GetCalcBasisSetGmsInput(details.BasisSetCode);
+            input.AppendLine($" {basisSet}");
             input.AppendLine($" $CONTRL SCFTYP=RHF MAXIT=60 MULT=1 ICHARG={details.Charge} $END");
             input.AppendLine($" $SYSTEM MEMDDI=1000 MWORDS=30 $END");
             input.AppendLine($" $SCF DIRSCF=.TRUE. $END");
@@ -110,8 +130,8 @@ namespace molecules.core.factories
         private string BuildGeoDiskChargeInput(CalcOrderItemDetails details)
         {
             StringBuilder retval = new StringBuilder();
-            var basisSet = CalcBasisSetTable.GetCalcBasisSet(details.BasisSetCode);
-            retval.AppendLine($" {basisSet?.GmsInput}");
+            var basisSet = CalcBasisSetTable.GetCalcBasisSetGmsInput(details.BasisSetCode);
+            retval.AppendLine($" {basisSet}");
             retval.AppendLine($" $CONTRL SCFTYP=RHF DFTTYP=B3LYP MAXIT=60 MULT=1 ICHARG={details.Charge} $END");
             retval.AppendLine(" $SYSTEM MEMDDI=1000 MWORDS=30 $END");
             retval.AppendLine(" $SCF DIRSCF=.TRUE. $END");
@@ -132,8 +152,8 @@ namespace molecules.core.factories
         private string BuildCHelpGChargeInput(CalcOrderItemDetails details)
         {
             StringBuilder retval = new StringBuilder();
-            var basisSet = CalcBasisSetTable.GetCalcBasisSet(details.BasisSetCode);
-            retval.AppendLine($" {basisSet?.GmsInput}");
+            var basisSet = CalcBasisSetTable.GetCalcBasisSetGmsInput(details.BasisSetCode);
+            retval.AppendLine($" {basisSet}");
             retval.AppendLine($" $CONTRL SCFTYP=RHF DFTTYP=B3LYP MAXIT=60 MULT=1 ICHARG={details.Charge} $END");
             retval.AppendLine(" $SYSTEM MEMDDI=1000 MWORDS=30 $END");
             retval.AppendLine(" $SCF DIRSCF=.TRUE. $END");
@@ -154,8 +174,8 @@ namespace molecules.core.factories
         private string BuildGeoOptGmsInput(CalcOrderItemDetails details)
         {
             StringBuilder retval = new StringBuilder();
-            var basisSet = CalcBasisSetTable.GetCalcBasisSet(details.BasisSetCode);
-            retval.AppendLine($" {basisSet?.GmsInput}");
+            var basisSet = CalcBasisSetTable.GetCalcBasisSetGmsInput(details.BasisSetCode);
+            retval.AppendLine($" {basisSet}");
             retval.AppendLine($" $CONTRL SCFTYP=RHF RUNTYP=OPTIMIZE DFTTYP=B3LYP MAXIT=60 MULT=1 ICHARG={details.Charge} $END ");
             retval.AppendLine(" $SYSTEM MEMDDI=1000 MWORDS=30 $END");
             retval.AppendLine(" $STATPT NSTEP=999 $END");

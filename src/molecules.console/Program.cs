@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using molecules.console;
 using molecules.console.App;
-using Microsoft.EntityFrameworkCore;
 using molecules.infrastructure.data;
 using System.Reflection;
 
@@ -19,6 +18,8 @@ var builder = Host.CreateDefaultBuilder(args)
            services.AddHostedService<MoleculesApp>();
         
        });
+
+
 
 builder.ConfigureAppConfiguration(options => {
     options.AddEnvironmentVariables();

@@ -63,8 +63,9 @@ namespace molecules.core.valueobjects.Molecules
         public decimal? Hardness => 0.5M * (IonisationEnergy - ElectronAffinitiy);
 
 
-        public static string GetXyzFileData(Molecule molecule)
+        public static string GetXyzFileData(Molecule? molecule)
         {
+            if (molecule == null) throw new ArgumentNullException(nameof(molecule));
             StringBuilder retval = new StringBuilder();
             if (molecule.Atoms.Count > 1)
             {
@@ -73,9 +74,9 @@ namespace molecules.core.valueobjects.Molecules
                 foreach (var ln in molecule.Atoms)
                 {
                     retval.AppendLine($"{ln.Symbol}" +
-                        $" {StringConversion.ToString(ln.PosX)}" +
-                        $" {StringConversion.ToString(ln.PosY)}" +
-                        $" {StringConversion.ToString(ln.PosZ)}");
+                                        $" {StringConversion.ToString(ln.PosX)}" +
+                                        $" {StringConversion.ToString(ln.PosY)}" +
+                                        $" {StringConversion.ToString(ln.PosZ)}");
                 }
             }
             return retval.ToString();

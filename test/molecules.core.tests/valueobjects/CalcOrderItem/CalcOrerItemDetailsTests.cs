@@ -24,7 +24,7 @@ namespace molecules.core.tests.valueobjects.CalcOrderItem
 
                 Assert.Equal(0, details.Charge);
 
-                Assert.Equal(CalcOrderItemType.AllKinds, details.Type);
+                Assert.Equal(CalcOrderItemType.GeoOpt, details.Type);
 
                 Assert.Equal(CalcBasisSetCode.BSTO3G, details.BasisSetCode);
 

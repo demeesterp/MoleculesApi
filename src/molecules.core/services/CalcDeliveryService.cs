@@ -52,13 +52,16 @@ namespace molecules.core.services
             {
                 foreach(var orderItem in order.Items)
                 {
-                    var basisSet = (CalcBasisSetTable.GetCalcBasisSet(orderItem.Details.BasisSetCode)?.Name) ?? string.Empty;
+                    string basisSetName = CalcBasisSetTable.GetCalcBasisSetDisplayName(orderItem.Details.BasisSetCode);
 
-                    CalcMolecule? molecule = await _calcMoleculeService.FindAsync(order.Details.Name, basisSet, orderItem.MoleculeName);
+                    CalcMolecule? molecule =
+                            await _calcMoleculeService.FindAsync(order.Details.Name,
+                                                                         basisSetName, 
+                                                                            orderItem.MoleculeName);
 
-                    if (molecule == null)
+                    if (molecule == null || molecule.Molecule == null)
                     {
-                        molecule = await _calcMoleculeService.CreateAsync(new CalcMolecule(order.Details.Name, basisSet, orderItem.MoleculeName)
+                        molecule = await _calcMoleculeService.CreateAsync(new CalcMolecule(order.Details.Name, basisSetName, orderItem.MoleculeName)
                         {
                             Molecule = new Molecule(orderItem.Details) // Init with XYZ file
                             {
@@ -67,15 +70,7 @@ namespace molecules.core.services
                         });
                     }
 
-                    if (molecule.Molecule == null)
-                    {
-                        molecule.Molecule = new Molecule(orderItem.Details)
-                        {
-                            Name = orderItem.MoleculeName
-                        };
-                    }
-
-                    if (orderItem.Details.Type == CalcOrderItemType.AllKinds)
+                    if (orderItem.Details.Type == CalcOrderItemType.GeoOpt)
                     {
 
                         // Search for a geoOptFile
@@ -84,60 +79,63 @@ namespace molecules.core.services
                                                                         molecule.MoleculeName, GmsCalculationKind.GeometryOptimization));
                         if (File.Exists(geoOptFile))
                         {
-                            _gmsMoleculeFactory.TryCompleteMolecule(geoOptFile, File.ReadAllLines(geoOptFile).ToList(), molecule.Molecule);
+                            if ( _gmsMoleculeFactory.TryCompleteMolecule(geoOptFile, File.ReadAllLines(geoOptFile).ToList(), molecule.Molecule) )
+                            {
+                               File.WriteAllText(Path.Combine(basePath, "Calculations", molecule.MoleculeName), Molecule.GetXyzFileData(molecule.Molecule));
+                            };
 
                         }
                     }
-
-                    // Parse GeoDiskCharge
-                    string geoDiskFile = Path.Combine(basePath, "Calculations",
-                                                        OutFileDisplayName(order.Details.Name, orderItem.Id,
-                                                            molecule.MoleculeName, GmsCalculationKind.GeoDiskCharge));
-
-                    if (File.Exists(geoDiskFile))
+                    else
                     {
-                        _gmsMoleculeFactory.TryCompleteMolecule(geoDiskFile, File.ReadAllLines(geoDiskFile).ToList(), molecule.Molecule);
+                        // Parse GeoDiskCharge
+                        string geoDiskFile = Path.Combine(basePath, "Calculations",
+                                                            OutFileDisplayName(order.Details.Name, orderItem.Id,
+                                                                molecule.MoleculeName, GmsCalculationKind.GeoDiskCharge));
+
+                        if (File.Exists(geoDiskFile))
+                        {
+                            _gmsMoleculeFactory.TryCompleteMolecule(geoDiskFile, File.ReadAllLines(geoDiskFile).ToList(), molecule.Molecule);
+                        }
+
+                        // Parse CHelpGCharge
+                        string CHelpGChargeFile = Path.Combine(basePath, "Calculations",
+                                                                                   OutFileDisplayName(order.Details.Name, orderItem.Id,
+                                                                                     molecule.MoleculeName, GmsCalculationKind.CHelpGCharge));
+                        if (File.Exists(CHelpGChargeFile))
+                        {
+                            _gmsMoleculeFactory.TryCompleteMolecule(CHelpGChargeFile, File.ReadAllLines(CHelpGChargeFile).ToList(), molecule.Molecule);
+                        }
+
+                        string fukuiNeutralFile = Path.Combine(basePath, "Calculations",
+                                                                 OutFileDisplayName(order.Details.Name, orderItem.Id,
+                                                                                      molecule.MoleculeName, GmsCalculationKind.FukuiNeutral));
+
+                        if (File.Exists(fukuiNeutralFile))
+                        {
+                            _gmsMoleculeFactory.TryCompleteMolecule(fukuiNeutralFile, File.ReadAllLines(fukuiNeutralFile).ToList(), molecule.Molecule);
+                        }
+
+                        string fukuiHOMOFile = Path.Combine(basePath, "Calculations",
+                                                                 OutFileDisplayName(order.Details.Name, orderItem.Id,
+                                                                                      molecule.MoleculeName, GmsCalculationKind.FukuiHOMO));
+
+                        if (File.Exists(fukuiHOMOFile))
+                        {
+                            _gmsMoleculeFactory.TryCompleteMolecule(fukuiHOMOFile, File.ReadAllLines(fukuiHOMOFile).ToList(), molecule.Molecule);
+                        }
+
+                        string fukuiLUMOFile = Path.Combine(basePath, "Calculations",
+                                                                 OutFileDisplayName(order.Details.Name, orderItem.Id,
+                                                                                      molecule.MoleculeName, GmsCalculationKind.FukuiLUMO));
+
+                        if (File.Exists(fukuiLUMOFile))
+                        {
+                            _gmsMoleculeFactory.TryCompleteMolecule(fukuiLUMOFile, File.ReadAllLines(fukuiLUMOFile).ToList(), molecule.Molecule);
+                        }
+
+                        await _calcMoleculeService.UpdateAsync(molecule.Id, molecule.Molecule);
                     }
-
-                    // Parse CHelpGCharge
-                    string CHelpGChargeFile = Path.Combine(basePath, "Calculations",
-                                                                               OutFileDisplayName(order.Details.Name, orderItem.Id,
-                                                                                 molecule.MoleculeName, GmsCalculationKind.CHelpGCharge));
-
-                    if (File.Exists(CHelpGChargeFile))
-                    {
-                        _gmsMoleculeFactory.TryCompleteMolecule(CHelpGChargeFile, File.ReadAllLines(CHelpGChargeFile).ToList(), molecule.Molecule);
-                    }
-
-
-                    string fukuiNeutralFile = Path.Combine(basePath, "Calculations",
-                                                             OutFileDisplayName(order.Details.Name, orderItem.Id,
-                                                                                  molecule.MoleculeName, GmsCalculationKind.FukuiNeutral));
-
-                    if (File.Exists(fukuiNeutralFile))
-                    {
-                        _gmsMoleculeFactory.TryCompleteMolecule(fukuiNeutralFile, File.ReadAllLines(fukuiNeutralFile).ToList(), molecule.Molecule);
-                    }
-
-                    string fukuiHOMOFile = Path.Combine(basePath, "Calculations",
-                                                             OutFileDisplayName(order.Details.Name, orderItem.Id,
-                                                                                  molecule.MoleculeName, GmsCalculationKind.FukuiHOMO));
-
-                    if (File.Exists(fukuiHOMOFile))
-                    {
-                        _gmsMoleculeFactory.TryCompleteMolecule(fukuiHOMOFile, File.ReadAllLines(fukuiHOMOFile).ToList(), molecule.Molecule);
-                    }
-
-                    string fukuiLUMOFile = Path.Combine(basePath, "Calculations",
-                                                             OutFileDisplayName(order.Details.Name, orderItem.Id,
-                                                                                  molecule.MoleculeName, GmsCalculationKind.FukuiLUMO));
-
-                    if (File.Exists(fukuiLUMOFile))
-                    {
-                        _gmsMoleculeFactory.TryCompleteMolecule(fukuiLUMOFile, File.ReadAllLines(fukuiLUMOFile).ToList(), molecule.Molecule);
-                    }
-
-                    await _calcMoleculeService.UpdateAsync(molecule.Id, molecule.Molecule);
                 }
             }
         }

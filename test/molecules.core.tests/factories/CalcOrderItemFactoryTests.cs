@@ -41,7 +41,7 @@ namespace molecules.core.tests.factories
         public void CreateCalcOrderItem_Should_Return_Valid_CalcOrderItem_When_Valid_CalcType_Input()
         {
             // Arrange
-            var dbEntity = CreateDummyCalcOrderItem(CalcOrderItemType.AllKindsNoGeoOpt.ToString());
+            var dbEntity = CreateDummyCalcOrderItem(CalcOrderItemType.MolecularProperties.ToString());
 
             // Act
             var result = calcOrderItemFactory.CreateCalcOrderItem(dbEntity);
@@ -73,7 +73,7 @@ namespace molecules.core.tests.factories
             result.Id.Should().Be(dbEntity.Id);
             result.Details.Charge.Should().Be(dbEntity.Charge);
             result.Details.XYZ.Should().Be(dbEntity.XYZ);
-            result.Details.Type.Should().Be(CalcOrderItemType.AllKinds);
+            result.Details.Type.Should().Be(CalcOrderItemType.GeoOpt);
             result.Details.BasisSetCode.ToString().Should().Be(dbEntity.BasissetCode);
         }
 

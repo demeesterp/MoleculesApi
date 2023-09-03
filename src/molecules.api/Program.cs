@@ -14,8 +14,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddMoleculesServices();
 
 builder.Services.AddControllers().AddJsonOptions(
-    options =>
-    {
+    options => {
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
@@ -31,9 +30,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddMvcCore(option => option.Filters.Add(new MoleculesExceptionFilter()));
 
 
-builder.Services.AddDbContext<MoleculesDbContext>(options => 
-                    options.UseNpgsql(builder.Configuration["ConnectionString"]?.ToString())
-                );
+builder.Services.AddDbContext<MoleculesDbContext>(options => options.UseNpgsql(builder.Configuration["ConnectionString"]?.ToString()));
 
 builder.Services.AddCors(options =>
 {

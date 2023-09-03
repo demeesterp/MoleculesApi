@@ -5,7 +5,7 @@ namespace molecules.core.factories
     public interface IMoleculeFromGmsFactory
     {
 
-        bool TryCompleteMolecule(string fileName, List<string> fileLines, Molecule molecule);
+        bool TryCompleteMolecule(string fileName, List<string> fileLines, Molecule? molecule);
 
     }
 }
