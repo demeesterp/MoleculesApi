@@ -29,8 +29,8 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddMvcCore(option => option.Filters.Add(new MoleculesExceptionFilter()));
 
-
-builder.Services.AddDbContext<MoleculesDbContext>(options => options.UseNpgsql(builder.Configuration["ConnectionString"]?.ToString()));
+builder.Services.AddDbContext<MoleculesDbContext>(options => 
+                                                    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString")));
 
 builder.Services.AddCors(options =>
 {

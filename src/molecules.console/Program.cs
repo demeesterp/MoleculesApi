@@ -11,19 +11,19 @@ var builder = Host.CreateDefaultBuilder(args)
        .ConfigureServices((hostContext, services) => {
 
            services.AddMoleculesServices(hostContext.Configuration["basePath"]?.ToString());
-           
-           services.AddDbContext<MoleculesDbContext> (
-                        options => options.UseNpgsql(hostContext.Configuration["ConnectionString"]?.ToString()));
-           
-           services.AddHostedService<MoleculesApp>();
-        
+
+           services.AddDbContext<MoleculesDbContext>(
+                        options => options.UseNpgsql(hostContext.Configuration.GetConnectionString("ConnectionString")), 
+                                                                ServiceLifetime.Transient, 
+                                                                    ServiceLifetime.Transient);
+           services.AddHostedService<MoleculesApp>();      
        });
 
-
-
-builder.ConfigureAppConfiguration(options => {
+builder.ConfigureAppConfiguration((hostContext, options) => {
     options.AddEnvironmentVariables();
     options.AddCommandLine(args);
+    options.AddJsonFile("appsettings.json", optional: false);
+    options.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: false);
     options.AddUserSecrets(Assembly.GetExecutingAssembly());
 });
 

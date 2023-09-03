@@ -2,8 +2,11 @@
   "profiles": {
     "molecules.console": {
       "commandName": "Project",
-      "commandLineArgs": "basePath=C:\\Data"
-    },
+      "commandLineArgs": "basePath=C:\\Data",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },  
     "Docker": {
       "commandName": "Docker"
     }
