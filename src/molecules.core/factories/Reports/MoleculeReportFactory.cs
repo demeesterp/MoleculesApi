@@ -1,42 +1,74 @@
 ﻿using molecules.core.valueobjects.MoleculeReport;
 using molecules.core.valueobjects.Molecules;
+using molecules.shared;
 
 namespace molecules.core.factories.Reports
 {
     public class MoleculeReportFactory : IMoleculeReportFactory
     {
+
+        public List<GeneralMoleculeReport> GetGeneralMoleculeReport(Molecule? molecule)
+        {
+            List<GeneralMoleculeReport> report = new List<GeneralMoleculeReport>();
+            if (molecule == null) return report;
+            foreach (var atom in molecule.Atoms)
+            {
+                GeneralMoleculeReport toAdd = new GeneralMoleculeReport()
+                {
+                    MoleculeName = molecule.Name,
+                    AtomID = $"{atom.Symbol}{atom.Position}",
+                    CHelpGCharge = atom.CHelpGCharge,
+                    MullNeutral = atom.MullikenPopulation.HasValue ? Math.Round(atom.MullikenPopulation.Value, 6) : null,
+                    MullLewisAcid = atom.MullikenPopulationLUMO.HasValue ? Math.Round(atom.MullikenPopulationLUMO.Value, 6) : null,
+                    MullLewisBase = atom.MullikenPopulationHOMO.HasValue ? Math.Round(atom.MullikenPopulationHOMO.Value, 6) : null,
+                };
+                foreach(var orbitalReport in 
+                                from item in 
+                                        atom.Orbitals
+                                          orderby item.Position ascending
+                                            select new AtomOrbitalReport() {
+                                                  AtomID = $"{atom.Symbol}{atom.Position}",
+                                                  MoleculeName = molecule.Name,
+                                                  OrbitalPosition = item.Position,
+                                                  OrbitalSymbol = $"{item.Symbol}",
+                                                  PopulationFraction = item.MullikenPopulation / atom.MullikenPopulation,
+                                                  PopulationFractionHOMO = item.MullikenPopulationHomo / atom.MullikenPopulationHOMO,
+                                                  PopulationFractionLUMO = item.MullikenPopulationLumo / atom.MullikenPopulationLUMO
+                                             })
+                {
+                    toAdd.Configuration += orbitalReport.OrbitalSymbol + "(" + StringConversion.ToString(orbitalReport.PopulationFraction, "0.00") + ")";
+                    toAdd.ConfigurationLewisAcid += orbitalReport.OrbitalSymbol + "(" + StringConversion.ToString(orbitalReport.PopulationFractionLUMO, "0.00") + ")";
+                    toAdd.ConfigurationLewisBase += orbitalReport.OrbitalSymbol + "(" + StringConversion.ToString(orbitalReport.PopulationFractionHOMO, "0.00") + ")";
+                }
+                report.Add(toAdd);
+            }
+            return report;
+        }
+
         public List<MoleculeAtomOrbitalReport> GetMoleculeAtomOrbitalReport(Molecule? molecule)
         {
             List<MoleculeAtomOrbitalReport> report = new List<MoleculeAtomOrbitalReport>();
             if(molecule == null) return report; 
             foreach(var atom in molecule.Atoms)
             {
-                var toAdd = new MoleculeAtomOrbitalReport()
+                report.Add(new MoleculeAtomOrbitalReport()
                 {
                     MoleculeName = molecule.Name,
                     AtomID = $"{atom.Symbol}{atom.Position}",
                     MullikenPopulation = atom.MullikenPopulation.HasValue ? Math.Round(atom.MullikenPopulation.Value, 6) : null,
-                };
-
-                foreach (var orbital in from item in atom.Orbitals orderby item.Position ascending select item)
-                {
-                    var toadd = new AtomOrbitalReport()
-                    {
-                        AtomID = $"{atom.Symbol}{atom.Position}",
-                        MoleculeName = molecule.Name,
-                        OrbitalPosition = orbital.Position,
-                        OrbitalSymbol = $"{orbital.Symbol}",
-                        PopulationFraction = orbital.MullikenPopulation / atom.MullikenPopulation,
-                        PopulationFractionHOMO = orbital.MullikenPopulationHomo / atom.MullikenPopulationHOMO,
-                        PopulationFractionLUMO = orbital.MullikenPopulationLumo / atom.MullikenPopulationLUMO
-                    };
-                    toadd.PopulationFraction = toadd.PopulationFraction.HasValue ? Math.Round(toadd.PopulationFraction.Value, 6): null;
-                    toadd.PopulationFractionHOMO = toadd.PopulationFractionHOMO.HasValue ? Math.Round(toadd.PopulationFractionHOMO.Value, 6) : null;
-                    toadd.PopulationFractionLUMO = toadd.PopulationFractionLUMO.HasValue ? Math.Round(toadd.PopulationFractionLUMO.Value, 6) : null;
-                    toAdd.OrbitalReport.Add(toadd);
-                }
-                report.Add(toAdd);
-
+                    OrbitalReport = (from item in atom.Orbitals
+                                     orderby item.Position ascending
+                                     select new AtomOrbitalReport()
+                                     {
+                                         AtomID = $"{atom.Symbol}{atom.Position}",
+                                         MoleculeName = molecule.Name,
+                                         OrbitalPosition = item.Position,
+                                         OrbitalSymbol = $"{item.Symbol}",
+                                         PopulationFraction = item.MullikenPopulation / atom.MullikenPopulation,
+                                         PopulationFractionHOMO = item.MullikenPopulationHomo / atom.MullikenPopulationHOMO,
+                                         PopulationFractionLUMO = item.MullikenPopulationLumo / atom.MullikenPopulationLUMO
+                                     }).ToList()
+                });
             }
             return report;
         }

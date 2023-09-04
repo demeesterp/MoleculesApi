@@ -126,5 +126,29 @@ namespace molecules.api.Controllers
             }
         }
 
+        /// <summary>
+        /// Get the molecule summary report
+        /// </summary>
+        /// <param name="moleculeid">id of the molecule</param>
+        /// <returns>The report</returns>
+        [HttpGet]
+        [Route("molecule/{moleculeid}/generalmoleculereport")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ServiceError), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<GeneralMoleculeReport>>> GetGeneralMoleculeReportAsync([FromRoute] int moleculeid)
+        {
+            _logger.LogInformation("GetGeneralMoleculeReport by moleculeid:{id}", moleculeid);
+            var result = await _moleculeReportService.GetGeneralMoleculeReportsAsync(moleculeid);
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }   
+
     }
 }

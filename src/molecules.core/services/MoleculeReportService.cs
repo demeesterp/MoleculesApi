@@ -21,6 +21,13 @@ namespace molecules.core.services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));   
         }
 
+        public async Task<List<GeneralMoleculeReport>> GetGeneralMoleculeReportsAsync(int moleculeId)
+        {
+            _logger.LogInformation($"GetGeneralMoleculeReportsAsync({moleculeId})");
+            var molecule = await _calcMoleculeService.GetAsync(moleculeId);
+            return _moleculeReportFactory.GetGeneralMoleculeReport(molecule?.Molecule);
+        }
+
         public async Task<List<MoleculeAtomOrbitalReport>> GetMoleculeAtomOrbitalReportAsync(int moleculeId)
         {
             _logger.LogInformation($"GetMoleculeAtomOrbitalReportAsync({moleculeId})");

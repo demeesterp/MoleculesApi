@@ -11,5 +11,7 @@ namespace molecules.core.services
         Task<List<MoleculeBondsReport>> GetMoleculeBondsReportsAsync(int moleculeId);
 
         Task<List<MoleculeAtomsPopulationReport>> GetMoleculePopulationReportAsync(int moleculeId);
+
+        Task<List<GeneralMoleculeReport>> GetGeneralMoleculeReportsAsync(int moleculeId);
     }
 }
