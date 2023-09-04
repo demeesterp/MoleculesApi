@@ -55,6 +55,8 @@ namespace molecules.api.ServiceExtensions
             services.AddScoped<IMoleculeReportFactory, MoleculeReportFactory>();
             services.AddScoped<IMoleculeReportService, MoleculeReportService>();
 
+            services.AddScoped<IMoleculeFileService, MoleculeFileService>();
+
             services.AddScoped<ICalcFileConversionService, CalcFileConversionService>();
         }
 

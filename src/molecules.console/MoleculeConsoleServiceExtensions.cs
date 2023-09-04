@@ -62,6 +62,8 @@ namespace molecules.console
             services.AddTransient<IMoleculeReportFactory, MoleculeReportFactory>();
             services.AddTransient<IMoleculeReportService, MoleculeReportService>();
 
+            services.AddTransient<IMoleculeFileService, MoleculeFileService>();
+
             services.AddTransient<ICalcFileConversionService, CalcFileConversionService>();
 
         }
