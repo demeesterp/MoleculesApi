@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting.Server;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using molecules.api.Filter;
 using molecules.core.services;
@@ -12,6 +13,7 @@ namespace molecules.api.Controllers
     /// </summary>
     [ApiController]
     [Route("moleculefiles")]
+    [AllowAnonymous]
     public class MoleculeFileController : ControllerBase
     {
         private readonly ILogger<MoleculeFileController> _logger;

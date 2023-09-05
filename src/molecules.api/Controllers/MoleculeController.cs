@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using molecules.api.Filter;
 using molecules.core.aggregates;
 using molecules.core.services;
@@ -11,6 +12,7 @@ namespace molecules.api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("molecule")]
+    [AllowAnonymous]
     public class MoleculeController : ControllerBase
     {
 

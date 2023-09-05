@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using molecules.api.Filter;
 using molecules.core.aggregates;
@@ -13,6 +14,7 @@ namespace molecules.api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("calcorders")]
+    [AllowAnonymous]
     public class CalcOrderController : ControllerBase
     {
         private readonly ILogger<CalcOrderController>   _logger;
