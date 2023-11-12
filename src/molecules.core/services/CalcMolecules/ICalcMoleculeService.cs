@@ -1,7 +1,7 @@
 ﻿using molecules.core.aggregates;
 using molecules.core.valueobjects.Molecules;
 
-namespace molecules.core.services
+namespace molecules.core.services.CalcMolecules
 {
     public interface ICalcMoleculeService
     {

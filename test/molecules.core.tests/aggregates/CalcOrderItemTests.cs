@@ -1,13 +1,17 @@
 ﻿using molecules.core.aggregates;
 using molecules.core.valueobjects;
 using molecules.core.valueobjects.CalcOrderItem;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.ComponentModel;
 
 namespace molecules.core.tests.aggregates
 {
+
     public class CalcOrderItemTests
     {
         public class CalcOrderItemConstructorTests : CalcOrderItemTests
         {
+
             [Fact]
             public void Should_Initialise_Members_When_Default_Constructor_Called()
             {             
@@ -19,7 +23,6 @@ namespace molecules.core.tests.aggregates
                 Assert.Empty(item.MoleculeName);
                 Assert.NotNull(item.Details);
             }
-
 
             [Fact]
             public void Should_Throw_ArgumentException_When_MoleculeName_Is_Null()

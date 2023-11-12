@@ -1,4 +1,4 @@
-﻿namespace molecules.core.services
+﻿namespace molecules.core.services.CustomConversions
 {
     public interface ICalcFileConversionService
     {

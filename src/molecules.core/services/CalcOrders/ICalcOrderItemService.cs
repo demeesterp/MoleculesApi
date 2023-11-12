@@ -1,7 +1,7 @@
 ﻿using molecules.core.aggregates;
 using molecules.core.valueobjects.CalcOrderItem;
 
-namespace molecules.core.services
+namespace molecules.core.services.CalcOrders
 {
     public interface ICalcOrderItemService
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using molecules.api.Filter;
 using molecules.core.aggregates;
-using molecules.core.services;
+using molecules.core.services.CalcMolecules;
 
 namespace molecules.api.Controllers
 {
@@ -67,6 +67,7 @@ namespace molecules.api.Controllers
         {
             _logger.LogInformation("Get a molecule by name:{name}", name);
             var result = await _service.FindAllByNameAsync(name);
+
             return Ok(result);
         }
 

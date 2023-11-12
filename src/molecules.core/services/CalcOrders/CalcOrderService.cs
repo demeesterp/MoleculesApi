@@ -6,20 +6,20 @@ using molecules.core.Factories;
 using molecules.core.services.validators.servicehelpers;
 using molecules.core.valueobjects.CalcOrder;
 
-namespace molecules.core.services
+namespace molecules.core.services.CalcOrders
 {
     /// <inheritdoc/>
     public class CalcOrderService : ICalcOrderService
     {
         #region dependencies
 
-        private readonly ILogger<CalcOrderService>          _logger;
+        private readonly ILogger<CalcOrderService> _logger;
 
-        private readonly ICalcOrderServiceValidations       _validations;
+        private readonly ICalcOrderServiceValidations _validations;
 
-        private readonly ICalcOrderRepository               _calcOrderRepository;
+        private readonly ICalcOrderRepository _calcOrderRepository;
 
-        private readonly ICalcOrderFactory                  _calcOrderFactory;
+        private readonly ICalcOrderFactory _calcOrderFactory;
 
         #endregion
 
@@ -33,10 +33,10 @@ namespace molecules.core.services
                                     ICalcOrderFactory calcOrderFactory,
                                     ILogger<CalcOrderService> logger)
         {
-            _logger                 = logger ?? throw new ArgumentNullException(nameof(logger));
-            _validations            = validations ?? throw new ArgumentNullException(nameof(validations));
-            _calcOrderRepository    = calcOrderRepository ?? throw new ArgumentNullException(nameof(calcOrderRepository));
-            _calcOrderFactory       = calcOrderFactory ?? throw new ArgumentNullException(nameof(calcOrderFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _validations = validations ?? throw new ArgumentNullException(nameof(validations));
+            _calcOrderRepository = calcOrderRepository ?? throw new ArgumentNullException(nameof(calcOrderRepository));
+            _calcOrderFactory = calcOrderFactory ?? throw new ArgumentNullException(nameof(calcOrderFactory));
         }
 
         /// <inheritdoc/>
@@ -44,7 +44,7 @@ namespace molecules.core.services
         {
             if (createCalcOrder == null)
                 throw new ArgumentNullException(nameof(createCalcOrder));
-            
+
             _logger.LogInformation("Create a new CalcOrder called with name {0} and description {1}",
                                                 createCalcOrder.Name,
                                                 createCalcOrder.Description);
@@ -90,7 +90,7 @@ namespace molecules.core.services
             _logger.LogInformation("GetAsync with id {0}", id);
 
             var dbresult = await _calcOrderRepository.GetByIdAsync(id);
-            
+
             return _calcOrderFactory.CreateCalcOrder(dbresult);
         }
 
@@ -110,7 +110,7 @@ namespace molecules.core.services
             _logger.LogInformation("ListAsync");
 
             var dbresult = await _calcOrderRepository.GetAllAsync();
-            
+
             return dbresult.ConvertAll(_calcOrderFactory.CreateCalcOrder);
         }
 

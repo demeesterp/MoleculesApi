@@ -1,6 +1,6 @@
 ﻿using molecules.core.valueobjects.MoleculeReport;
 
-namespace molecules.core.services
+namespace molecules.core.services.Reporting
 {
     public interface IMoleculeReportService
     {

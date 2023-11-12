@@ -23,12 +23,10 @@ namespace molecules.infrastructure.data.Repositories
         public async Task DeleteAsync(int id)
         {
             var molecule = await _context.Molecule.FindAsync(id);
-            if ( molecule != null)
-            {
+            if ( molecule != null) {
                 _context.Molecule.Remove(molecule);
             }
-            else
-            {
+            else {
                 throw new MoleculesResourceNotFoundException($"Resource {nameof(MoleculeDbEntity)} with Id {id} was not found");
             }
         }
@@ -36,12 +34,10 @@ namespace molecules.infrastructure.data.Repositories
         public async Task<MoleculeDbEntity> GetByIdAsync(int id)
         {
             var result = await _context.Molecule.FirstOrDefaultAsync(i => i.Id == id);
-            if (result != null)
-            {
+            if (result != null) {
                 return result;
             }
-            else
-            {
+            else {
                 throw new MoleculesResourceNotFoundException($"Resource {nameof(MoleculeDbEntity)} with Id {id} was not found");
             }
         }
@@ -56,14 +52,17 @@ namespace molecules.infrastructure.data.Repositories
         public async Task<List<MoleculeNameInfoDbEntity>> FindAllByNameAsync(string moleculeName)
         {
             return await (from mol in _context.Molecule
-             where  EF.Functions.Like(mol.MoleculeName.ToLower(), $"{moleculeName.ToLower()}%")
-             select new MoleculeNameInfoDbEntity()
-             {
-                 Id = mol.Id,
-                 MoleculeName = mol.MoleculeName,
-                 OrderName = mol.OrderName,
-                 BasisSet = mol.BasisSet
-             }).AsNoTracking().ToListAsync();
+                                where  
+                                    EF.Functions.Like(mol.MoleculeName.ToLower(), $"{moleculeName.ToLower()}")
+                                 select new MoleculeNameInfoDbEntity()
+                                 {
+                                     Id = mol.Id,
+                                     MoleculeName = mol.MoleculeName,
+                                     OrderName = mol.OrderName,
+                                     BasisSet = mol.BasisSet
+                                 })
+                                 .AsNoTracking()
+                                 .ToListAsync();
         }
 
         public async Task SaveChangesAsync()

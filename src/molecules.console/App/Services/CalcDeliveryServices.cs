@@ -1,8 +1,8 @@
-﻿using molecules.core.services;
+﻿using molecules.core.services.CalcDelivery;
 
-namespace molecules.console.App
+namespace molecules.console.App.Services
 {
-    public class CalcDeliveryApp
+    public class CalcDeliveryServices
     {
         #region dependencies
 
@@ -10,7 +10,7 @@ namespace molecules.console.App
 
         #endregion
 
-        public CalcDeliveryApp(ICalcDeliveryService calcDeliveryService)
+        public CalcDeliveryServices(ICalcDeliveryService calcDeliveryService)
         {
             _calcDeliveryService = calcDeliveryService;
         }

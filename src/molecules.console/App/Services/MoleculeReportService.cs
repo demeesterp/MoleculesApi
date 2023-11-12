@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using molecules.console.Constants;
-using molecules.core.services;
+using molecules.core.services.Reporting;
 using molecules.shared;
 
-namespace molecules.console.App
+namespace molecules.console.App.Services
 {
-    public class MoleculeReportApp
+    public class MoleculeReportService
     {
 
         #region dependencies
@@ -19,7 +19,7 @@ namespace molecules.console.App
 
         #endregion
 
-        public MoleculeReportApp(IMoleculeReportService moleculeReportService,
+        public MoleculeReportService(IMoleculeReportService moleculeReportService,
                                     IConfiguration configuration,
                                         ILogger<IMoleculeReportService> logger)
         {
@@ -68,7 +68,7 @@ namespace molecules.console.App
 
         private ReportName GetReportType()
         {
-            if ( !Enum.TryParse(_configuration["ReportType"], true, out ReportName result) )
+            if (!Enum.TryParse(_configuration["ReportType"], true, out ReportName result))
             {
                 return ReportName.None;
             }

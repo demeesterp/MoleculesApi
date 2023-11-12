@@ -6,7 +6,7 @@ using molecules.core.Factories;
 using molecules.core.services.validators.servicehelpers;
 using molecules.core.valueobjects.CalcOrderItem;
 
-namespace molecules.core.services
+namespace molecules.core.services.CalcOrders
 {
     public class CalcOrderItemService : ICalcOrderItemService
     {
@@ -25,18 +25,18 @@ namespace molecules.core.services
         public CalcOrderItemService(ICalcOrderItemRepository calcOrderItemRepository,
                                                 ICalcOrderItemFactory calcOrderItemFactory,
                                                 ICalcOrderItemServiceValidations calcOrderItemServiceValidations,
-                                                    ILogger<CalcOrderItemService> logger )
+                                                    ILogger<CalcOrderItemService> logger)
         {
-            _calcOrderItemFactory               = calcOrderItemFactory ?? throw new ArgumentNullException(nameof(calcOrderItemFactory));
-            _logger                             = logger ?? throw new ArgumentNullException(nameof(logger));
-            _calcOrderItemRepository            = calcOrderItemRepository ?? throw new ArgumentNullException(nameof(calcOrderItemRepository));
-            _calcOrderItemServiceValidations    = calcOrderItemServiceValidations ?? throw new ArgumentNullException(nameof(calcOrderItemServiceValidations));
+            _calcOrderItemFactory = calcOrderItemFactory ?? throw new ArgumentNullException(nameof(calcOrderItemFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _calcOrderItemRepository = calcOrderItemRepository ?? throw new ArgumentNullException(nameof(calcOrderItemRepository));
+            _calcOrderItemServiceValidations = calcOrderItemServiceValidations ?? throw new ArgumentNullException(nameof(calcOrderItemServiceValidations));
         }
 
         // <inheritdoc />
         public async Task<CalcOrderItem> CreateAsync(int calcOrderId, CreateCalcOrderItem createCalcOrderItem)
         {
-            _logger.LogInformation("CreateAsync for calcOrderId {0} and molecule {1} with details {3} was called ", 
+            _logger.LogInformation("CreateAsync for calcOrderId {0} and molecule {1} with details {3} was called ",
                             calcOrderId,
                             createCalcOrderItem.MoleculeName,
                             createCalcOrderItem.Details);

@@ -12,6 +12,7 @@ using molecule.infrastructure.data.interfaces.Repositories;
 using molecule.infrastructure.data.interfaces.DbEntities;
 using molecules.core.Factories;
 using molecules.core.aggregates;
+using molecules.core.services.CalcOrders;
 
 namespace molecules.core.tests.services
 {

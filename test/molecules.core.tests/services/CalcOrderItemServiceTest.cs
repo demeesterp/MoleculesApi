@@ -16,6 +16,7 @@ using molecules.core.aggregates;
 using molecule.infrastructure.data.interfaces.DbEntities;
 using molecules.core.valueobjects.CalcOrderItem;
 using molecules.core.valueobjects.BasisSet;
+using molecules.core.services.CalcOrders;
 
 namespace molecules.core.tests.services
 {

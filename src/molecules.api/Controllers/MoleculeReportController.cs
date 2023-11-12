@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using molecules.api.Filter;
-using molecules.core.services;
+using molecules.core.services.Reporting;
 using molecules.core.valueobjects.MoleculeReport;
 
 namespace molecules.api.Controllers

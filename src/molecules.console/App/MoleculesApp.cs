@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using molecules.console.App.Services;
 using molecules.console.Constants;
 
 namespace molecules.console.App
@@ -15,18 +16,18 @@ namespace molecules.console.App
 
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-        private readonly CalcDeliveryApp _calcDeliveryApp;
+        private readonly CalcDeliveryServices _calcDeliveryApp;
 
-        private readonly CalcConversionApp _calcConversionApp;
+        private readonly CalcConversionService _calcConversionApp;
 
-        private readonly MoleculeReportApp _moleculeReportApp;
+        private readonly MoleculeReportService _moleculeReportApp;
 
         #endregion
 
         public MoleculesApp(
-            CalcDeliveryApp calcDeliveryApp,
-            CalcConversionApp calcConversionApp,
-            MoleculeReportApp moleculeReportApp,
+            CalcDeliveryServices calcDeliveryApp,
+            CalcConversionService calcConversionApp,
+            MoleculeReportService moleculeReportApp,
             IConfiguration configuration,
                               ILogger<MoleculesApp> logger,
                                 IHostApplicationLifetime hostApplicationLifetime)

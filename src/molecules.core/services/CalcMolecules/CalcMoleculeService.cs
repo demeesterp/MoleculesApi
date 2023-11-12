@@ -6,7 +6,7 @@ using molecules.core.factories;
 using molecules.core.valueobjects.Molecules;
 using molecules.shared;
 
-namespace molecules.core.services
+namespace molecules.core.services.CalcMolecules
 {
     public class CalcMoleculeService : ICalcMoleculeService
     {
@@ -31,9 +31,9 @@ namespace molecules.core.services
         {
             _logger.LogInformation("GetAsync {0}", id);
 
-             var moleculeDbEntity = await _repository.GetByIdAsync(id);
+            var moleculeDbEntity = await _repository.GetByIdAsync(id);
 
-             return _factory.BuildMolecule(moleculeDbEntity);
+            return _factory.BuildMolecule(moleculeDbEntity);
         }
 
         public async Task<CalcMolecule?> FindAsync(string orderName, string basisSet, string moleculeName)
@@ -42,13 +42,13 @@ namespace molecules.core.services
 
             var moleculeDbEntity = await _repository.FindAsync(orderName, basisSet, moleculeName);
 
-            return moleculeDbEntity== null ? null : _factory.BuildMolecule(moleculeDbEntity);
+            return moleculeDbEntity == null ? null : _factory.BuildMolecule(moleculeDbEntity);
         }
 
         public async Task<List<CalcMolecule>> FindAllByNameAsync(string moleculeName)
         {
-            _logger.LogInformation("FindAllByNameAsync for moleculeName {0}", moleculeName); 
-            
+            _logger.LogInformation("FindAllByNameAsync for moleculeName {0}", moleculeName);
+
             var moleculeDbEntities = await _repository.FindAllByNameAsync(moleculeName);
 
             return moleculeDbEntities.OrderByDescending(i => i.OrderName)
@@ -60,14 +60,14 @@ namespace molecules.core.services
         public async Task<CalcMolecule> CreateAsync(CalcMolecule molecule)
         {
             _logger.LogInformation("CreateAsync");
-            
+
             string moleculeStringData = "";
-            
-            if ( molecule.Molecule != null)
+
+            if (molecule.Molecule != null)
             {
                 moleculeStringData = StringConversion.ToJsonString(molecule.Molecule);
             }
-            
+
             var moleculeDbEntity =
                 await _repository.CreateAsync(new MoleculeDbEntity()
                 {
@@ -96,10 +96,10 @@ namespace molecules.core.services
         public async Task<CalcMolecule> UpdateAsync(int id, Molecule? molecule)
         {
             _logger.LogInformation("UpdateAsync");
-            if ( molecule == null)
+            if (molecule == null)
             {
                 throw new ArgumentNullException(nameof(molecule));
-            } 
+            }
 
             var result = await _repository.UpdateAsync(id, molecule.Name, StringConversion.ToJsonString(molecule));
 

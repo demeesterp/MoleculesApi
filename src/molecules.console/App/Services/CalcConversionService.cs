@@ -1,9 +1,9 @@
 ﻿using molecules.console.MoleculesLegacy;
-using molecules.core.services;
+using molecules.core.services.CustomConversions;
 
-namespace molecules.console.App
+namespace molecules.console.App.Services
 {
-    public class CalcConversionApp
+    public class CalcConversionService
     {
         #region dependencies
 
@@ -11,7 +11,7 @@ namespace molecules.console.App
 
         #endregion
 
-        public CalcConversionApp(ICalcFileConversionService calcFileConversionService)
+        public CalcConversionService(ICalcFileConversionService calcFileConversionService)
         {
             _calcFileConversionService = calcFileConversionService ?? throw new ArgumentNullException(nameof(calcFileConversionService));
         }

@@ -3,7 +3,7 @@ using molecules.core.factories.GmsParsers;
 using molecules.core.valueobjects.Molecules;
 using molecules.shared;
 
-namespace molecules.core.services
+namespace molecules.core.services.CustomConversions
 {
     public class CalcFileConversionService : ICalcFileConversionService
     {
@@ -23,7 +23,7 @@ namespace molecules.core.services
             _Logger.LogInformation("ConvertMoleculeToXyzFileAsync basePath {0}", basePath);
             foreach (var item in Directory.EnumerateFiles(Path.Combine(basePath, "Conversion"), "*GeometryOptimization*.log", SearchOption.AllDirectories))
             {
-                Molecule molecule = new Molecule();              
+                Molecule molecule = new Molecule();
                 GeoOptParser.Parse(File.ReadAllLines(item).ToList(), molecule);
                 File.WriteAllText(Path.Combine(basePath, "Conversion", $"{Path.GetFileNameWithoutExtension(item)}.xyz"),
                                         Molecule.GetXyzFileData(molecule));

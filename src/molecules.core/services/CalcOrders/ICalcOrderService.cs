@@ -1,7 +1,7 @@
 ﻿using molecules.core.aggregates;
 using molecules.core.valueobjects.CalcOrder;
 
-namespace molecules.core.services
+namespace molecules.core.services.CalcOrders
 {
     /// <summary>
     /// Service with all the business logic for CalcOrder

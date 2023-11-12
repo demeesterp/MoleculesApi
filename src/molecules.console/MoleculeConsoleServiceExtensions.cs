@@ -1,6 +1,5 @@
 ﻿using Serilog.Events;
 using Serilog;
-using molecules.core.services;
 using FluentValidation;
 using molecules.core.services.validators;
 using molecules.core.services.validators.servicehelpers;
@@ -11,7 +10,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using molecules.core.factories;
 using molecules.core.factories.Reports;
-using molecules.console.App;
+using molecules.core.services.CalcOrders;
+using molecules.core.services.CalcDelivery;
+using molecules.console.App.Services;
+using molecules.core.services.CalcMolecules;
+using molecules.core.services.CustomConversions;
+using molecules.core.services.Reporting;
 
 namespace molecules.console
 {
@@ -32,9 +36,9 @@ namespace molecules.console
 
         internal static void AddApps(this IServiceCollection services)
         {
-            services.AddSingleton<CalcDeliveryApp>();
-            services.AddSingleton<CalcConversionApp>();
-            services.AddSingleton<MoleculeReportApp>();
+            services.AddSingleton<CalcDeliveryServices>();
+            services.AddSingleton<CalcConversionService>();
+            services.AddSingleton<App.Services.MoleculeReportService>();
         }
 
         internal static void AddCoreServices(this IServiceCollection services)
@@ -60,12 +64,9 @@ namespace molecules.console
             services.AddTransient<ICalcMoleculeService, CalcMoleculeService>();
 
             services.AddTransient<IMoleculeReportFactory, MoleculeReportFactory>();
-            services.AddTransient<IMoleculeReportService, MoleculeReportService>();
-
-            services.AddTransient<IMoleculeFileService, MoleculeFileService>();
+            services.AddTransient<IMoleculeReportService, core.services.Reporting.MoleculeReportService>();
 
             services.AddTransient<ICalcFileConversionService, CalcFileConversionService>();
-
         }
 
         internal static void AddLogging(this IServiceCollection services, string basePath)

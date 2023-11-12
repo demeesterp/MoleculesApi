@@ -1,24 +1,25 @@
 ﻿using Microsoft.Extensions.Logging;
 using molecules.core.factories.Reports;
+using molecules.core.services.CalcMolecules;
 using molecules.core.valueobjects.MoleculeReport;
 
-namespace molecules.core.services
+namespace molecules.core.services.Reporting
 {
     public class MoleculeReportService : IMoleculeReportService
     {
-        private readonly IMoleculeReportFactory             _moleculeReportFactory;
+        private readonly IMoleculeReportFactory _moleculeReportFactory;
 
-        private readonly ICalcMoleculeService               _calcMoleculeService;
+        private readonly ICalcMoleculeService _calcMoleculeService;
 
-        private readonly ILogger<MoleculeReportService>     _logger;
+        private readonly ILogger<MoleculeReportService> _logger;
 
-        public MoleculeReportService(ICalcMoleculeService calcMoleculeService, 
+        public MoleculeReportService(ICalcMoleculeService calcMoleculeService,
                                         IMoleculeReportFactory moleculeReportFactory,
                                             ILogger<MoleculeReportService> logger)
         {
-            _moleculeReportFactory = moleculeReportFactory??throw new ArgumentNullException(nameof(moleculeReportFactory));
-            _calcMoleculeService = calcMoleculeService??throw new ArgumentNullException(nameof(calcMoleculeService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));   
+            _moleculeReportFactory = moleculeReportFactory ?? throw new ArgumentNullException(nameof(moleculeReportFactory));
+            _calcMoleculeService = calcMoleculeService ?? throw new ArgumentNullException(nameof(calcMoleculeService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<List<GeneralMoleculeReport>> GetGeneralMoleculeReportsAsync(int moleculeId)
@@ -49,7 +50,7 @@ namespace molecules.core.services
             return _moleculeReportFactory.GetMoleculeBondsReports(molecule?.Molecule);
         }
 
-        public  async Task<List<MoleculeAtomsPopulationReport>> GetMoleculePopulationReportAsync(int moleculeId)
+        public async Task<List<MoleculeAtomsPopulationReport>> GetMoleculePopulationReportAsync(int moleculeId)
         {
             _logger.LogInformation($"GetMoleculePopulationReportAsync({moleculeId})");
             var molecule = await _calcMoleculeService.GetAsync(moleculeId);

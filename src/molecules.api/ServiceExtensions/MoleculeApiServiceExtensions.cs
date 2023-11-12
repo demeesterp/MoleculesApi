@@ -1,6 +1,5 @@
 ﻿using Serilog.Events;
 using Serilog;
-using molecules.core.services;
 using FluentValidation;
 using molecules.core.services.validators;
 using molecules.core.services.validators.servicehelpers;
@@ -9,6 +8,11 @@ using molecules.infrastructure.data.Repositories;
 using molecules.core.Factories;
 using molecules.core.factories;
 using molecules.core.factories.Reports;
+using molecules.core.services.CalcOrders;
+using molecules.core.services.CalcDelivery;
+using molecules.core.services.CalcMolecules;
+using molecules.core.services.CustomConversions;
+using molecules.core.services.Reporting;
 
 namespace molecules.api.ServiceExtensions
 {
@@ -54,8 +58,6 @@ namespace molecules.api.ServiceExtensions
 
             services.AddScoped<IMoleculeReportFactory, MoleculeReportFactory>();
             services.AddScoped<IMoleculeReportService, MoleculeReportService>();
-
-            services.AddScoped<IMoleculeFileService, MoleculeFileService>();
 
             services.AddScoped<ICalcFileConversionService, CalcFileConversionService>();
         }
