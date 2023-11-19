@@ -15,7 +15,7 @@ namespace molecules.core.tests.services.validators
         public void CreateCalcOrderItemValidator_WhenMoleculeNameIsEmpty_ReturnsError()
         {
             // Arrange
-            var createCalcOrderItem = new CreateCalcOrderItem();
+            var createCalcOrderItem = new CreateCalcOrderItem("",null);
             var validator = new CreateCalcOrderItemValidator();
 
             // Act
@@ -30,8 +30,7 @@ namespace molecules.core.tests.services.validators
         public void CreateCalcOrderItemValidator_WhenMoleculeNameIsWhitespace_ReturnsError()
         {
             // Arrange
-            var createCalcOrderItem = new CreateCalcOrderItem();
-            createCalcOrderItem.MoleculeName = " ";
+            var createCalcOrderItem = new CreateCalcOrderItem(" ", null);
             var validator = new CreateCalcOrderItemValidator();
 
             // Act
@@ -46,8 +45,7 @@ namespace molecules.core.tests.services.validators
         public void CreateCalcOrderItemValidator_WhenMoleculeNameIsTooLong_ReturnsError()
         {
             // Arrange
-            var createCalcOrderItem = new CreateCalcOrderItem();
-            createCalcOrderItem.MoleculeName = new string('t', 251);
+            var createCalcOrderItem = new CreateCalcOrderItem(new string('t', 251),null);
             var validator = new CreateCalcOrderItemValidator();
 
             // Act

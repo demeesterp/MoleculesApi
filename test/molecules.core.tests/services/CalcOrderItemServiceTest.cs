@@ -46,24 +46,12 @@ namespace molecules.core.tests.services
         }
 
         public static CreateCalcOrderItem CreateFromCalcOrderItemDbEntity(CalcOrderItemDbEntity dbEntity)
-        {
-            CreateCalcOrderItem retval = new CreateCalcOrderItem();
-            retval.MoleculeName 
-                = dbEntity.MoleculeName;
-            retval.Details.Charge 
-                = dbEntity.Charge;
-            retval.Details.XYZ 
-                = dbEntity.XYZ;
-            
-            if (Enum.TryParse(dbEntity.CalcType, out CalcOrderItemType calcType))
-            {
-                retval.Details.Type = calcType;
-            }
-            
-            retval.Details.BasisSetCode
-                = Enum.Parse<CalcBasisSetCode>(dbEntity.BasissetCode);
-            
-            return retval;
+        {        
+            return new CreateCalcOrderItem(dbEntity.MoleculeName, 
+                new CalcOrderItemDetails(dbEntity.Charge,
+                                            dbEntity.XYZ,
+                                                Enum.Parse<CalcBasisSetCode>(dbEntity.BasissetCode),
+                                                    Enum.TryParse(dbEntity.CalcType, out CalcOrderItemType calcType) ? calcType : CalcOrderItemType.GeoOpt));
         }
 
         public class CalcOrderItemServiceConstructorTest : CalcOrderItemServiceTest

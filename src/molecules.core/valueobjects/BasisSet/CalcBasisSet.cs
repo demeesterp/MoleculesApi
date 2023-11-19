@@ -1,6 +1,6 @@
 ﻿namespace molecules.core.valueobjects.BasisSet
 {
-    public class CalcBasisSet
+    public record CalcBasisSet
     {
         public CalcBasisSetCode Code { get; }
 

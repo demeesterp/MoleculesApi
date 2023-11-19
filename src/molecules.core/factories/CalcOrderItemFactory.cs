@@ -17,22 +17,10 @@ namespace molecules.core.Factories
         /// <returns>CalcOrderItem entity</returns>
         public CalcOrderItem CreateCalcOrderItem(CalcOrderItemDbEntity dbEntity)
         {
-            CalcOrderItem retval = new CalcOrderItem(dbEntity.MoleculeName);
-            retval.Id = dbEntity.Id;
-            retval.Details.Charge = dbEntity.Charge;
-            retval.Details.XYZ = dbEntity.XYZ;
-            
-            if (Enum.TryParse(dbEntity.CalcType, out CalcOrderItemType calcType))
-            {
-                retval.Details.Type = calcType;
-            }
-
-            if (Enum.TryParse(dbEntity.BasissetCode, out CalcBasisSetCode calcBasisSetCode))
-            {
-                retval.Details.BasisSetCode = calcBasisSetCode;
-            }
-
-            return retval;
+            return new CalcOrderItem(dbEntity.Id, dbEntity.MoleculeName,
+                    new CalcOrderItemDetails(dbEntity.Charge, dbEntity.XYZ,                    
+                    Enum.TryParse(dbEntity.BasissetCode, out CalcBasisSetCode calcBasisSetCode)? calcBasisSetCode : CalcBasisSetCode.BSTO3G,
+                    Enum.TryParse(dbEntity.CalcType, out CalcOrderItemType calcType) ? calcType : CalcOrderItemType.GeoOpt));
         }
     }
 }

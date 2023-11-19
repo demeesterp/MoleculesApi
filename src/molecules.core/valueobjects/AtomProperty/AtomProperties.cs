@@ -1,10 +1,19 @@
 ﻿namespace molecules.core.valueobjects.AtomProperty
 {
-    public class AtomProperties
+    public record AtomProperties
     {
-        public int Id { get; set; }
-        public string Symbol { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public int AtomNumber { get; set; }
+
+        public AtomProperties(int id, string symbol, string name, int atomNumber)
+        {
+            Id = id;
+            Symbol = symbol;
+            Name = name;
+            AtomNumber = atomNumber;
+        }
+
+        public int Id { get; }
+        public string Symbol { get; } = string.Empty;
+        public string Name { get; } = string.Empty;
+        public int AtomNumber { get; }
     }
 }

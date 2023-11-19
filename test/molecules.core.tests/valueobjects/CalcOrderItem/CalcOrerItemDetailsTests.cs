@@ -11,14 +11,14 @@ namespace molecules.core.tests.valueobjects.CalcOrderItem
 {
     public class CalcOrderItemDetailsTests
     {
-        public class CalcOrderItemDetailsConstructorTests : CalcOrderItemDetails
+        public class CalcOrderItemDetailsConstructorTests : CalcOrderItemDetailsTests
         {
             [Fact]
             public void Should_Initialise_Members_When_Default_Constructor_Called()
             {
                 // Act
 
-                CalcOrderItemDetails details = new CalcOrderItemDetails();
+                CalcOrderItemDetails details = new CalcOrderItemDetails(0,"",CalcBasisSetCode.B3_21G, CalcOrderItemType.GeoOpt);
 
                 // Assert
 

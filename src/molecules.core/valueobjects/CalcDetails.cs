@@ -5,17 +5,15 @@ namespace molecules.core.valueobjects
 {
     public class CalcDetails
     {
-        public int Charge { get; set; }
+        public int Charge { get; }
+        public CalcBasisSetCode BasisSetCode { get; }
+        public string XYZ { get; }
 
-        public CalcBasisSetCode BasisSetCode { get; set; }
-
-        public string XYZ { get; set; }
-
-        public CalcDetails()
+        public CalcDetails(int charge, string xyz, CalcBasisSetCode calcBasisSetCode)
         {
-            Charge = 0;
-            XYZ = string.Empty;
-            BasisSetCode = CalcBasisSetCode.BSTO3G;
+            Charge = charge;
+            XYZ = xyz;
+            BasisSetCode = calcBasisSetCode;
         }
 
 

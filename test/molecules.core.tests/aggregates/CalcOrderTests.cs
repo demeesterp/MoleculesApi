@@ -1,4 +1,6 @@
 ﻿using molecules.core.aggregates;
+using molecules.core.valueobjects.BasisSet;
+using molecules.core.valueobjects.CalcOrderItem;
 
 namespace molecules.core.tests.aggregates
 {
@@ -93,7 +95,9 @@ namespace molecules.core.tests.aggregates
                 // Arrange
                 CalcOrder calcOrder = new CalcOrder(0, "test");
 
-                CalcOrderItem toAdd = new CalcOrderItem("Test Molecule");
+                CalcOrderItem toAdd = new CalcOrderItem(12, "Test Molecule", new CalcOrderItemDetails(0, "",
+                                                                            CalcBasisSetCode.BSTO3G,
+                                                                                CalcOrderItemType.MolecularProperties));
 
                 // Act
                 calcOrder.AddItem(toAdd);
@@ -113,12 +117,15 @@ namespace molecules.core.tests.aggregates
                 // Arrange
                 CalcOrder calcOrder = new CalcOrder(0, "test");
 
-                CalcOrderItem toAdd = new CalcOrderItem("Test Molecule");
-                toAdd.Id = 100;
+                CalcOrderItem toAdd = new CalcOrderItem(100,
+                                                        "Test Molecule",
+                                                            new CalcOrderItemDetails(0, "",
+                                                                            CalcBasisSetCode.BSTO3G,
+                                                                                CalcOrderItemType.MolecularProperties));
                 calcOrder.AddItem(toAdd);
 
                 // Act
-                calcOrder.RemoveItem(toAdd.Id);
+                calcOrder.RemoveItem(100);
 
                 // Assert
                 Assert.Empty(calcOrder.Items);
@@ -130,7 +137,9 @@ namespace molecules.core.tests.aggregates
                 // Arrange
                 CalcOrder calcOrder = new CalcOrder(0, "test");
 
-                CalcOrderItem toAdd = new CalcOrderItem("Test Molecule");
+                CalcOrderItem toAdd = new CalcOrderItem(12, "Test Molecule", new CalcOrderItemDetails(0, "",
+                                                                            CalcBasisSetCode.BSTO3G,
+                                                                                CalcOrderItemType.MolecularProperties));
                 calcOrder.AddItem(toAdd);
 
                 // Act

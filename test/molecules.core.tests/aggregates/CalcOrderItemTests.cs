@@ -3,6 +3,7 @@ using molecules.core.valueobjects;
 using molecules.core.valueobjects.CalcOrderItem;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.ComponentModel;
+using molecules.core.valueobjects.BasisSet;
 
 namespace molecules.core.tests.aggregates
 {
@@ -16,12 +17,16 @@ namespace molecules.core.tests.aggregates
             public void Should_Initialise_Members_When_Default_Constructor_Called()
             {             
                 // Act
-                CalcOrderItem item = new CalcOrderItem();
+                CalcOrderItem item = new CalcOrderItem(0, "", 
+                                new CalcOrderItemDetails(0, "", 
+                                                            CalcBasisSetCode.BSTO3G,
+                                                                CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Equal(0, item.Id);
-                Assert.Empty(item.MoleculeName);
+                Assert.Equal("", item.MoleculeName);
                 Assert.NotNull(item.Details);
+
             }
 
             [Fact]
@@ -31,7 +36,9 @@ namespace molecules.core.tests.aggregates
                 string moleculeName = null;
 
                 // Act
-                Action action = () => new CalcOrderItem(moleculeName);
+                Action action = () =>
+                         new CalcOrderItem(0, "", 
+                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Throws<ArgumentException>(action);
@@ -44,7 +51,9 @@ namespace molecules.core.tests.aggregates
                 string moleculeName = string.Empty;
 
                 // Act
-                Action action = () => new CalcOrderItem(moleculeName);
+                Action action = () =>
+                         new CalcOrderItem(0, "",
+                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Throws<ArgumentException>(action);
@@ -57,7 +66,8 @@ namespace molecules.core.tests.aggregates
                 string moleculeName = "MoleculeName";
 
                 // Act
-                CalcOrderItem item = new CalcOrderItem(moleculeName);
+                CalcOrderItem item = new CalcOrderItem(0, "",
+                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Equal(0, item.Id);
@@ -72,7 +82,8 @@ namespace molecules.core.tests.aggregates
             public void Should_Throw_ArgumentNullException_When_Details_Is_Null()
             {
                 // Arrange
-                CalcOrderItem item = new CalcOrderItem();
+                CalcOrderItem item = new CalcOrderItem(0, "",
+                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
                 CalcOrderItemDetails details = null;
 
                 // Act
@@ -86,8 +97,9 @@ namespace molecules.core.tests.aggregates
             public void Should_Update_Details_When_Details_Is_Valid()
             {
                 // Arrange
-                CalcOrderItem item = new CalcOrderItem();
-                CalcOrderItemDetails details = new CalcOrderItemDetails();
+                CalcOrderItem item = new CalcOrderItem(0, "",
+                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
+                CalcOrderItemDetails details = new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties);
 
                 // Act
                 item.UpdateDetails(details);

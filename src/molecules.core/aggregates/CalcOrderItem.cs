@@ -4,27 +4,19 @@ namespace molecules.core.aggregates
 {
     public class CalcOrderItem
     {
-        public int Id { get; set; }
+        public int Id { get; }
 
-        public string MoleculeName { get; set; }
+        public string MoleculeName { get; }
 
         public CalcOrderItemDetails Details { get; set; }
 
-        public CalcOrderItem()
+        public CalcOrderItem(int id, string moleculeName, CalcOrderItemDetails details)
         {
-            Id = 0;
-            MoleculeName = string.Empty;
-            Details = new CalcOrderItemDetails();
-        }
-
-        public CalcOrderItem(string moleculeName):this()
-        {
-            if ( string.IsNullOrWhiteSpace(moleculeName))
-            {
-                throw new ArgumentException("Molecule name cannot be null or empty", nameof(moleculeName));
-            }
-            MoleculeName = moleculeName;
-        }
+            Id = id;
+            MoleculeName = String.IsNullOrWhiteSpace(moleculeName) ?
+                        throw new ArgumentException(nameof(moleculeName)) : moleculeName;
+            Details = details?? throw new ArgumentException(nameof(details));
+        }        
 
         public void UpdateDetails(CalcOrderItemDetails details)
         {
