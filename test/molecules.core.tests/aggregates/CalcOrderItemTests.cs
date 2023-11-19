@@ -17,14 +17,14 @@ namespace molecules.core.tests.aggregates
             public void Should_Initialise_Members_When_Default_Constructor_Called()
             {             
                 // Act
-                CalcOrderItem item = new CalcOrderItem(0, "", 
-                                new CalcOrderItemDetails(0, "", 
+                CalcOrderItem item = new CalcOrderItem(0, "moleculename", 
+                                    new CalcOrderItemDetails(0, "xyzfile", 
                                                             CalcBasisSetCode.BSTO3G,
                                                                 CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Equal(0, item.Id);
-                Assert.Equal("", item.MoleculeName);
+                Assert.Equal("moleculename", item.MoleculeName);
                 Assert.NotNull(item.Details);
 
             }
@@ -37,8 +37,8 @@ namespace molecules.core.tests.aggregates
 
                 // Act
                 Action action = () =>
-                         new CalcOrderItem(0, "", 
-                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
+                         new CalcOrderItem(0, moleculeName, 
+                                        new CalcOrderItemDetails(0, "xyz file", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Throws<ArgumentException>(action);
@@ -52,8 +52,11 @@ namespace molecules.core.tests.aggregates
 
                 // Act
                 Action action = () =>
-                         new CalcOrderItem(0, "",
-                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
+                         new CalcOrderItem(0, moleculeName,
+                                        new CalcOrderItemDetails(0,
+                                                                 "xyz file",
+                                                                 CalcBasisSetCode.BSTO3G,
+                                                                  CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Throws<ArgumentException>(action);
@@ -66,8 +69,8 @@ namespace molecules.core.tests.aggregates
                 string moleculeName = "MoleculeName";
 
                 // Act
-                CalcOrderItem item = new CalcOrderItem(0, "",
-                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
+                CalcOrderItem item = new CalcOrderItem(0, moleculeName,
+                                        new CalcOrderItemDetails(0, "xyz file", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
 
                 // Assert
                 Assert.Equal(0, item.Id);
@@ -82,8 +85,8 @@ namespace molecules.core.tests.aggregates
             public void Should_Throw_ArgumentNullException_When_Details_Is_Null()
             {
                 // Arrange
-                CalcOrderItem item = new CalcOrderItem(0, "",
-                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
+                CalcOrderItem item = new CalcOrderItem(0, "moleculeName",
+                                        new CalcOrderItemDetails(0, "xyz fle", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
                 CalcOrderItemDetails details = null;
 
                 // Act
@@ -97,9 +100,10 @@ namespace molecules.core.tests.aggregates
             public void Should_Update_Details_When_Details_Is_Valid()
             {
                 // Arrange
-                CalcOrderItem item = new CalcOrderItem(0, "",
-                                        new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
-                CalcOrderItemDetails details = new CalcOrderItemDetails(0, "", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties);
+                CalcOrderItem item = new CalcOrderItem(0, "moleculeName",
+                     new CalcOrderItemDetails(0, "xyz file", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties));
+                
+                CalcOrderItemDetails details = new CalcOrderItemDetails(0, "moleculeName", CalcBasisSetCode.BSTO3G, CalcOrderItemType.MolecularProperties);
 
                 // Act
                 item.UpdateDetails(details);

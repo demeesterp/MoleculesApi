@@ -95,9 +95,10 @@ namespace molecules.core.tests.aggregates
                 // Arrange
                 CalcOrder calcOrder = new CalcOrder(0, "test");
 
-                CalcOrderItem toAdd = new CalcOrderItem(12, "Test Molecule", new CalcOrderItemDetails(0, "",
-                                                                            CalcBasisSetCode.BSTO3G,
-                                                                                CalcOrderItemType.MolecularProperties));
+                CalcOrderItem toAdd = new CalcOrderItem(12, "Test Molecule",
+                                                new CalcOrderItemDetails(0, "xyz file",
+                                                           CalcBasisSetCode.BSTO3G,
+                                                             CalcOrderItemType.MolecularProperties));
 
                 // Act
                 calcOrder.AddItem(toAdd);
@@ -119,7 +120,7 @@ namespace molecules.core.tests.aggregates
 
                 CalcOrderItem toAdd = new CalcOrderItem(100,
                                                         "Test Molecule",
-                                                            new CalcOrderItemDetails(0, "",
+                                                            new CalcOrderItemDetails(0, "xyz file",
                                                                             CalcBasisSetCode.BSTO3G,
                                                                                 CalcOrderItemType.MolecularProperties));
                 calcOrder.AddItem(toAdd);
@@ -137,7 +138,7 @@ namespace molecules.core.tests.aggregates
                 // Arrange
                 CalcOrder calcOrder = new CalcOrder(0, "test");
 
-                CalcOrderItem toAdd = new CalcOrderItem(12, "Test Molecule", new CalcOrderItemDetails(0, "",
+                CalcOrderItem toAdd = new CalcOrderItem(12, "Test Molecule", new CalcOrderItemDetails(0, "xyz file",
                                                                             CalcBasisSetCode.BSTO3G,
                                                                                 CalcOrderItemType.MolecularProperties));
                 calcOrder.AddItem(toAdd);

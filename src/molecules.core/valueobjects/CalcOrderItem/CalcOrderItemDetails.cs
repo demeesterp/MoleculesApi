@@ -2,15 +2,8 @@
 
 namespace molecules.core.valueobjects.CalcOrderItem
 {
-    public class CalcOrderItemDetails : CalcDetails
+    public class CalcOrderItemDetails(int charge, string xyz, CalcBasisSetCode calcBasisSetCode, CalcOrderItemType type): CalcDetails(charge, xyz, calcBasisSetCode)
     {
-        public CalcOrderItemDetails(int charge, string xyz, CalcBasisSetCode calcBasisSetCode, CalcOrderItemType type) 
-            : base(charge, xyz, calcBasisSetCode)
-        {
-            Type = type;
-        }
-
-        public CalcOrderItemType Type { get; set; }
-
-    }
+        public CalcOrderItemType Type { get; init; } = type;
+    };
 }

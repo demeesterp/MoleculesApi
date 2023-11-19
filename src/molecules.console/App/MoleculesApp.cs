@@ -10,27 +10,26 @@ namespace molecules.console.App
     {
         #region dependencies
 
-        private readonly ILogger<MoleculesApp> _logger;
+        private readonly ILogger<MoleculesApp>          _logger;
 
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration                 _configuration;
 
-        private readonly IHostApplicationLifetime _hostApplicationLifetime;
+        private readonly IHostApplicationLifetime       _hostApplicationLifetime;
 
-        private readonly CalcDeliveryServices _calcDeliveryApp;
+        private readonly CalcDeliveryServices           _calcDeliveryApp;
 
-        private readonly CalcConversionService _calcConversionApp;
+        private readonly CalcConversionService          _calcConversionApp;
 
-        private readonly MoleculeReportService _moleculeReportApp;
+        private readonly MoleculeReportService          _moleculeReportApp;
 
         #endregion
 
-        public MoleculesApp(
-            CalcDeliveryServices calcDeliveryApp,
-            CalcConversionService calcConversionApp,
-            MoleculeReportService moleculeReportApp,
-            IConfiguration configuration,
-                              ILogger<MoleculesApp> logger,
-                                IHostApplicationLifetime hostApplicationLifetime)
+        public MoleculesApp(CalcDeliveryServices calcDeliveryApp,
+                                CalcConversionService calcConversionApp,
+                                    MoleculeReportService moleculeReportApp,
+                                        IConfiguration configuration,
+                                            ILogger<MoleculesApp> logger,
+                                                IHostApplicationLifetime hostApplicationLifetime)
         {
             _logger = logger;
             _configuration = configuration;

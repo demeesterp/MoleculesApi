@@ -2,28 +2,17 @@
 
 namespace molecules.core.aggregates
 {
-    public class CalcOrderItem
+    public class CalcOrderItem(int id, string moleculeName, CalcOrderItemDetails details)
     {
-        public int Id { get; }
+        public int Id { get; } = id;
 
-        public string MoleculeName { get; }
+        public string MoleculeName { get; } = moleculeName;
 
-        public CalcOrderItemDetails Details { get; set; }
-
-        public CalcOrderItem(int id, string moleculeName, CalcOrderItemDetails details)
-        {
-            Id = id;
-            MoleculeName = String.IsNullOrWhiteSpace(moleculeName) ?
-                        throw new ArgumentException(nameof(moleculeName)) : moleculeName;
-            Details = details?? throw new ArgumentException(nameof(details));
-        }        
+        public CalcOrderItemDetails Details { get; set; } = details;       
 
         public void UpdateDetails(CalcOrderItemDetails details)
         {
-            if ( details == null)
-            {
-                throw new ArgumentNullException(nameof(details));
-            }
+            ArgumentNullException.ThrowIfNull(details, nameof(details));
             Details = details;
         }
 

@@ -3,26 +3,19 @@ using molecules.shared;
 
 namespace molecules.core.valueobjects
 {
-    public class CalcDetails
+    public class CalcDetails(int charge, string xyz, CalcBasisSetCode calcBasisSetCode)
     {
-        public int Charge { get; }
-        public CalcBasisSetCode BasisSetCode { get; }
-        public string XYZ { get; }
+        private static readonly string[] _returns = ["\r\n", "\r", "\n"];
 
-        public CalcDetails(int charge, string xyz, CalcBasisSetCode calcBasisSetCode)
-        {
-            Charge = charge;
-            XYZ = xyz;
-            BasisSetCode = calcBasisSetCode;
-        }
-
+        public int Charge { get; } = charge;
+        public string XYZ { get; } = xyz;
+        public CalcBasisSetCode BasisSetCode { get; } = calcBasisSetCode;
 
         public List<(string symbol, decimal x, decimal y, decimal z)> ParseXyz()
         {
-            List<(string symbol, decimal x, decimal y, decimal z)> retval
-                                = new List<(string symbol, decimal x, decimal y, decimal z)>();
+            List<(string symbol, decimal x, decimal y, decimal z)> retval = [];
 
-            string[] lines = XYZ.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            string[] lines = XYZ.Split(_returns, StringSplitOptions.None);
             foreach(var line in lines)
             {
                 string[] lineItems = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);

@@ -18,7 +18,9 @@ namespace molecules.core.tests.valueobjects.CalcOrderItem
             {
                 // Act
 
-                CalcOrderItemDetails details = new CalcOrderItemDetails(0,"",CalcBasisSetCode.B3_21G, CalcOrderItemType.GeoOpt);
+                CalcOrderItemDetails details = new CalcOrderItemDetails(0,"xyz file", 
+                                                            CalcBasisSetCode.B3_21G,
+                                                                    CalcOrderItemType.GeoOpt);
 
                 // Assert
 
@@ -26,9 +28,7 @@ namespace molecules.core.tests.valueobjects.CalcOrderItem
 
                 Assert.Equal(CalcOrderItemType.GeoOpt, details.Type);
 
-                Assert.Equal(CalcBasisSetCode.BSTO3G, details.BasisSetCode);
-
-                Assert.Empty(details.XYZ);
+                Assert.Equal(CalcBasisSetCode.B3_21G, details.BasisSetCode);
             }
         }
 
